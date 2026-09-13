@@ -112,3 +112,7 @@ export interface EvCalculationResult {
   crossed600Threshold: boolean;
   thresholdJumpPenaltyRm: number;
 }
+
+export type { IceVehiclePreset } from '../data/icePresets';
+export type { IceCalculationResult } from '../utils/iceCostCalculator';
+

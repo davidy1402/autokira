@@ -1,13 +1,15 @@
 import { useState, useEffect } from 'react';
-import { Settings, ChevronRight, Moon, Sun, ArrowLeftRight, Car, Pencil, X } from 'lucide-react';
+import { Settings, ChevronRight, Moon, Sun, ArrowLeftRight, Car, Pencil, X, Zap, Fuel } from 'lucide-react';
 import { useCalculatorStore } from '../stores/calculator.store';
 import { PRESETS } from '../data/presets';
 import { AdvancedDrawer } from '../components/advanced-drawer';
+import { IceCockpitSection } from '../components/IceCockpitSection';
 import { evCalcTranslations } from '../i18n/evCalcTranslations';
 import { calculateTnbBill, estimateKwhFromTnbBill } from '../utils/tnbTariff';
 
 export default function CockpitPage({ onCalculate = () => {} }: { onCalculate?: () => void }) {
   const {
+    vehicleType, setVehicleType,
     selectedPresetId, setPreset,
     modelName, setModelName,
     consumption, setConsumption,
@@ -63,7 +65,7 @@ export default function CockpitPage({ onCalculate = () => {} }: { onCalculate?: 
         {/* Header */}
         <header className="flex justify-between items-center py-base">
           <div className="flex items-center space-x-2.5">
-            <img src="./logo.png" alt="EV Calc MY" className="w-8 h-8 rounded-lg shadow-sm" />
+            <img src="./logo.png" alt="Car Calc MY" className="w-8 h-8 rounded-lg shadow-sm" />
             <h1 className="text-h2 font-display text-text-primary tracking-tight">{txt.appTitle}</h1>
           </div>
           <div className="flex space-x-3">
@@ -83,9 +85,43 @@ export default function CockpitPage({ onCalculate = () => {} }: { onCalculate?: 
           </div>
         </header>
 
-        {/* Vehicle Selection */}
-        <section className="space-y-stack-md">
-          <h2 className="text-body-lg text-text-primary font-semibold">{txt.evJourneyTitle}</h2>
+        {/* Global Vehicle Type Switcher (EV vs Petrol) */}
+        <div className="p-1 bg-surface-overlay rounded-xl border border-border-subtle grid grid-cols-2 gap-1 shadow-xs">
+          <button
+            type="button"
+            onClick={() => setVehicleType('ev')}
+            className={`py-2 px-3 rounded-lg font-medium text-caption sm:text-body flex items-center justify-center space-x-1.5 transition-all ${
+              vehicleType === 'ev'
+                ? 'bg-brand-primary text-text-inverse font-semibold shadow-sm'
+                : 'text-text-secondary hover:text-text-primary'
+            }`}
+          >
+            <Zap size={15} />
+            <span>{txt.modeEv}</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setVehicleType('ice')}
+            className={`py-2 px-3 rounded-lg font-medium text-caption sm:text-body flex items-center justify-center space-x-1.5 transition-all ${
+              vehicleType === 'ice'
+                ? 'bg-brand-primary text-text-inverse font-semibold shadow-sm'
+                : 'text-text-secondary hover:text-text-primary'
+            }`}
+          >
+            <Fuel size={15} />
+            <span>{txt.modeIce}</span>
+          </button>
+        </div>
+
+        {/* Conditional Cockpit Content */}
+        {vehicleType === 'ice' ? (
+          <IceCockpitSection />
+        ) : (
+          <>
+            {/* Vehicle Selection */}
+            <section className="space-y-stack-md">
+              <h2 className="text-body-lg text-text-primary font-semibold">{txt.evJourneyTitle}</h2>
+
           
           <div className="bg-surface-base border border-border-subtle rounded-xl p-base space-y-stack-md">
             <div className="flex justify-between items-center">
@@ -342,7 +378,9 @@ export default function CockpitPage({ onCalculate = () => {} }: { onCalculate?: 
              </div>
            </div>
 
-        </section>
+         </section>
+          </>
+        )}
 
       </main>
 

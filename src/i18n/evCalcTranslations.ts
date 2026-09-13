@@ -1,6 +1,8 @@
 export interface AppTranslations {
   appTitle: string;
   langToggle: string;
+  modeEv: string;
+  modeIce: string;
 
   // Cockpit
   evJourneyTitle: string;
@@ -17,6 +19,20 @@ export interface AppTranslations {
   currencyUnit: string;
   calculateBtn: string;
 
+  // ICE Cockpit
+  iceJourneyTitle: string;
+  iceConsumptionLabel: string;
+  iceFuelPriceLabel: string;
+  iceCarPriceLabel: string;
+  iceCalculateBtn: string;
+  fuelRon95: string;
+  fuelRon95Unsub: string;
+  fuelRon97: string;
+  fuelDiesel: string;
+  senPerKmUnit: string;
+  kmPerLUnit: string;
+  lPer100KmUnit: string;
+
   // Results
   verdictTitle: string;
   monthlyNetSavings: string;
@@ -24,6 +40,7 @@ export interface AppTranslations {
   fiveYear: string;
   tco: string;
   inclRoadTax: string;
+
 
   // Waterfall
   oldPetrolSpend: string;
@@ -89,8 +106,10 @@ export interface AppTranslations {
 
 export const evCalcTranslations: Record<'en' | 'zh', AppTranslations> = {
   en: {
-    appTitle: 'EV Calc MY',
+    appTitle: 'MY Car Cost Calc',
     langToggle: 'ZH',
+    modeEv: '⚡️ EV Calc',
+    modeIce: '⛽️ Petrol Calc',
 
     // Cockpit
     evJourneyTitle: 'EV & Commute',
@@ -106,6 +125,20 @@ export const evCalcTranslations: Record<'en' | 'zh', AppTranslations> = {
     monthlyPetrolTitle: 'Current Monthly Petrol Spend',
     currencyUnit: 'RM',
     calculateBtn: 'Calculate Savings',
+
+    // ICE Cockpit
+    iceJourneyTitle: 'Petrol Car & Fuel',
+    iceConsumptionLabel: 'Fuel Consumption',
+    iceFuelPriceLabel: 'Fuel Grade & Subsidy',
+    iceCarPriceLabel: 'Car On-The-Road Price',
+    iceCalculateBtn: 'Compare Petrol Cars',
+    fuelRon95: 'RON95 (Subsidised RM 2.05)',
+    fuelRon95Unsub: 'RON95 (Floating est. RM 2.60)',
+    fuelRon97: 'RON97 (RM 3.19)',
+    fuelDiesel: 'Diesel (Euro 5 RM 2.95)',
+    senPerKmUnit: 'sen / km',
+    kmPerLUnit: 'km / L',
+    lPer100KmUnit: 'L / 100km',
 
     // Results
     verdictTitle: 'Cost Analysis',
@@ -177,8 +210,10 @@ export const evCalcTranslations: Record<'en' | 'zh', AppTranslations> = {
     reportSummary: 'EV Calc MY Summary\n\nVehicle: {model}\nConsumption: {consumption} kWh/100km\nMileage: {mileage} km/mo\nPetrol: RM {petrol}/mo\n\nMonthly Net Savings: RM {savings}\nMonthly EV Charging: RM {evCost}\n5-Yr Total Savings (incl. 2026 Road Tax): RM {tcoSavings}'
   },
   zh: {
-    appTitle: 'EV Calc MY',
+    appTitle: '大马用车成本精算',
     langToggle: 'EN',
+    modeEv: '⚡️ 纯电精算',
+    modeIce: '⛽️ 燃油精算',
 
     // Cockpit
     evJourneyTitle: '电车能耗与行程',
@@ -194,6 +229,20 @@ export const evCalcTranslations: Record<'en' | 'zh', AppTranslations> = {
     monthlyPetrolTitle: '目前每月油费',
     currencyUnit: 'RM',
     calculateBtn: '开始测算',
+
+    // ICE Cockpit
+    iceJourneyTitle: '油车油耗与通勤',
+    iceConsumptionLabel: '综合油耗',
+    iceFuelPriceLabel: '汽油等级与补贴',
+    iceCarPriceLabel: '新车落地总价',
+    iceCalculateBtn: '开始对比选车',
+    fuelRon95: 'RON95 (目前补贴价 RM 2.05)',
+    fuelRon95Unsub: 'RON95 (取消补贴预测 RM 2.60)',
+    fuelRon97: 'RON97 (浮动市价 RM 3.19)',
+    fuelDiesel: 'Euro 5 柴油 (RM 2.95)',
+    senPerKmUnit: 'sen / km',
+    kmPerLUnit: 'km / L',
+    lPer100KmUnit: 'L / 100km',
 
     // Results
     verdictTitle: '测算结果',

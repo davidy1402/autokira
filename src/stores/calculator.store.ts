@@ -1,7 +1,13 @@
 import { create } from 'zustand';
 import { PRESETS } from '../data/presets';
+import { ICE_PRESETS } from '../data/icePresets';
 
 export interface CalculatorState {
+  // Mode Switch
+  vehicleType: 'ev' | 'ice';
+  setVehicleType: (vt: 'ev' | 'ice') => void;
+
+  // EV State
   selectedPresetId: string;
   modelName: string;
   consumption: number;
@@ -12,6 +18,20 @@ export interface CalculatorState {
   petrolRm: number;
   petrolEngineCc: number;
   mode: 'landed' | 'condo';
+
+  // ICE State
+  selectedIcePresetId: string;
+  iceModelName: string;
+  iceConsumptionL: number;
+  iceEngineCc: number;
+  icePriceRm: number;
+  iceTankLiters: number;
+  iceAnnualMaintenanceRm: number;
+  iceFuelType: 'ron95' | 'ron95_unsub' | 'ron97' | 'diesel';
+  iceCustomFuelPrice: number;
+  selectedIceCompareId: string;
+
+  // Global UI
   language: 'en' | 'zh';
   theme: 'dark' | 'light';
   advanced: {
@@ -21,6 +41,8 @@ export interface CalculatorState {
     publicDcRate: number;
     touEnabled: boolean;
   };
+
+  // Actions
   setPreset: (presetId: string) => void;
   setModelName: (name: string) => void;
   setConsumption: (c: number) => void;
@@ -29,6 +51,18 @@ export interface CalculatorState {
   setPetrolRm: (p: number) => void;
   setPetrolEngineCc: (cc: number) => void;
   setMode: (m: 'landed' | 'condo') => void;
+
+  // ICE Actions
+  setIcePreset: (presetId: string) => void;
+  setIceModelName: (name: string) => void;
+  setIceConsumptionL: (c: number) => void;
+  setIceEngineCc: (cc: number) => void;
+  setIcePriceRm: (price: number) => void;
+  setIceTankLiters: (tank: number) => void;
+  setIceAnnualMaintenanceRm: (m: number) => void;
+  setIceFuelType: (f: 'ron95' | 'ron95_unsub' | 'ron97' | 'diesel') => void;
+  setIceCompareId: (id: string) => void;
+
   setLanguage: (l: 'en' | 'zh') => void;
   setTheme: (t: 'dark' | 'light') => void;
   updateAdvanced: (updates: Partial<CalculatorState['advanced']>) => void;
@@ -44,6 +78,16 @@ const getInitialTheme = (): 'dark' | 'light' => {
   return 'dark';
 };
 
+const getInitialVehicleType = (): 'ev' | 'ice' => {
+  if (typeof window !== 'undefined') {
+    try {
+      const saved = localStorage.getItem('vehicleType');
+      if (saved === 'ev' || saved === 'ice') return saved;
+    } catch {}
+  }
+  return 'ev';
+};
+
 const getInitialLanguage = (): 'en' | 'zh' => {
   if (typeof window !== 'undefined') {
     try {
@@ -55,6 +99,16 @@ const getInitialLanguage = (): 'en' | 'zh' => {
 };
 
 export const useCalculatorStore = create<CalculatorState>((set) => ({
+  // Mode Switch
+  vehicleType: getInitialVehicleType(),
+  setVehicleType: (vt) => {
+    try {
+      localStorage.setItem('vehicleType', vt);
+    } catch {}
+    set({ vehicleType: vt });
+  },
+
+  // EV State
   selectedPresetId: 'emas7',
   modelName: 'Proton e.MAS 7',
   consumption: 14.5,
@@ -65,6 +119,20 @@ export const useCalculatorStore = create<CalculatorState>((set) => ({
   petrolRm: 210,
   petrolEngineCc: 1500,
   mode: 'landed',
+
+  // ICE State
+  selectedIcePresetId: 'myvi15',
+  iceModelName: 'Perodua Myvi 1.5 H/AV',
+  iceConsumptionL: 5.5,
+  iceEngineCc: 1496,
+  icePriceRm: 54000,
+  iceTankLiters: 36,
+  iceAnnualMaintenanceRm: 1200,
+  iceFuelType: 'ron95',
+  iceCustomFuelPrice: 2.05,
+  selectedIceCompareId: 'bezza13',
+
+  // Global UI
   language: getInitialLanguage(),
   theme: getInitialTheme(),
   advanced: {
@@ -74,6 +142,8 @@ export const useCalculatorStore = create<CalculatorState>((set) => ({
     publicDcRate: 1.4,
     touEnabled: false,
   },
+
+  // EV Setters
   setPreset: (presetId: string) => {
     const preset = PRESETS.find((p) => p.id === presetId);
     if (preset) {
@@ -93,6 +163,31 @@ export const useCalculatorStore = create<CalculatorState>((set) => ({
   setPetrolRm: (p) => set({ petrolRm: p }),
   setPetrolEngineCc: (cc) => set({ petrolEngineCc: cc }),
   setMode: (m) => set({ mode: m }),
+
+  // ICE Setters
+  setIcePreset: (presetId: string) => {
+    const preset = ICE_PRESETS.find((p) => p.id === presetId);
+    if (preset) {
+      set({
+        selectedIcePresetId: preset.id,
+        iceModelName: preset.name,
+        iceConsumptionL: preset.consumptionLPer100Km,
+        iceEngineCc: preset.engineCc,
+        icePriceRm: preset.priceRm,
+        iceTankLiters: preset.fuelTankLiters,
+        iceAnnualMaintenanceRm: preset.annualMaintenanceEstRm
+      });
+    }
+  },
+  setIceModelName: (name) => set({ iceModelName: name }),
+  setIceConsumptionL: (c) => set({ iceConsumptionL: c }),
+  setIceEngineCc: (cc) => set({ iceEngineCc: cc }),
+  setIcePriceRm: (price) => set({ icePriceRm: price }),
+  setIceTankLiters: (tank) => set({ iceTankLiters: tank }),
+  setIceAnnualMaintenanceRm: (m) => set({ iceAnnualMaintenanceRm: m }),
+  setIceFuelType: (f) => set({ iceFuelType: f }),
+  setIceCompareId: (id) => set({ selectedIceCompareId: id }),
+
   setLanguage: (l) => {
     try {
       localStorage.setItem('language', l);
@@ -108,3 +203,4 @@ export const useCalculatorStore = create<CalculatorState>((set) => ({
   updateAdvanced: (updates) =>
     set((state) => ({ advanced: { ...state.advanced, ...updates } })),
 }));
+

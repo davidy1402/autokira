@@ -5,6 +5,7 @@ import { useResultsStore } from '../stores/results.store';
 import { calculateAllEvMetrics } from '../utils/tnbTariff';
 import { UserInputs } from '../types/calculator';
 import { PRESETS } from '../data/presets';
+import { IceResultsSection } from '../components/IceResultsSection';
 import { evCalcTranslations } from '../i18n/evCalcTranslations';
 
 function CountUp({ to, duration = 0.8 }: { to: number; duration?: number }) {
@@ -39,8 +40,38 @@ export default function ResultsPage({ onBack = () => {} }: { onBack?: () => void
   const txt = evCalcTranslations[store.language] || evCalcTranslations.en;
   const [copied, setCopied] = useState(false);
 
-  // Active Car A inputs
+  // If in ICE Mode, render dedicated ICE results
+  if (store.vehicleType === 'ice') {
+    return (
+      <div className="relative min-h-screen bg-background-default antialiased pb-[calc(40px+env(safe-area-inset-bottom))]">
+        <header className="sticky top-0 z-50 bg-background-default/80 backdrop-blur-md border-b border-border-subtle pt-[env(safe-area-inset-top)] px-base py-tight flex items-center justify-between">
+          <div className="flex items-center space-x-2">
+            <button onClick={onBack} className="p-2 -ml-2 text-text-secondary hover:text-text-primary active:scale-[0.98]" aria-label="Back">
+              <ChevronLeft size={24} />
+            </button>
+            <img src="./logo.png" alt="Car Calc MY" className="w-6 h-6 rounded-md shadow-sm ml-1" />
+            <h1 className="text-body-lg font-semibold text-text-primary whitespace-nowrap">
+              {store.language === 'zh' ? '燃油车综合选购与开销对比' : 'Petrol Car Cost & Comparison'}
+            </h1>
+          </div>
+          <button
+            onClick={() => store.setTheme(store.theme === 'dark' ? 'light' : 'dark')}
+            className="p-1 text-text-secondary hover:text-text-primary active:scale-95 transition-colors"
+            aria-label="Toggle theme"
+          >
+            {store.theme === 'dark' ? <Sun size={20}/> : <Moon size={20}/>}
+          </button>
+        </header>
+        <main className="px-base py-section space-y-section-y">
+          <IceResultsSection onBack={onBack} />
+        </main>
+      </div>
+    );
+  }
+
+  // Active Car A inputs (EV mode)
   const inputsA = useMemo<UserInputs>(() => ({
+
     modelName: store.modelName,
     consumptionKwhPer100Km: store.consumption,
     motorPowerKw: store.motorKw,
