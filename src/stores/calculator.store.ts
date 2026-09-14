@@ -27,7 +27,7 @@ export interface CalculatorState {
   icePriceRm: number;
   iceTankLiters: number;
   iceAnnualMaintenanceRm: number;
-  iceFuelType: 'ron95' | 'ron95_unsub' | 'ron97' | 'diesel';
+  iceFuelType: 'budi_madani' | 'ron95' | 'ron95_unsub' | 'ron97' | 'diesel';
   iceCustomFuelPrice: number;
   selectedIceCompareId: string;
 
@@ -60,7 +60,7 @@ export interface CalculatorState {
   setIcePriceRm: (price: number) => void;
   setIceTankLiters: (tank: number) => void;
   setIceAnnualMaintenanceRm: (m: number) => void;
-  setIceFuelType: (f: 'ron95' | 'ron95_unsub' | 'ron97' | 'diesel') => void;
+  setIceFuelType: (f: 'budi_madani' | 'ron95' | 'ron95_unsub' | 'ron97' | 'diesel') => void;
   setIceCompareId: (id: string) => void;
 
   setLanguage: (l: 'en' | 'zh') => void;
@@ -128,8 +128,8 @@ export const useCalculatorStore = create<CalculatorState>((set) => ({
   icePriceRm: 54000,
   iceTankLiters: 36,
   iceAnnualMaintenanceRm: 1200,
-  iceFuelType: 'ron95',
-  iceCustomFuelPrice: 2.05,
+  iceFuelType: 'budi_madani',
+  iceCustomFuelPrice: 1.99,
   selectedIceCompareId: 'bezza13',
 
   // Global UI

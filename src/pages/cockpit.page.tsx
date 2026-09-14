@@ -113,6 +113,7 @@ export default function CockpitPage({ onCalculate = () => {} }: { onCalculate?: 
           </button>
         </div>
 
+
         {/* Conditional Cockpit Content */}
         {vehicleType === 'ice' ? (
           <IceCockpitSection />

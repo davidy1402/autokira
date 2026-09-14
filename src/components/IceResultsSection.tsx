@@ -11,7 +11,16 @@ export function IceResultsSection({ onBack }: { onBack: () => void }) {
   const [copied, setCopied] = useState(false);
 
   // Active fuel price
-  const fuelPrice = store.iceFuelType === 'ron95' ? 2.05 : store.iceFuelType === 'ron95_unsub' ? 2.60 : store.iceFuelType === 'ron97' ? 3.19 : 2.95;
+  const fuelPrice =
+    store.iceFuelType === 'budi_madani'
+      ? 1.99
+      : store.iceFuelType === 'ron95'
+      ? 2.05
+      : store.iceFuelType === 'ron95_unsub'
+      ? 2.60
+      : store.iceFuelType === 'ron97'
+      ? 3.19
+      : 2.95;
 
   // Primary Car A (Current inputs)
   const resultA = useMemo(() => calculateIceMetrics({
@@ -49,13 +58,13 @@ export function IceResultsSection({ onBack }: { onBack: () => void }) {
   const handleCopySummary = () => {
     const text = store.language === 'zh'
       ? `【大马燃油车选车与开销对比】\n` +
-        `🚗 车型 A: ${store.iceModelName} (车价: RM ${resultA.carPurchasePriceRm.toLocaleString()})\n` +
+        `车型 A: ${store.iceModelName} (车价: RM ${resultA.carPurchasePriceRm.toLocaleString()})\n` +
         `• 油耗: ${resultA.consumptionLPer100Km.toFixed(1)} L/100km (约 ${resultA.fuelCostSenPerKm.toFixed(1)} sen/km)\n` +
         `• 每月油费: RM ${resultA.monthlyFuelCostRm.toFixed(0)}\n` +
-        `• 5年总开销(车价+油费+税+保养): RM ${resultA.fiveYearTotalCostRm.toFixed(0)}\n\n` +
-        `🚙 车型 B: ${carBPreset.name} (车价: RM ${resultB.carPurchasePriceRm.toLocaleString()})\n` +
+        `• 5年总开销 (车价+油费+路税+保养): RM ${resultA.fiveYearTotalCostRm.toFixed(0)}\n\n` +
+        `车型 B: ${carBPreset.name} (车价: RM ${resultB.carPurchasePriceRm.toLocaleString()})\n` +
         `• 5年总开销: RM ${resultB.fiveYearTotalCostRm.toFixed(0)}\n\n` +
-        `💡 5年综合选购结论: ${isAOverallCheaper ? store.iceModelName : carBPreset.name} 5年整体更省 RM ${Math.abs(fiveYearDiff).toFixed(0)}！`
+        `5年综合选购结论: ${isAOverallCheaper ? store.iceModelName : carBPreset.name} 5年整体更省 RM ${Math.abs(fiveYearDiff).toFixed(0)}。`
       : `[Malaysia Petrol Car Cost & Value Compare]\n` +
         `Car A: ${store.iceModelName} (Price: RM ${resultA.carPurchasePriceRm.toLocaleString()})\n` +
         `• Fuel: ${resultA.consumptionLPer100Km.toFixed(1)} L/100km (${resultA.fuelCostSenPerKm.toFixed(1)} sen/km)\n` +
@@ -63,12 +72,13 @@ export function IceResultsSection({ onBack }: { onBack: () => void }) {
         `• 5-Yr Total Cost (Price + Fuel + Tax + Maintenance): RM ${resultA.fiveYearTotalCostRm.toFixed(0)}\n\n` +
         `Car B: ${carBPreset.name} (Price: RM ${resultB.carPurchasePriceRm.toLocaleString()})\n` +
         `• 5-Yr Total Cost: RM ${resultB.fiveYearTotalCostRm.toFixed(0)}\n\n` +
-        `Verdict: ${isAOverallCheaper ? store.iceModelName : carBPreset.name} saves RM ${Math.abs(fiveYearDiff).toFixed(0)} over 5 years!`;
+        `Verdict: ${isAOverallCheaper ? store.iceModelName : carBPreset.name} saves RM ${Math.abs(fiveYearDiff).toFixed(0)} over 5 years.`;
 
     navigator.clipboard.writeText(text);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
+
 
   return (
     <div className="space-y-stack-lg">

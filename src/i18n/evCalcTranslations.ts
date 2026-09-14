@@ -25,6 +25,7 @@ export interface AppTranslations {
   iceFuelPriceLabel: string;
   iceCarPriceLabel: string;
   iceCalculateBtn: string;
+  fuelBudiMadani: string;
   fuelRon95: string;
   fuelRon95Unsub: string;
   fuelRon97: string;
@@ -108,8 +109,8 @@ export const evCalcTranslations: Record<'en' | 'zh', AppTranslations> = {
   en: {
     appTitle: 'MY Car Cost Calc',
     langToggle: 'ZH',
-    modeEv: '⚡️ EV Calc',
-    modeIce: '⛽️ Petrol Calc',
+    modeEv: 'EV',
+    modeIce: 'Petrol',
 
     // Cockpit
     evJourneyTitle: 'EV & Commute',
@@ -132,13 +133,15 @@ export const evCalcTranslations: Record<'en' | 'zh', AppTranslations> = {
     iceFuelPriceLabel: 'Fuel Grade & Subsidy',
     iceCarPriceLabel: 'Car On-The-Road Price',
     iceCalculateBtn: 'Compare Petrol Cars',
-    fuelRon95: 'RON95 (Subsidised RM 2.05)',
-    fuelRon95Unsub: 'RON95 (Floating est. RM 2.60)',
-    fuelRon97: 'RON97 (RM 3.19)',
-    fuelDiesel: 'Diesel (Euro 5 RM 2.95)',
+    fuelBudiMadani: 'BUDI MADANI (RM 1.99 / L)',
+    fuelRon95: 'RON95 (Subsidised RM 2.05 / L)',
+    fuelRon95Unsub: 'RON95 (Floating est. RM 2.60 / L)',
+    fuelRon97: 'RON97 (RM 3.19 / L)',
+    fuelDiesel: 'Diesel Euro 5 (RM 2.95 / L)',
     senPerKmUnit: 'sen / km',
     kmPerLUnit: 'km / L',
     lPer100KmUnit: 'L / 100km',
+
 
     // Results
     verdictTitle: 'Cost Analysis',
@@ -212,8 +215,8 @@ export const evCalcTranslations: Record<'en' | 'zh', AppTranslations> = {
   zh: {
     appTitle: '大马用车成本精算',
     langToggle: 'EN',
-    modeEv: '⚡️ 纯电精算',
-    modeIce: '⛽️ 燃油精算',
+    modeEv: '纯电精算',
+    modeIce: '燃油精算',
 
     // Cockpit
     evJourneyTitle: '电车能耗与行程',
@@ -233,16 +236,18 @@ export const evCalcTranslations: Record<'en' | 'zh', AppTranslations> = {
     // ICE Cockpit
     iceJourneyTitle: '油车油耗与通勤',
     iceConsumptionLabel: '综合油耗',
-    iceFuelPriceLabel: '汽油等级与补贴',
+    iceFuelPriceLabel: '燃油补贴与等级',
     iceCarPriceLabel: '新车落地总价',
-    iceCalculateBtn: '开始对比选车',
-    fuelRon95: 'RON95 (目前补贴价 RM 2.05)',
-    fuelRon95Unsub: 'RON95 (取消补贴预测 RM 2.60)',
-    fuelRon97: 'RON97 (浮动市价 RM 3.19)',
-    fuelDiesel: 'Euro 5 柴油 (RM 2.95)',
+    iceCalculateBtn: '查看对比结果',
+    fuelBudiMadani: 'BUDI MADANI 补贴 (RM 1.99 / L)',
+    fuelRon95: 'RON95 官方统定价 (RM 2.05 / L)',
+    fuelRon95Unsub: 'RON95 取消补贴预估 (RM 2.60 / L)',
+    fuelRon97: 'RON97 无补贴市价 (RM 3.19 / L)',
+    fuelDiesel: 'Euro 5 柴油 (RM 2.95 / L)',
     senPerKmUnit: 'sen / km',
     kmPerLUnit: 'km / L',
     lPer100KmUnit: 'L / 100km',
+
 
     // Results
     verdictTitle: '测算结果',

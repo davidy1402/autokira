@@ -34,8 +34,18 @@ export function IceCockpitSection() {
   const kmPerL = Math.round((100 / Math.max(0.1, iceConsumptionL)) * 10) / 10;
 
   // Active fuel price
-  const fuelPrice = iceFuelType === 'ron95' ? 2.05 : iceFuelType === 'ron95_unsub' ? 2.60 : iceFuelType === 'ron97' ? 3.19 : 2.95;
+  const fuelPrice =
+    iceFuelType === 'budi_madani'
+      ? 1.99
+      : iceFuelType === 'ron95'
+      ? 2.05
+      : iceFuelType === 'ron95_unsub'
+      ? 2.60
+      : iceFuelType === 'ron97'
+      ? 3.19
+      : 2.95;
   const senPerKm = ((iceConsumptionL * fuelPrice) / 100) * 100;
+
 
   return (
     <div className="space-y-stack-md">
@@ -225,6 +235,17 @@ export function IceCockpitSection() {
         <div className="grid grid-cols-2 gap-1.5 p-1 bg-surface-overlay rounded-lg border border-border-subtle">
           <button
             type="button"
+            onClick={() => setIceFuelType('budi_madani')}
+            className={`py-2 px-1.5 rounded-md font-medium transition-all text-center whitespace-nowrap text-[12px] sm:text-caption ${
+              iceFuelType === 'budi_madani'
+                ? 'bg-brand-primary text-text-inverse font-semibold shadow-xs'
+                : 'text-text-secondary hover:text-text-primary'
+            }`}
+          >
+            BUDI MADANI (RM 1.99)
+          </button>
+          <button
+            type="button"
             onClick={() => setIceFuelType('ron95')}
             className={`py-2 px-1.5 rounded-md font-medium transition-all text-center whitespace-nowrap text-[12px] sm:text-caption ${
               iceFuelType === 'ron95'
@@ -232,7 +253,7 @@ export function IceCockpitSection() {
                 : 'text-text-secondary hover:text-text-primary'
             }`}
           >
-            RON95 (RM 2.05)
+            RON95 统定价 (RM 2.05)
           </button>
           <button
             type="button"
@@ -254,21 +275,11 @@ export function IceCockpitSection() {
                 : 'text-text-secondary hover:text-text-primary'
             }`}
           >
-            RON97 (RM 3.19)
-          </button>
-          <button
-            type="button"
-            onClick={() => setIceFuelType('diesel')}
-            className={`py-2 px-1.5 rounded-md font-medium transition-all text-center whitespace-nowrap text-[12px] sm:text-caption ${
-              iceFuelType === 'diesel'
-                ? 'bg-brand-primary text-text-inverse font-semibold shadow-xs'
-                : 'text-text-secondary hover:text-text-primary'
-            }`}
-          >
-            Euro 5 柴油 (RM 2.95)
+            RON97 市价 (RM 3.19)
           </button>
         </div>
       </section>
+
 
       {/* Monthly Mileage & Car Price */}
       <section className="space-y-stack-md">
