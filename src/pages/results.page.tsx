@@ -51,9 +51,10 @@ export default function ResultsPage({ onBack = () => {} }: { onBack?: () => void
             </button>
             <img src="./logo.png" alt="Car Calc MY" className="w-6 h-6 rounded-md shadow-sm ml-1" />
             <h1 className="text-body-lg font-semibold text-text-primary whitespace-nowrap">
-              {store.language === 'zh' ? '燃油车综合选购与开销对比' : 'Petrol Car Cost & Comparison'}
+              {store.language === 'zh' ? '选车对比结果' : 'Comparison Results'}
             </h1>
           </div>
+
           <button
             onClick={() => store.setTheme(store.theme === 'dark' ? 'light' : 'dark')}
             className="p-1 text-text-secondary hover:text-text-primary active:scale-95 transition-colors"
@@ -63,9 +64,10 @@ export default function ResultsPage({ onBack = () => {} }: { onBack?: () => void
           </button>
         </header>
         <main className="px-base py-section space-y-section-y">
-          <IceResultsSection onBack={onBack} />
+          <IceResultsSection />
         </main>
       </div>
+
     );
   }
 

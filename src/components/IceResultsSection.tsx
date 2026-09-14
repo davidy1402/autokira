@@ -1,11 +1,11 @@
 import { useState, useMemo } from 'react';
-import { ChevronLeft, Copy, Check, Scale, Fuel, Car } from 'lucide-react';
+import { Copy, Check, Scale, Car, Fuel } from 'lucide-react';
 import { useCalculatorStore } from '../stores/calculator.store';
 import { ICE_PRESETS } from '../data/icePresets';
 import { calculateIceMetrics } from '../utils/iceCostCalculator';
 import { evCalcTranslations } from '../i18n/evCalcTranslations';
 
-export function IceResultsSection({ onBack }: { onBack: () => void }) {
+export function IceResultsSection() {
   const store = useCalculatorStore();
   const txt = evCalcTranslations[store.language] || evCalcTranslations.en;
   const [copied, setCopied] = useState(false);
@@ -33,8 +33,15 @@ export function IceResultsSection({ onBack }: { onBack: () => void }) {
     annualMaintenanceRm: store.iceAnnualMaintenanceRm
   }), [store.iceConsumptionL, fuelPrice, store.mileage, store.iceEngineCc, store.icePriceRm, store.iceTankLiters, store.iceAnnualMaintenanceRm]);
 
-  // Comparator Car B
-  const carBPreset = ICE_PRESETS.find(p => p.id === store.selectedIceCompareId) || ICE_PRESETS[1];
+  // Comparator Car B (ensure Car B does not default to identical Car A)
+  const carBPreset = useMemo(() => {
+    if (store.selectedIceCompareId && store.selectedIceCompareId !== store.selectedIcePresetId) {
+      const match = ICE_PRESETS.find(p => p.id === store.selectedIceCompareId);
+      if (match) return match;
+    }
+    return ICE_PRESETS.find(p => p.id !== store.selectedIcePresetId) || ICE_PRESETS[1];
+  }, [store.selectedIceCompareId, store.selectedIcePresetId]);
+
   const resultB = useMemo(() => calculateIceMetrics({
     consumptionLPer100Km: carBPreset.consumptionLPer100Km,
     fuelPricePerLiter: fuelPrice,
@@ -54,85 +61,104 @@ export function IceResultsSection({ onBack }: { onBack: () => void }) {
   // 5-Year TCO Difference (A vs B)
   const fiveYearDiff = resultB.fiveYearTotalCostRm - resultA.fiveYearTotalCostRm;
   const isAOverallCheaper = fiveYearDiff >= 0;
+  const isIdentical = Math.abs(fiveYearDiff) < 1;
 
   const handleCopySummary = () => {
     const text = store.language === 'zh'
       ? `【大马燃油车选车与开销对比】\n` +
-        `车型 A: ${store.iceModelName} (车价: RM ${resultA.carPurchasePriceRm.toLocaleString()})\n` +
+        `已选车型 A: ${store.iceModelName} (车价: RM ${resultA.carPurchasePriceRm.toLocaleString()})\n` +
         `• 油耗: ${resultA.consumptionLPer100Km.toFixed(1)} L/100km (约 ${resultA.fuelCostSenPerKm.toFixed(1)} sen/km)\n` +
         `• 每月油费: RM ${resultA.monthlyFuelCostRm.toFixed(0)}\n` +
         `• 5年总开销 (车价+油费+路税+保养): RM ${resultA.fiveYearTotalCostRm.toFixed(0)}\n\n` +
-        `车型 B: ${carBPreset.name} (车价: RM ${resultB.carPurchasePriceRm.toLocaleString()})\n` +
+        `对比车型 B: ${carBPreset.name} (车价: RM ${resultB.carPurchasePriceRm.toLocaleString()})\n` +
         `• 5年总开销: RM ${resultB.fiveYearTotalCostRm.toFixed(0)}\n\n` +
-        `5年综合选购结论: ${isAOverallCheaper ? store.iceModelName : carBPreset.name} 5年整体更省 RM ${Math.abs(fiveYearDiff).toFixed(0)}。`
+        `5年综合选购结论: ${isIdentical ? '两车5年综合开销基本一致' : isAOverallCheaper ? `${store.iceModelName} 5年多省 RM ${Math.abs(fiveYearDiff).toFixed(0)}` : `${carBPreset.name} 5年多省 RM ${Math.abs(fiveYearDiff).toFixed(0)}`}`
       : `[Malaysia Petrol Car Cost & Value Compare]\n` +
-        `Car A: ${store.iceModelName} (Price: RM ${resultA.carPurchasePriceRm.toLocaleString()})\n` +
+        `Selected Car A: ${store.iceModelName} (Price: RM ${resultA.carPurchasePriceRm.toLocaleString()})\n` +
         `• Fuel: ${resultA.consumptionLPer100Km.toFixed(1)} L/100km (${resultA.fuelCostSenPerKm.toFixed(1)} sen/km)\n` +
         `• Monthly Fuel: RM ${resultA.monthlyFuelCostRm.toFixed(0)}\n` +
         `• 5-Yr Total Cost (Price + Fuel + Tax + Maintenance): RM ${resultA.fiveYearTotalCostRm.toFixed(0)}\n\n` +
-        `Car B: ${carBPreset.name} (Price: RM ${resultB.carPurchasePriceRm.toLocaleString()})\n` +
+        `Compare Car B: ${carBPreset.name} (Price: RM ${resultB.carPurchasePriceRm.toLocaleString()})\n` +
         `• 5-Yr Total Cost: RM ${resultB.fiveYearTotalCostRm.toFixed(0)}\n\n` +
-        `Verdict: ${isAOverallCheaper ? store.iceModelName : carBPreset.name} saves RM ${Math.abs(fiveYearDiff).toFixed(0)} over 5 years.`;
+        `Verdict: ${isIdentical ? 'Both cars have identical 5-year cost' : isAOverallCheaper ? `${store.iceModelName} saves RM ${Math.abs(fiveYearDiff).toFixed(0)} over 5 years` : `${carBPreset.name} saves RM ${Math.abs(fiveYearDiff).toFixed(0)} over 5 years`}`;
 
     navigator.clipboard.writeText(text);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
 
-
   return (
     <div className="space-y-stack-lg">
-      {/* Top Navigation */}
-      <div className="flex justify-between items-center">
-        <button
-          onClick={onBack}
-          className="flex items-center space-x-1 text-text-secondary hover:text-text-primary active:scale-95 transition-all text-caption font-medium py-1"
-        >
-          <ChevronLeft size={16} />
-          <span>{store.language === 'zh' ? '返回驾驶舱' : 'Back to Inputs'}</span>
-        </button>
-        <div className="flex items-center space-x-2">
-          <button
-            onClick={handleCopySummary}
-            className="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg border border-border-subtle bg-surface-overlay text-text-secondary hover:text-text-primary active:scale-95 transition-all text-caption font-medium shadow-xs"
-          >
-            {copied ? <Check size={14} className="text-status-positive" /> : <Copy size={14} />}
-            <span>{copied ? txt.copied : txt.copyReport}</span>
-          </button>
+      {/* Top Action Bar */}
+      <div className="flex justify-between items-center pb-1">
+        <div>
+          <span className="text-caption text-text-secondary">
+            {store.language === 'zh' ? '两车综合拥有成本对比 (TCO)' : '5-Year Total Cost of Ownership (TCO)'}
+          </span>
         </div>
+        <button
+          onClick={handleCopySummary}
+          className="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg border border-border-subtle bg-surface-overlay text-text-secondary hover:text-text-primary active:scale-95 transition-all text-caption font-medium shadow-xs"
+        >
+          {copied ? <Check size={14} className="text-status-positive" /> : <Copy size={14} />}
+          <span>{copied ? txt.copied : txt.copyReport}</span>
+        </button>
       </div>
 
       {/* Hero Summary Card: 5-Year Buying Verdict */}
       <div className="bg-surface-base border border-brand-primary/30 rounded-2xl p-base shadow-sm space-y-3 relative overflow-hidden">
-        <div className="flex items-center space-x-2 text-caption font-medium text-brand-primary">
-          <Scale size={18} />
-          <span>{store.language === 'zh' ? '5年综合拥有成本判定 (TCO)' : '5-Year Total Ownership Verdict'}</span>
+        <div className="flex items-center justify-between text-caption font-medium">
+          <div className="flex items-center space-x-2 text-brand-primary">
+            <Scale size={18} />
+            <span className="font-semibold">{store.language === 'zh' ? '5年总花费对比 (车价 + 5年油费 + 5年税费保养)' : '5-Year Total Ownership Verdict'}</span>
+          </div>
+          <span className="text-[11px] text-text-secondary font-mono">
+            {store.iceFuelType === 'budi_madani' ? 'BUDI MADANI @ RM1.99' : 'RON95 @ RM2.05'}
+          </span>
         </div>
 
         <div className="grid grid-cols-2 gap-3 pt-1">
-          <div className="p-3 bg-surface-overlay rounded-xl border border-border-subtle flex flex-col justify-between">
+          {/* Car A */}
+          <div className="p-3 bg-surface-overlay rounded-xl border border-brand-primary/40 flex flex-col justify-between shadow-xs">
             <div>
-              <span className="text-[11px] text-text-secondary font-medium block truncate">{store.iceModelName}</span>
-              <span className="text-[10px] text-brand-accent font-mono">RM {resultA.fuelCostSenPerKm.toFixed(1)} sen/km</span>
+              <div className="text-[10px] text-brand-accent font-semibold uppercase tracking-wider mb-0.5">
+                {store.language === 'zh' ? '已选车型 A' : 'Selected Car A'}
+              </div>
+              <span className="text-caption text-text-primary font-bold block truncate">{store.iceModelName}</span>
+              <span className="text-[11px] text-text-secondary font-mono block mt-0.5">RM {resultA.fuelCostSenPerKm.toFixed(1)} sen/km</span>
             </div>
-            <div className="mt-2">
+            <div className="mt-3">
               <div className="text-h2 font-display font-bold text-text-primary tabular-nums">
                 RM {Math.round(resultA.fiveYearTotalCostRm).toLocaleString()}
               </div>
-              <span className="text-[10px] text-text-secondary block mt-0.5">5年总开销 (车价+油+税+保)</span>
+              <span className="text-[10px] text-text-secondary block mt-0.5">5年开销 (车价+油+税+保)</span>
             </div>
           </div>
 
+          {/* Car B with Dropdown */}
           <div className="p-3 bg-surface-overlay rounded-xl border border-border-subtle flex flex-col justify-between">
             <div>
-              <span className="text-[11px] text-text-secondary font-medium block truncate">{carBPreset.name}</span>
-              <span className="text-[10px] text-brand-accent font-mono">RM {resultB.fuelCostSenPerKm.toFixed(1)} sen/km</span>
+              <div className="text-[10px] text-text-secondary font-medium uppercase tracking-wider mb-0.5">
+                {store.language === 'zh' ? '对比车型 B' : 'Compare Car B'}
+              </div>
+              <select
+                value={carBPreset.id}
+                onChange={e => store.setIceCompareId(e.target.value)}
+                className="w-full bg-surface-base border border-border-subtle rounded px-1.5 py-1 text-caption text-text-primary font-bold outline-none cursor-pointer truncate"
+              >
+                {ICE_PRESETS.map(p => (
+                  <option key={p.id} value={p.id} className="bg-surface-base text-text-primary">
+                    {p.name}
+                  </option>
+                ))}
+              </select>
+              <span className="text-[11px] text-text-secondary font-mono block mt-0.5">RM {resultB.fuelCostSenPerKm.toFixed(1)} sen/km</span>
             </div>
-            <div className="mt-2">
+            <div className="mt-3">
               <div className="text-h2 font-display font-bold text-text-primary tabular-nums">
                 RM {Math.round(resultB.fiveYearTotalCostRm).toLocaleString()}
               </div>
-              <span className="text-[10px] text-text-secondary block mt-0.5">5年总开销 (车价+油+税+保)</span>
+              <span className="text-[10px] text-text-secondary block mt-0.5">5年开销 (车价+油+税+保)</span>
             </div>
           </div>
         </div>
@@ -140,15 +166,18 @@ export function IceResultsSection({ onBack }: { onBack: () => void }) {
         {/* Highlight Banner */}
         <div className="p-3 bg-brand-primary/10 border border-brand-primary/20 rounded-xl flex items-center justify-between">
           <span className="text-caption text-text-primary font-medium">
-            {isAOverallCheaper
+            {isIdentical
+              ? (store.language === 'zh' ? '两车 5 年综合总开销一致' : 'Both cars have identical 5-year spend')
+              : isAOverallCheaper
               ? (store.language === 'zh' ? `${store.iceModelName} 5年更实惠` : `${store.iceModelName} is more economical`)
               : (store.language === 'zh' ? `${carBPreset.name} 5年更实惠` : `${carBPreset.name} is more economical`)}
           </span>
           <span className="font-display font-bold text-body-lg text-status-positive tabular-nums">
-            省 RM {Math.abs(fiveYearDiff).toLocaleString()}
+            {isIdentical ? 'RM 0 差额' : `省 RM ${Math.abs(fiveYearDiff).toLocaleString()}`}
           </span>
         </div>
       </div>
+
 
       {/* Head-to-Head Detailed Comparison Table */}
       <section className="space-y-stack-md">
