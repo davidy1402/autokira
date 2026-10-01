@@ -98,7 +98,7 @@ export function RoadTripSplitterCard({
       (mode === 'ev' && evSavingsVsPetrol > 0
         ? `(⚡️ EV saved RM ${evSavingsVsPetrol.toFixed(1)} vs petrol car 🎉)\n`
         : '') +
-      `Calculated via Malaysia Car Cost Calculator`;
+      `Calculated via AutoKira`;
   };
 
   const handleCopy = () => {

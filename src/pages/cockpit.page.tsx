@@ -61,7 +61,18 @@ export default function CockpitPage({ onCalculate = () => {} }: { onCalculate?: 
     <div className="relative min-h-screen bg-background-default antialiased pb-28">
       {/* Sticky Top Header with Safe Area Inset for Standalone Web App */}
       <header className="sticky top-0 z-30 bg-background-default border-b border-border-subtle pt-[max(1.35rem,calc(env(safe-area-inset-top,47px)+1.15rem))] pb-3 px-4">
-        <div className="app-container">
+        <div className="app-container space-y-2">
+          {/* AutoKira Brand Bar */}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-1.5">
+              <span className="font-display font-bold text-body text-text-primary tracking-tight">AutoKira</span>
+              <span className="text-[10px] font-mono font-semibold px-1.5 py-0.5 rounded bg-surface-overlay border border-border-subtle text-brand-primary">MY</span>
+            </div>
+            <span className="text-caption text-text-secondary">
+              {language === 'zh' ? '大马用车精算' : 'Driving Cost Intelligence'}
+            </span>
+          </div>
+
           {/* Global Vehicle Type Switcher (EV vs Petrol) */}
           <div className="p-1 bg-surface-overlay rounded-xl border border-border-subtle grid grid-cols-2 gap-1 shadow-xs">
             <button

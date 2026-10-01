@@ -3,7 +3,7 @@ export type Language = 'zh' | 'en';
 export const translations = {
   zh: {
     navbar: {
-      title: 'Malaysia EV × TNB 电费精算器',
+      title: 'AutoKira 大马用车精算',
       langBtn: 'EN',
       themeLight: '浅色模式',
       themeDark: '深色模式',
@@ -188,12 +188,12 @@ export const translations = {
     },
     footer: {
       disclaimer: '所有数据基于公开资费公式测算，实际支出以 TNB 官方账单及经销商最终报价为准。',
-      appName: 'Malaysia EV × TNB Cost Calculator'
+      appName: 'AutoKira'
     }
   },
   en: {
     navbar: {
-      title: 'Malaysia EV × TNB Calculator',
+      title: 'AutoKira — Driving Cost Intelligence',
       langBtn: '中文',
       themeLight: 'Light Mode',
       themeDark: 'Dark Mode',
@@ -378,7 +378,7 @@ export const translations = {
     },
     footer: {
       disclaimer: 'All figures are calculated using published regulatory formulas. Actual charges subject to official TNB billing and dealership pricing.',
-      appName: 'Malaysia EV × TNB Cost Calculator'
+      appName: 'AutoKira'
     }
   }
 };

@@ -107,7 +107,7 @@ export interface AppTranslations {
 
 export const evCalcTranslations: Record<'en' | 'zh', AppTranslations> = {
   en: {
-    appTitle: 'MY Car Cost Calc',
+    appTitle: 'AutoKira',
     langToggle: '中文',
     modeEv: 'EV',
     modeIce: 'Petrol',
@@ -210,7 +210,7 @@ export const evCalcTranslations: Record<'en' | 'zh', AppTranslations> = {
     copyReport: 'Copy Summary',
     copied: 'Copied to clipboard!',
     shareWhatsApp: 'Send via WhatsApp',
-    reportSummary: 'EV Calc MY Summary\n\nVehicle: {model}\nConsumption: {consumption} kWh/100km\nMileage: {mileage} km/mo\nPetrol: RM {petrol}/mo\n\nMonthly Net Savings: RM {savings}\nMonthly EV Charging: RM {evCost}\n5-Yr Total Savings (incl. 2026 Road Tax): RM {tcoSavings}'
+    reportSummary: 'AutoKira Summary\n\nVehicle: {model}\nConsumption: {consumption} kWh/100km\nMileage: {mileage} km/mo\nPetrol: RM {petrol}/mo\n\nMonthly Net Savings: RM {savings}\nMonthly EV Charging: RM {evCost}\n5-Yr Total Savings (incl. 2026 Road Tax): RM {tcoSavings}'
   },
   zh: {
     appTitle: '大马用车精算',
@@ -316,6 +316,6 @@ export const evCalcTranslations: Record<'en' | 'zh', AppTranslations> = {
     copyReport: '复制摘要',
     copied: '已复制到剪贴板！',
     shareWhatsApp: 'WhatsApp 发送',
-    reportSummary: '大马电车用车精算摘要\n\n车型: {model}\n百公里电耗: {consumption} kWh/100km\n每月里程: {mileage} km\n原车油费: RM {petrol}/月\n\n每月净省: RM {savings}\n电车月充电费: RM {evCost}\n5年综合总省 (含2026路税): RM {tcoSavings}'
+    reportSummary: 'AutoKira 精算摘要\n\n车型: {model}\n百公里电耗: {consumption} kWh/100km\n每月里程: {mileage} km\n原车油费: RM {petrol}/月\n\n每月净省: RM {savings}\n电车月充电费: RM {evCost}\n5年综合总省 (含2026路税): RM {tcoSavings}'
   }
 };

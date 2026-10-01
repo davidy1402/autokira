@@ -137,7 +137,7 @@ export function IceResultsSection() {
       `Car B: ${carBPreset.name} (OTR Price: RM ${resultB.carPurchasePriceRm.toLocaleString()})\n` +
       `• 5-Yr Total Cost: RM ${resultB.fiveYearTotalCostRm.toFixed(0)}\n\n` +
       `Verdict: ${isIdentical ? 'Both cars have identical 5-year cost' : isAOverallCheaper ? `${store.iceModelName} saves RM ${Math.abs(fiveYearDiff).toFixed(0)} over 5 years` : `${carBPreset.name} saves RM ${Math.abs(fiveYearDiff).toFixed(0)} over 5 years`}\n` +
-      `Calculated via Malaysia Car Cost Calculator`;
+      `Calculated via AutoKira`;
   };
 
   const handleCopySummary = () => {

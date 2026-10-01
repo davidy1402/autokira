@@ -61,7 +61,7 @@ Date: ${dateStr}
 
 ${result.crossed600Threshold ? `[TNB Threshold Notice]: Household consumption reaches ${result.newCombinedBill.kwh} kWh, crossing the 600 kWh threshold. Net savings remain positive at ${formatRm(result.monthlyNetSavings)}/month.` : `[TNB Status]: Usage remains within the 600 kWh threshold.`}
 
-Generated via Malaysia EV × TNB Financial Calculator`;
+Generated via AutoKira`;
   }
 
   return `【${modelName} 试驾电费与燃油成本测算报告】

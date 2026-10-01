@@ -1,7 +1,7 @@
 {
-  "name": "EV Calc MY",
-  "short_name": "EV Calc",
-  "description": "EV Calc MY — Electric Vehicle Financial Calculator for Malaysia",
+  "name": "AutoKira — Malaysia Driving & Trip Cost Intelligence",
+  "short_name": "AutoKira",
+  "description": "AutoKira: Smart EV, Petrol & Road Trip Cost Intelligence for Malaysia",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
