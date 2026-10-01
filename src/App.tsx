@@ -33,24 +33,26 @@ export function App() {
     };
   }, []);
 
-  if (currentPage === 'results') {
-    return (
-      <ResultsPage
-        onBack={() => {
-          setCurrentPage('cockpit');
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }}
-      />
-    );
-  }
-
   return (
-    <CockpitPage
-      onCalculate={() => {
-        setCurrentPage('results');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }}
-    />
+    <div className="min-h-screen bg-background-default text-text-primary antialiased selection:bg-brand-primary selection:text-text-inverse">
+      <div className="app-container min-h-screen relative flex flex-col">
+        {currentPage === 'results' ? (
+          <ResultsPage
+            onBack={() => {
+              setCurrentPage('cockpit');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+          />
+        ) : (
+          <CockpitPage
+            onCalculate={() => {
+              setCurrentPage('results');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+          />
+        )}
+      </div>
+    </div>
   );
 }
 

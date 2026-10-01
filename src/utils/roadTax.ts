@@ -34,7 +34,7 @@ export function calculateEvRoadTax(powerKw: number): {
     const tax = 20 + blocks * 10;
     return {
       roadTaxRm: tax,
-      powerBand: '50.1 – 100 kW',
+      powerBand: '50.1 - 100 kW',
       rateDescription: `Base RM 20 + ${blocks} × RM 10`
     };
   }
@@ -46,7 +46,7 @@ export function calculateEvRoadTax(powerKw: number): {
     const tax = 80 + (blocks - 1) * 20; // 100.1-110 = RM 80, 110.1-120 = RM 100, ..., 150.1-160 = RM 180
     return {
       roadTaxRm: tax,
-      powerBand: '100.1 – 210 kW',
+      powerBand: '100.1 - 210 kW',
       rateDescription: `Base RM 80 + ${blocks - 1} × RM 20`
     };
   }
@@ -58,7 +58,7 @@ export function calculateEvRoadTax(powerKw: number): {
     const tax = 305 + (blocks - 1) * 30;
     return {
       roadTaxRm: tax,
-      powerBand: '210.1 – 310 kW',
+      powerBand: '210.1 - 310 kW',
       rateDescription: `Base RM 305 + ${blocks - 1} × RM 30`
     };
   }
@@ -70,7 +70,7 @@ export function calculateEvRoadTax(powerKw: number): {
     const tax = 615 + (blocks - 1) * 50;
     return {
       roadTaxRm: tax,
-      powerBand: '310.1 – 410 kW',
+      powerBand: '310.1 - 410 kW',
       rateDescription: `Base RM 615 + ${blocks - 1} × RM 50`
     };
   }
@@ -82,7 +82,7 @@ export function calculateEvRoadTax(powerKw: number): {
     const tax = 1140 + (blocks - 1) * 100;
     return {
       roadTaxRm: tax,
-      powerBand: '410.1 – 510 kW',
+      powerBand: '410.1 - 510 kW',
       rateDescription: `Base RM 1,140 + ${blocks - 1} × RM 100`
     };
   }
@@ -106,20 +106,20 @@ export function calculatePetrolRoadTax(engineCc: number): {
   engineBand: string;
 } {
   if (engineCc <= 1000) return { roadTaxRm: 20, engineBand: '≤ 1,000 cc' };
-  if (engineCc <= 1200) return { roadTaxRm: 55, engineBand: '1,001 – 1,200 cc' };
-  if (engineCc <= 1400) return { roadTaxRm: 70, engineBand: '1,201 – 1,400 cc' };
-  if (engineCc <= 1600) return { roadTaxRm: 90, engineBand: '1,401 – 1,600 cc (1.5L / 1.6L)' };
+  if (engineCc <= 1200) return { roadTaxRm: 55, engineBand: '1,001 - 1,200 cc' };
+  if (engineCc <= 1400) return { roadTaxRm: 70, engineBand: '1,201 - 1,400 cc' };
+  if (engineCc <= 1600) return { roadTaxRm: 90, engineBand: '1,401 - 1,600 cc (1.5L / 1.6L)' };
   if (engineCc <= 1800) {
     const excess = engineCc - 1600;
-    return { roadTaxRm: Math.round(200 + excess * 0.40), engineBand: '1,601 – 1,800 cc (1.8L)' };
+    return { roadTaxRm: Math.round(200 + excess * 0.40), engineBand: '1,601 - 1,800 cc (1.8L)' };
   }
   if (engineCc <= 2000) {
     const excess = engineCc - 1800;
-    return { roadTaxRm: Math.round(280 + excess * 0.50), engineBand: '1,801 – 2,000 cc (2.0L)' };
+    return { roadTaxRm: Math.round(280 + excess * 0.50), engineBand: '1,801 - 2,000 cc (2.0L)' };
   }
   if (engineCc <= 2500) {
     const excess = engineCc - 2000;
-    return { roadTaxRm: Math.round(380 + excess * 1.00), engineBand: '2,001 – 2,500 cc (2.5L)' };
+    return { roadTaxRm: Math.round(380 + excess * 1.00), engineBand: '2,001 - 2,500 cc (2.5L)' };
   }
   const excess = engineCc - 2500;
   return { roadTaxRm: Math.round(880 + excess * 2.50), engineBand: '> 2,500 cc (3.0L+)' };

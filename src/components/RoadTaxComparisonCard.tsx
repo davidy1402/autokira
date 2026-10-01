@@ -110,7 +110,7 @@ export const RoadTaxComparisonCard: React.FC<RoadTaxComparisonCardProps> = ({
                   {t.roadTax.evTitle}
                 </span>
                 <h4 className="text-xs font-semibold text-brand whitespace-nowrap">
-                  {inputs.modelName} ({evMotorKw} kW · {evRoadTaxInfo.powerBand})
+                  {inputs.modelName} ({evMotorKw} kW, {evRoadTaxInfo.powerBand})
                 </h4>
               </div>
               <div className="text-right">
@@ -165,23 +165,23 @@ export const RoadTaxComparisonCard: React.FC<RoadTaxComparisonCardProps> = ({
                 </thead>
                 <tbody className="divide-y divide-line font-mono text-ink">
                   <tr>
-                    <td className="p-2.5 whitespace-nowrap">100.1 – 150 kW</td>
-                    <td className="p-2.5 text-brand font-bold whitespace-nowrap">RM 80 – RM 160</td>
+                    <td className="p-2.5 whitespace-nowrap">100.1 - 150 kW</td>
+                    <td className="p-2.5 text-brand font-bold whitespace-nowrap">RM 80 - RM 160</td>
                     <td className="p-2.5 font-sans whitespace-nowrap">BYD Dolphin, Atto 3, Omoda E5</td>
                   </tr>
                   <tr>
-                    <td className="p-2.5 whitespace-nowrap">150.1 – 160 kW</td>
+                    <td className="p-2.5 whitespace-nowrap">150.1 - 160 kW</td>
                     <td className="p-2.5 text-brand font-bold whitespace-nowrap">RM 180</td>
                     <td className="p-2.5 font-sans font-bold text-brand whitespace-nowrap">Proton e.MAS 7 (160 kW)</td>
                   </tr>
                   <tr>
-                    <td className="p-2.5 whitespace-nowrap">200.1 – 210 kW</td>
+                    <td className="p-2.5 whitespace-nowrap">200.1 - 210 kW</td>
                     <td className="p-2.5 text-brand font-bold whitespace-nowrap">RM 280</td>
                     <td className="p-2.5 font-sans whitespace-nowrap">Tesla Model 3 RWD (208 kW)</td>
                   </tr>
                   <tr>
-                    <td className="p-2.5 whitespace-nowrap">310.1 – 410 kW</td>
-                    <td className="p-2.5 text-oil font-bold whitespace-nowrap">RM 615 – RM 1,065</td>
+                    <td className="p-2.5 whitespace-nowrap">310.1 - 410 kW</td>
+                    <td className="p-2.5 text-oil font-bold whitespace-nowrap">RM 615 - RM 1,065</td>
                     <td className="p-2.5 font-sans whitespace-nowrap">BYD Seal Performance (390 kW)</td>
                   </tr>
                 </tbody>

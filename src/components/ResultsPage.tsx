@@ -332,7 +332,7 @@ export const ResultsPage: React.FC<ResultsPageProps> = ({
               <span>{t.cost100km.title}</span>
             </h2>
             <span className="text-xs font-display text-text-secondary">
-              满电 ({fullBatteryKwh}kWh): 家充 {formatRm(fullChargeCostHome)} · 外充 {formatRm(fullChargeCostPublic)}
+              满电 ({fullBatteryKwh}kWh): 家充 {formatRm(fullChargeCostHome)}, 外充 {formatRm(fullChargeCostPublic)}
             </span>
           </div>
 
