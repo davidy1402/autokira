@@ -8,12 +8,15 @@ export function App() {
   const { theme } = useCalculatorStore();
 
   useEffect(() => {
+    const metaThemeColor = document.querySelector('meta[name="theme-color"]');
     if (theme === 'dark') {
       document.documentElement.classList.add('dark');
       document.documentElement.classList.remove('light');
+      if (metaThemeColor) metaThemeColor.setAttribute('content', '#121417');
     } else {
       document.documentElement.classList.add('light');
       document.documentElement.classList.remove('dark');
+      if (metaThemeColor) metaThemeColor.setAttribute('content', '#f8fafc');
     }
   }, [theme]);
 
@@ -35,23 +38,21 @@ export function App() {
 
   return (
     <div className="min-h-screen bg-background-default text-text-primary antialiased selection:bg-brand-primary selection:text-text-inverse">
-      <div className="app-container min-h-screen relative flex flex-col">
-        {currentPage === 'results' ? (
-          <ResultsPage
-            onBack={() => {
-              setCurrentPage('cockpit');
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-          />
-        ) : (
-          <CockpitPage
-            onCalculate={() => {
-              setCurrentPage('results');
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-          />
-        )}
-      </div>
+      {currentPage === 'results' ? (
+        <ResultsPage
+          onBack={() => {
+            setCurrentPage('cockpit');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+        />
+      ) : (
+        <CockpitPage
+          onCalculate={() => {
+            setCurrentPage('results');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+        />
+      )}
     </div>
   );
 }

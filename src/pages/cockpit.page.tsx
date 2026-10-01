@@ -59,36 +59,41 @@ export default function CockpitPage({ onCalculate = () => {} }: { onCalculate?: 
 
   return (
     <div className="relative min-h-screen bg-background-default antialiased pb-28">
-      {/* Main Content Area with generous top breathing room */}
-      <main className="app-container pt-7 sm:pt-9 px-4 space-y-3.5">
-        {/* Global Vehicle Type Switcher (EV vs Petrol) */}
-        <div className="p-1 bg-surface-overlay rounded-xl border border-border-subtle grid grid-cols-2 gap-1 shadow-xs">
-          <button
-            type="button"
-            onClick={() => setVehicleType('ev')}
-            className={`py-2.5 px-3 rounded-lg font-semibold text-caption sm:text-body flex items-center justify-center space-x-2 transition-all ${
-              vehicleType === 'ev'
-                ? 'bg-brand-primary text-text-inverse shadow-xs'
-                : 'text-text-secondary hover:text-text-primary'
-            }`}
-          >
-            <Zap size={16} strokeWidth={2} />
-            <span>{language === 'zh' ? '纯电 EV' : 'Electric EV'}</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => setVehicleType('ice')}
-            className={`py-2.5 px-3 rounded-lg font-semibold text-caption sm:text-body flex items-center justify-center space-x-2 transition-all ${
-              vehicleType === 'ice'
-                ? 'bg-brand-primary text-text-inverse shadow-xs'
-                : 'text-text-secondary hover:text-text-primary'
-            }`}
-          >
-            <Fuel size={16} strokeWidth={2} />
-            <span>{language === 'zh' ? '燃油 Petrol' : 'Petrol Fuel'}</span>
-          </button>
+      {/* Sticky Top Header with Safe Area Inset for Standalone Web App */}
+      <header className="sticky top-0 z-30 bg-background-default/95 backdrop-blur-md border-b border-border-subtle pt-[max(1rem,calc(env(safe-area-inset-top)+0.6rem))] pb-3 px-4">
+        <div className="app-container">
+          {/* Global Vehicle Type Switcher (EV vs Petrol) */}
+          <div className="p-1 bg-surface-overlay rounded-xl border border-border-subtle grid grid-cols-2 gap-1 shadow-xs">
+            <button
+              type="button"
+              onClick={() => setVehicleType('ev')}
+              className={`py-2 px-3 rounded-lg font-semibold text-caption sm:text-body flex items-center justify-center space-x-2 transition-all ${
+                vehicleType === 'ev'
+                  ? 'bg-brand-primary text-text-inverse shadow-xs'
+                  : 'text-text-secondary hover:text-text-primary'
+              }`}
+            >
+              <Zap size={16} strokeWidth={2} />
+              <span>{language === 'zh' ? '纯电 EV' : 'Electric EV'}</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setVehicleType('ice')}
+              className={`py-2 px-3 rounded-lg font-semibold text-caption sm:text-body flex items-center justify-center space-x-2 transition-all ${
+                vehicleType === 'ice'
+                  ? 'bg-brand-primary text-text-inverse shadow-xs'
+                  : 'text-text-secondary hover:text-text-primary'
+              }`}
+            >
+              <Fuel size={16} strokeWidth={2} />
+              <span>{language === 'zh' ? '燃油 Petrol' : 'Petrol Fuel'}</span>
+            </button>
+          </div>
         </div>
+      </header>
 
+      {/* Main Content Area */}
+      <main className="app-container px-4 py-4 space-y-3.5">
         {/* Conditional Cockpit Content */}
         {vehicleType === 'ice' ? (
           <IceCockpitSection />
