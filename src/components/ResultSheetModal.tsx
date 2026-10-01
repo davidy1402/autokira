@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { X } from 'lucide-react';
+import { useSheetDrag } from '../hooks/useSheetDrag';
 
 interface ResultSheetModalProps {
   isOpen: boolean;
@@ -18,6 +19,8 @@ export function ResultSheetModal({
   icon,
   children,
 }: ResultSheetModalProps) {
+  const { sheetRef, dragHandleProps } = useSheetDrag({ isOpen, onClose });
+
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
@@ -45,18 +48,24 @@ export function ResultSheetModal({
       />
 
       {/* Sheet Content Card */}
-      <div className="relative w-full max-w-lg mx-auto bg-surface-raised border-t border-x border-border-subtle rounded-t-2xl shadow-floating pb-[calc(18px+env(safe-area-inset-bottom))] max-h-[88vh] flex flex-col animate-slide-up z-10">
-        {/* Grab Handle */}
+      <div
+        ref={sheetRef}
+        className="relative w-full max-w-lg mx-auto bg-surface-raised border-t border-x border-border-subtle rounded-t-2xl shadow-floating pb-[calc(18px+env(safe-area-inset-bottom))] max-h-[88vh] flex flex-col animate-slide-up z-10 will-change-transform"
+      >
+        {/* Grab Handle (Swipe down to dismiss) */}
         <div
-          className="flex justify-center pt-3 pb-1 cursor-pointer"
-          onClick={onClose}
+          {...dragHandleProps}
+          className="flex justify-center pt-3 pb-2 cursor-grab active:cursor-grabbing select-none"
         >
-          <div className="w-12 h-1.5 bg-border-strong rounded-full" />
+          <div className="w-12 h-1.5 bg-border-strong rounded-full pointer-events-none" />
         </div>
 
-        {/* Header */}
-        <div className="px-5 py-3 border-b border-border-subtle flex items-center justify-between">
-          <div className="flex items-center space-x-2.5 truncate pr-2">
+        {/* Header (Also draggable) */}
+        <div
+          {...dragHandleProps}
+          className="px-5 py-3 border-b border-border-subtle flex items-center justify-between select-none cursor-grab active:cursor-grabbing"
+        >
+          <div className="flex items-center space-x-2.5 truncate pr-2 pointer-events-none">
             {icon && <div className="shrink-0">{icon}</div>}
             <div className="truncate">
               <h3 className="text-body font-bold text-text-primary truncate">{title}</h3>
@@ -66,7 +75,7 @@ export function ResultSheetModal({
           <button
             type="button"
             onClick={onClose}
-            className="w-9 h-9 shrink-0 flex items-center justify-center rounded-lg text-text-secondary hover:text-text-primary hover:bg-surface-overlay active:scale-95 transition-all"
+            className="w-9 h-9 shrink-0 flex items-center justify-center rounded-lg text-text-secondary hover:text-text-primary hover:bg-surface-overlay active:scale-95 transition-all pointer-events-auto"
             aria-label="Close"
           >
             <X size={18} strokeWidth={2} />

@@ -60,7 +60,7 @@ export default function CockpitPage({ onCalculate = () => {} }: { onCalculate?: 
   return (
     <div className="relative min-h-screen bg-background-default antialiased pb-28">
       {/* Sticky Top Header with Safe Area Inset for Standalone Web App */}
-      <header className="sticky top-0 z-30 bg-background-default/95 backdrop-blur-md border-b border-border-subtle pt-[max(1rem,calc(env(safe-area-inset-top)+0.6rem))] pb-3 px-4">
+      <header className="sticky top-0 z-30 bg-background-default border-b border-border-subtle pt-[max(1.35rem,calc(env(safe-area-inset-top,47px)+1.15rem))] pb-3 px-4">
         <div className="app-container">
           {/* Global Vehicle Type Switcher (EV vs Petrol) */}
           <div className="p-1 bg-surface-overlay rounded-xl border border-border-subtle grid grid-cols-2 gap-1 shadow-xs">

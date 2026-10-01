@@ -3,6 +3,8 @@ import { X, Search, Check, Car, Zap } from 'lucide-react';
 import { PRESETS } from '../data/presets';
 import { ICE_PRESETS, IceVehiclePreset } from '../data/icePresets';
 
+import { useSheetDrag } from '../hooks/useSheetDrag';
+
 interface VehiclePickerSheetProps {
   isOpen: boolean;
   onClose: () => void;
@@ -23,6 +25,7 @@ export function VehiclePickerSheet({
   language = 'zh'
 }: VehiclePickerSheetProps) {
   const [searchQuery, setSearchQuery] = useState('');
+  const { sheetRef, dragHandleProps } = useSheetDrag({ isOpen, onClose });
 
   if (!isOpen) return null;
 
@@ -47,15 +50,24 @@ export function VehiclePickerSheet({
       />
 
       {/* Sheet Content */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 bg-surface-raised border-t border-border-subtle rounded-t-2xl shadow-floating pb-[calc(16px+env(safe-area-inset-bottom))] max-h-[85vh] flex flex-col">
-        {/* Grab Handle */}
-        <div className="flex justify-center pt-3 pb-1">
-          <div className="w-12 h-1.5 bg-border-strong rounded-full" />
+      <div
+        ref={sheetRef}
+        className="fixed bottom-0 left-0 right-0 z-50 bg-surface-raised border-t border-border-subtle rounded-t-2xl shadow-floating pb-[calc(16px+env(safe-area-inset-bottom))] max-h-[85vh] flex flex-col will-change-transform"
+      >
+        {/* Grab Handle (Swipe down to dismiss) */}
+        <div
+          {...dragHandleProps}
+          className="flex justify-center pt-3 pb-2 cursor-grab active:cursor-grabbing select-none"
+        >
+          <div className="w-12 h-1.5 bg-border-strong rounded-full pointer-events-none" />
         </div>
 
-        {/* Header */}
-        <div className="px-5 py-3 border-b border-border-subtle flex items-center justify-between">
-          <div className="flex items-center space-x-2">
+        {/* Header (Also draggable) */}
+        <div
+          {...dragHandleProps}
+          className="px-5 py-3 border-b border-border-subtle flex items-center justify-between select-none cursor-grab active:cursor-grabbing"
+        >
+          <div className="flex items-center space-x-2 pointer-events-none">
             {isEv ? (
               <Zap size={18} className="text-brand-primary" />
             ) : (
@@ -70,7 +82,7 @@ export function VehiclePickerSheet({
           <button
             type="button"
             onClick={onClose}
-            className="w-8 h-8 flex items-center justify-center rounded-lg text-text-secondary hover:text-text-primary hover:bg-surface-overlay active:scale-95 transition-all"
+            className="w-8 h-8 flex items-center justify-center rounded-lg text-text-secondary hover:text-text-primary hover:bg-surface-overlay active:scale-95 transition-all pointer-events-auto"
             aria-label="Close"
           >
             <X size={18} />

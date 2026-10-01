@@ -118,7 +118,7 @@ export default function ResultsPage({ onBack = () => {} }: { onBack?: () => void
   if (store.vehicleType === 'ice') {
     return (
       <div className="relative min-h-screen bg-background-default antialiased pb-12">
-        <header className="sticky top-0 z-30 bg-background-default/90 backdrop-blur-md border-b border-border-subtle pt-[max(1rem,calc(env(safe-area-inset-top)+0.5rem))] pb-3.5 px-4 sm:px-5">
+        <header className="sticky top-0 z-30 bg-background-default border-b border-border-subtle pt-[max(1.35rem,calc(env(safe-area-inset-top,47px)+1.15rem))] pb-3 px-4 sm:px-5">
           <div className="app-container flex items-center justify-between">
             <div className="flex items-center space-x-2.5">
               <button
@@ -153,7 +153,7 @@ export default function ResultsPage({ onBack = () => {} }: { onBack?: () => void
   return (
     <div className="relative min-h-screen bg-background-default antialiased pb-12">
       {/* Sticky Clean Header (No Theme Button, No Text on Back) */}
-      <header className="sticky top-0 z-30 bg-background-default/90 backdrop-blur-md border-b border-border-subtle pt-[max(1rem,calc(env(safe-area-inset-top)+0.5rem))] pb-3.5 px-4 sm:px-5">
+      <header className="sticky top-0 z-30 bg-background-default border-b border-border-subtle pt-[max(1.35rem,calc(env(safe-area-inset-top,47px)+1.15rem))] pb-3 px-4 sm:px-5">
         <div className="app-container flex items-center justify-between">
           <div className="flex items-center space-x-2.5">
             <button
