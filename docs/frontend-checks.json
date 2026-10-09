@@ -1,0 +1,342 @@
+[
+  {
+    "label": "1440 Chinese light EV result",
+    "lang": "zh-CN",
+    "scroll": 1440,
+    "smallInputs": [],
+    "smallTargets": [],
+    "theme": "light",
+    "unlabelledInputs": [],
+    "width": 1440
+  },
+  {
+    "label": "1440 Chinese dark EV result",
+    "lang": "zh-CN",
+    "scroll": 1440,
+    "smallInputs": [],
+    "smallTargets": [],
+    "theme": "dark",
+    "unlabelledInputs": [],
+    "width": 1440
+  },
+  {
+    "label": "1440 English dark EV result",
+    "lang": "en",
+    "scroll": 1440,
+    "smallInputs": [],
+    "smallTargets": [],
+    "theme": "dark",
+    "unlabelledInputs": [],
+    "width": 1440
+  },
+  {
+    "label": "1440 English dark EV input",
+    "lang": "en",
+    "scroll": 1440,
+    "smallInputs": [],
+    "smallTargets": [],
+    "theme": "dark",
+    "unlabelledInputs": [],
+    "width": 1440
+  },
+  {
+    "label": "1440 English light EV input",
+    "lang": "en",
+    "scroll": 1440,
+    "smallInputs": [],
+    "smallTargets": [],
+    "theme": "light",
+    "unlabelledInputs": [],
+    "width": 1440
+  },
+  {
+    "label": "390 English light EV input",
+    "lang": "en",
+    "scroll": 390,
+    "smallInputs": [],
+    "smallTargets": [],
+    "theme": "light",
+    "unlabelledInputs": [],
+    "width": 390
+  },
+  {
+    "label": "390 Chinese light EV input",
+    "lang": "zh-CN",
+    "scroll": 390,
+    "smallInputs": [],
+    "smallTargets": [],
+    "theme": "light",
+    "unlabelledInputs": [],
+    "width": 390
+  },
+  {
+    "label": "390 Chinese dark EV input",
+    "lang": "zh-CN",
+    "scroll": 390,
+    "smallInputs": [],
+    "smallTargets": [],
+    "theme": "dark",
+    "unlabelledInputs": [],
+    "width": 390
+  },
+  {
+    "label": "390 English dark EV input",
+    "lang": "en",
+    "scroll": 390,
+    "smallInputs": [],
+    "smallTargets": [],
+    "theme": "dark",
+    "unlabelledInputs": [],
+    "width": 390
+  },
+  {
+    "label": "390 English dark public charging result",
+    "lang": "en",
+    "scroll": 390,
+    "smallInputs": [],
+    "smallTargets": [],
+    "theme": "dark",
+    "unlabelledInputs": [],
+    "width": 390
+  },
+  {
+    "label": "390 English light public charging result",
+    "lang": "en",
+    "scroll": 390,
+    "smallInputs": [],
+    "smallTargets": [],
+    "theme": "light",
+    "unlabelledInputs": [],
+    "width": 390
+  },
+  {
+    "label": "390 Chinese light public charging result",
+    "lang": "zh-CN",
+    "scroll": 390,
+    "smallInputs": [],
+    "smallTargets": [],
+    "theme": "light",
+    "unlabelledInputs": [],
+    "width": 390
+  },
+  {
+    "label": "390 Chinese dark public charging result",
+    "lang": "zh-CN",
+    "scroll": 390,
+    "smallInputs": [],
+    "smallTargets": [],
+    "theme": "dark",
+    "unlabelledInputs": [],
+    "width": 390
+  },
+  {
+    "label": "390 Chinese dark detail 家庭电费与 TNB 明细",
+    "lang": "zh-CN",
+    "scroll": 390,
+    "smallInputs": [],
+    "smallTargets": [],
+    "theme": "dark",
+    "unlabelledInputs": [],
+    "width": 390
+  },
+  {
+    "label": "390 Chinese dark detail 路税对比",
+    "lang": "zh-CN",
+    "scroll": 390,
+    "smallInputs": [],
+    "smallTargets": [],
+    "theme": "dark",
+    "unlabelledInputs": [],
+    "width": 390
+  },
+  {
+    "label": "390 Chinese dark detail 与其他车型比较",
+    "lang": "zh-CN",
+    "scroll": 390,
+    "smallInputs": [],
+    "smallTargets": [],
+    "theme": "dark",
+    "unlabelledInputs": [],
+    "width": 390
+  },
+  {
+    "label": "390 Chinese dark detail 分摊长途充电费",
+    "lang": "zh-CN",
+    "scroll": 390,
+    "smallInputs": [],
+    "smallTargets": [],
+    "theme": "dark",
+    "unlabelledInputs": [],
+    "width": 390
+  },
+  {
+    "label": "390 English light vehicle picker",
+    "lang": "en",
+    "scroll": 390,
+    "smallInputs": [],
+    "smallTargets": [],
+    "theme": "light",
+    "unlabelledInputs": [],
+    "width": 390
+  },
+  {
+    "label": "390 English light petrol input",
+    "lang": "en",
+    "scroll": 390,
+    "smallInputs": [],
+    "smallTargets": [],
+    "theme": "light",
+    "unlabelledInputs": [],
+    "width": 390
+  },
+  {
+    "label": "390 English light petrol result",
+    "lang": "en",
+    "scroll": 390,
+    "smallInputs": [],
+    "smallTargets": [],
+    "theme": "light",
+    "unlabelledInputs": [],
+    "width": 390
+  },
+  {
+    "label": "390 Chinese dark petrol result",
+    "lang": "zh-CN",
+    "scroll": 390,
+    "smallInputs": [],
+    "smallTargets": [],
+    "theme": "dark",
+    "unlabelledInputs": [],
+    "width": 390
+  },
+  {
+    "label": "390 Chinese dark petrol detail 开支与车贷估算",
+    "lang": "zh-CN",
+    "scroll": 390,
+    "smallInputs": [],
+    "smallTargets": [],
+    "theme": "dark",
+    "unlabelledInputs": [],
+    "width": 390
+  },
+  {
+    "label": "390 Chinese dark petrol detail 与其他车型比较",
+    "lang": "zh-CN",
+    "scroll": 390,
+    "smallInputs": [],
+    "smallTargets": [],
+    "theme": "dark",
+    "unlabelledInputs": [],
+    "width": 390
+  },
+  {
+    "label": "390 Chinese dark petrol detail 油箱与续航",
+    "lang": "zh-CN",
+    "scroll": 390,
+    "smallInputs": [],
+    "smallTargets": [],
+    "theme": "dark",
+    "unlabelledInputs": [],
+    "width": 390
+  },
+  {
+    "label": "390 Chinese dark petrol detail 分摊长途油费",
+    "lang": "zh-CN",
+    "scroll": 390,
+    "smallInputs": [],
+    "smallTargets": [],
+    "theme": "dark",
+    "unlabelledInputs": [],
+    "width": 390
+  },
+  {
+    "label": "390 Chinese dark petrol input",
+    "lang": "zh-CN",
+    "scroll": 390,
+    "smallInputs": [],
+    "smallTargets": [],
+    "theme": "dark",
+    "unlabelledInputs": [],
+    "width": 390
+  },
+  {
+    "label": "390 Chinese dark petrol assumptions",
+    "lang": "zh-CN",
+    "scroll": 390,
+    "smallInputs": [],
+    "smallTargets": [],
+    "theme": "dark",
+    "unlabelledInputs": [],
+    "width": 390
+  },
+  {
+    "label": "1440 Chinese dark petrol input",
+    "lang": "zh-CN",
+    "scroll": 1440,
+    "smallInputs": [],
+    "smallTargets": [],
+    "theme": "dark",
+    "unlabelledInputs": [],
+    "width": 1440
+  },
+  {
+    "label": "1440 Chinese light petrol input",
+    "lang": "zh-CN",
+    "scroll": 1440,
+    "smallInputs": [],
+    "smallTargets": [],
+    "theme": "light",
+    "unlabelledInputs": [],
+    "width": 1440
+  },
+  {
+    "label": "1440 English light petrol input",
+    "lang": "en",
+    "scroll": 1440,
+    "smallInputs": [],
+    "smallTargets": [],
+    "theme": "light",
+    "unlabelledInputs": [],
+    "width": 1440
+  },
+  {
+    "label": "1440 English light petrol result",
+    "lang": "en",
+    "scroll": 1440,
+    "smallInputs": [],
+    "smallTargets": [],
+    "theme": "light",
+    "unlabelledInputs": [],
+    "width": 1440
+  },
+  {
+    "label": "1440 English dark petrol result",
+    "lang": "en",
+    "scroll": 1440,
+    "smallInputs": [],
+    "smallTargets": [],
+    "theme": "dark",
+    "unlabelledInputs": [],
+    "width": 1440
+  },
+  {
+    "label": "1440 Chinese dark petrol result",
+    "lang": "zh-CN",
+    "scroll": 1440,
+    "smallInputs": [],
+    "smallTargets": [],
+    "theme": "dark",
+    "unlabelledInputs": [],
+    "width": 1440
+  },
+  {
+    "label": "390 final English light home result",
+    "lang": "en",
+    "scroll": 390,
+    "smallInputs": [],
+    "smallTargets": [],
+    "theme": "light",
+    "unlabelledInputs": [],
+    "width": 390
+  }
+]

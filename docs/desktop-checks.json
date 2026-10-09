@@ -1,0 +1,401 @@
+{
+  "checks": [
+    {
+      "screen": "desktop-ev-input",
+      "viewport": 1440,
+      "width": 1440,
+      "formColumns": "475px 475px",
+      "details": [
+        true
+      ]
+    },
+    {
+      "screen": "desktop-ev-results",
+      "viewport": 1440,
+      "width": 1440,
+      "formColumns": null,
+      "details": [
+        true
+      ]
+    },
+    {
+      "screen": "desktop-ice-input",
+      "viewport": 1440,
+      "width": 1440,
+      "formColumns": "475px 475px",
+      "details": [
+        true
+      ]
+    },
+    {
+      "screen": "desktop-ice-results",
+      "viewport": 1440,
+      "width": 1440,
+      "formColumns": null,
+      "details": [
+        true
+      ]
+    },
+    {
+      "screen": "320-Electric car-input",
+      "viewport": 320,
+      "width": 320,
+      "formColumns": "none",
+      "details": [
+        false
+      ]
+    },
+    {
+      "screen": "320-Electric car-results",
+      "viewport": 320,
+      "width": 320,
+      "formColumns": null,
+      "details": [
+        false
+      ]
+    },
+    {
+      "screen": "320-Petrol car-input",
+      "viewport": 320,
+      "width": 320,
+      "formColumns": "none",
+      "details": [
+        false
+      ]
+    },
+    {
+      "screen": "320-Petrol car-results",
+      "viewport": 320,
+      "width": 320,
+      "formColumns": null,
+      "details": [
+        false
+      ]
+    },
+    {
+      "screen": "390-Electric car-input",
+      "viewport": 390,
+      "width": 390,
+      "formColumns": "none",
+      "details": [
+        false
+      ]
+    },
+    {
+      "screen": "390-Electric car-results",
+      "viewport": 390,
+      "width": 390,
+      "formColumns": null,
+      "details": [
+        false
+      ]
+    },
+    {
+      "screen": "390-Petrol car-input",
+      "viewport": 390,
+      "width": 390,
+      "formColumns": "none",
+      "details": [
+        false
+      ]
+    },
+    {
+      "screen": "390-Petrol car-results",
+      "viewport": 390,
+      "width": 390,
+      "formColumns": null,
+      "details": [
+        false
+      ]
+    },
+    {
+      "screen": "768-Electric car-input",
+      "viewport": 768,
+      "width": 768,
+      "formColumns": "none",
+      "details": [
+        false
+      ]
+    },
+    {
+      "screen": "768-Electric car-results",
+      "viewport": 768,
+      "width": 768,
+      "formColumns": null,
+      "details": [
+        false
+      ]
+    },
+    {
+      "screen": "768-Petrol car-input",
+      "viewport": 768,
+      "width": 768,
+      "formColumns": "none",
+      "details": [
+        false
+      ]
+    },
+    {
+      "screen": "768-Petrol car-results",
+      "viewport": 768,
+      "width": 768,
+      "formColumns": null,
+      "details": [
+        false
+      ]
+    },
+    {
+      "screen": "1024-Electric car-input",
+      "viewport": 1024,
+      "width": 1024,
+      "formColumns": "none",
+      "details": [
+        false
+      ]
+    },
+    {
+      "screen": "1024-Electric car-results",
+      "viewport": 1024,
+      "width": 1024,
+      "formColumns": null,
+      "details": [
+        false
+      ]
+    },
+    {
+      "screen": "1024-Petrol car-input",
+      "viewport": 1024,
+      "width": 1024,
+      "formColumns": "none",
+      "details": [
+        false
+      ]
+    },
+    {
+      "screen": "1024-Petrol car-results",
+      "viewport": 1024,
+      "width": 1024,
+      "formColumns": null,
+      "details": [
+        false
+      ]
+    },
+    {
+      "screen": "1100-Electric car-input",
+      "viewport": 1100,
+      "width": 1100,
+      "formColumns": "333px 333px",
+      "details": [
+        true
+      ]
+    },
+    {
+      "screen": "1100-Electric car-results",
+      "viewport": 1100,
+      "width": 1100,
+      "formColumns": null,
+      "details": [
+        true
+      ]
+    },
+    {
+      "screen": "1100-Petrol car-input",
+      "viewport": 1100,
+      "width": 1100,
+      "formColumns": "333px 333px",
+      "details": [
+        true
+      ]
+    },
+    {
+      "screen": "1100-Petrol car-results",
+      "viewport": 1100,
+      "width": 1100,
+      "formColumns": null,
+      "details": [
+        true
+      ]
+    },
+    {
+      "screen": "1280-Electric car-input",
+      "viewport": 1280,
+      "width": 1280,
+      "formColumns": "423px 423px",
+      "details": [
+        true
+      ]
+    },
+    {
+      "screen": "1280-Electric car-results",
+      "viewport": 1280,
+      "width": 1280,
+      "formColumns": null,
+      "details": [
+        true
+      ]
+    },
+    {
+      "screen": "1280-Petrol car-input",
+      "viewport": 1280,
+      "width": 1280,
+      "formColumns": "423px 423px",
+      "details": [
+        true
+      ]
+    },
+    {
+      "screen": "1280-Petrol car-results",
+      "viewport": 1280,
+      "width": 1280,
+      "formColumns": null,
+      "details": [
+        true
+      ]
+    },
+    {
+      "screen": "1920-Electric car-input",
+      "viewport": 1920,
+      "width": 1920,
+      "formColumns": "475px 475px",
+      "details": [
+        true
+      ]
+    },
+    {
+      "screen": "1920-Electric car-results",
+      "viewport": 1920,
+      "width": 1920,
+      "formColumns": null,
+      "details": [
+        true
+      ]
+    },
+    {
+      "screen": "1920-Petrol car-input",
+      "viewport": 1920,
+      "width": 1920,
+      "formColumns": "475px 475px",
+      "details": [
+        true
+      ]
+    },
+    {
+      "screen": "1920-Petrol car-results",
+      "viewport": 1920,
+      "width": 1920,
+      "formColumns": null,
+      "details": [
+        true
+      ]
+    },
+    {
+      "screen": "zh-390-电车-input",
+      "viewport": 390,
+      "width": 390,
+      "formColumns": "none",
+      "details": [
+        false
+      ]
+    },
+    {
+      "screen": "zh-390-电车-results",
+      "viewport": 390,
+      "width": 390,
+      "formColumns": null,
+      "details": [
+        false
+      ]
+    },
+    {
+      "screen": "zh-390-燃油车-input",
+      "viewport": 390,
+      "width": 390,
+      "formColumns": "none",
+      "details": [
+        false
+      ]
+    },
+    {
+      "screen": "zh-390-燃油车-results",
+      "viewport": 390,
+      "width": 390,
+      "formColumns": null,
+      "details": [
+        false
+      ]
+    },
+    {
+      "screen": "zh-1100-电车-input",
+      "viewport": 1100,
+      "width": 1100,
+      "formColumns": "333px 333px",
+      "details": [
+        true
+      ]
+    },
+    {
+      "screen": "zh-1100-电车-results",
+      "viewport": 1100,
+      "width": 1100,
+      "formColumns": null,
+      "details": [
+        true
+      ]
+    },
+    {
+      "screen": "zh-1100-燃油车-input",
+      "viewport": 1100,
+      "width": 1100,
+      "formColumns": "333px 333px",
+      "details": [
+        true
+      ]
+    },
+    {
+      "screen": "zh-1100-燃油车-results",
+      "viewport": 1100,
+      "width": 1100,
+      "formColumns": null,
+      "details": [
+        true
+      ]
+    },
+    {
+      "screen": "zh-1440-电车-input",
+      "viewport": 1440,
+      "width": 1440,
+      "formColumns": "475px 475px",
+      "details": [
+        true
+      ]
+    },
+    {
+      "screen": "zh-1440-电车-results",
+      "viewport": 1440,
+      "width": 1440,
+      "formColumns": null,
+      "details": [
+        true
+      ]
+    },
+    {
+      "screen": "zh-1440-燃油车-input",
+      "viewport": 1440,
+      "width": 1440,
+      "formColumns": "475px 475px",
+      "details": [
+        true
+      ]
+    },
+    {
+      "screen": "zh-1440-燃油车-results",
+      "viewport": 1440,
+      "width": 1440,
+      "formColumns": null,
+      "details": [
+        true
+      ]
+    }
+  ],
+  "errors": []
+}

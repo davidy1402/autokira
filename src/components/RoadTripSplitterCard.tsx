@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useId, useState } from 'react';
 import { Fuel, Zap, Navigation, Users, Receipt, Copy, Check, Sparkles } from 'lucide-react';
 
 export interface TripRoutePreset {
@@ -32,6 +32,8 @@ export function RoadTripSplitterCard({
   fuelPriceOrRate,
   language = 'zh'
 }: RoadTripSplitterCardProps) {
+  const fieldId = useId();
+  const [copyError, setCopyError] = useState(false);
   const [selectedRouteId, setSelectedRouteId] = useState<string>('kl-penang');
   const [distanceKm, setDistanceKm] = useState<number>(355);
   const [isRoundTrip, setIsRoundTrip] = useState<boolean>(true);
@@ -101,12 +103,13 @@ export function RoadTripSplitterCard({
       `Calculated via AutoKira`;
   };
 
-  const handleCopy = () => {
+  const handleCopy = async () => {
     try {
-      navigator.clipboard.writeText(generateShareText());
+      await navigator.clipboard.writeText(generateShareText());
+      setCopyError(false);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
-    } catch {}
+    } catch { setCopyError(true); }
   };
 
   return (
@@ -129,6 +132,7 @@ export function RoadTripSplitterCard({
         <div className="flex items-center space-x-1.5 self-start sm:self-auto">
           <button
             type="button"
+            aria-pressed={!isRoundTrip}
             onClick={() => setIsRoundTrip(false)}
             className={`px-2.5 py-1 text-caption rounded-md border font-medium transition-all ${
               !isRoundTrip
@@ -140,6 +144,7 @@ export function RoadTripSplitterCard({
           </button>
           <button
             type="button"
+            aria-pressed={isRoundTrip}
             onClick={() => setIsRoundTrip(true)}
             className={`px-2.5 py-1 text-caption rounded-md border font-medium transition-all ${
               isRoundTrip
@@ -154,7 +159,7 @@ export function RoadTripSplitterCard({
 
       {/* Preset Route Chips */}
       <div>
-        <div className="flex justify-between items-center mb-1.5">
+        <div className="flex flex-wrap gap-2 justify-between items-center mb-1.5">
           <span className="text-caption text-text-secondary flex items-center space-x-1">
             <Navigation size={13} strokeWidth={1.75} className="text-brand-primary" />
             <span>{language === 'zh' ? '大马热门自驾路线预设' : 'Malaysian Travel Corridors'}</span>
@@ -189,12 +194,13 @@ export function RoadTripSplitterCard({
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
         {/* Distance Input */}
         <div className="p-2.5 bg-surface-overlay rounded-lg border border-border-subtle">
-          <span className="text-caption text-text-secondary block mb-1">
+          <label htmlFor={`${fieldId}-distance`} className="text-caption text-text-secondary block mb-1">
             {language === 'zh' ? '单程距离 (公里)' : 'One-way Distance (km)'}
-          </span>
+          </label>
           <div className="flex items-center space-x-2">
             <input
               type="number"
+              id={`${fieldId}-distance`} inputMode="decimal"
               min="1"
               value={distanceKm}
               onChange={e => {
@@ -212,14 +218,15 @@ export function RoadTripSplitterCard({
 
         {/* Passenger Count */}
         <div className="p-2.5 bg-surface-overlay rounded-lg border border-border-subtle">
-          <span className="text-caption text-text-secondary block mb-1">
+          <label htmlFor={`${fieldId}-passengers`} className="text-caption text-text-secondary block mb-1">
             {language === 'zh' ? '同行乘车人数 (含司机)' : 'Passengers (incl. Driver)'}
-          </span>
+          </label>
           <div className="flex items-center space-x-2">
             <Users size={16} strokeWidth={1.75} className="text-text-secondary shrink-0" />
             <input
               type="number"
               min="1"
+              id={`${fieldId}-passengers`} inputMode="numeric"
               max="10"
               value={passengerCount}
               onChange={e => setPassengerCount(Math.max(1, Math.min(10, Number(e.target.value))))}
@@ -248,9 +255,9 @@ export function RoadTripSplitterCard({
         {/* Toll Input */}
         <div className="p-2.5 bg-surface-overlay rounded-lg border border-border-subtle">
           <div className="flex justify-between items-center mb-1">
-            <span className="text-caption text-text-secondary">
+            <label htmlFor={`${fieldId}-toll`} className="text-caption text-text-secondary">
               {language === 'zh' ? '单程过路费 (Toll)' : 'One-way Toll Fee'}
-            </span>
+            </label>
             <button
               type="button"
               onClick={() => setIncludeToll(!includeToll)}
@@ -264,6 +271,7 @@ export function RoadTripSplitterCard({
             <span className="text-caption text-text-secondary">RM</span>
             <input
               type="number"
+              id={`${fieldId}-toll`} inputMode="decimal"
               step="0.1"
               disabled={!includeToll}
               value={includeToll ? tollFeeRm : 0}
@@ -378,6 +386,7 @@ export function RoadTripSplitterCard({
           <span>{copied ? (language === 'zh' ? '已复制 AA 账单' : 'Copied!') : (language === 'zh' ? '复制 AA 账单' : 'Copy AA Breakdown')}</span>
         </button>
       </div>
+      <p role="status" className="field-hint">{copyError ? (language === 'zh' ? '无法复制。请允许剪贴板访问后重试。' : 'Could not copy. Allow clipboard access and try again.') : ''}</p>
     </section>
   );
 }

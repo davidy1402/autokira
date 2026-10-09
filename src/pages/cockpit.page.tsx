@@ -1,485 +1,71 @@
-import { useState, useEffect } from 'react';
-import { Settings, ChevronRight, ArrowLeftRight, Car, Pencil, X, Zap, Fuel, Home, Building2 } from 'lucide-react';
+import { useState } from 'react';
+import { ArrowRight, Home, Building2, Check, Car, Gauge, SlidersHorizontal } from 'lucide-react';
 import { useCalculatorStore } from '../stores/calculator.store';
-import { PRESETS } from '../data/presets';
-import { AdvancedDrawer } from '../components/advanced-drawer';
-import { IceCockpitSection } from '../components/IceCockpitSection';
-import { VehiclePickerSheet } from '../components/VehiclePickerSheet';
-import { evCalcTranslations } from '../i18n/evCalcTranslations';
 import { calculateTnbBill, estimateKwhFromTnbBill } from '../utils/tnbTariff';
+import { VehiclePickerSheet } from '../components/VehiclePickerSheet';
+import { IceCockpitSection } from '../components/IceCockpitSection';
+import { AppHeader, Assumptions, NumberField, PresetChips, VehicleSelection } from '../components/DrivingForm';
 
 export default function CockpitPage({ onCalculate = () => {} }: { onCalculate?: () => void }) {
-  const {
-    vehicleType, setVehicleType,
-    selectedPresetId, setPreset,
-    modelName, setModelName,
-    consumption, setConsumption,
-    mileage, setMileage,
-    baselineKwh, setBaselineKwh,
-    petrolRm, setPetrolRm,
-    mode, setMode,
-    language
-  } = useCalculatorStore();
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [isVehiclePickerOpen, setIsVehiclePickerOpen] = useState(false);
-  const [homeDisplayMode, setHomeDisplayMode] = useState<'kwh' | 'rm'>('rm');
-  const [localRmValue, setLocalRmValue] = useState<string>('');
-  const [isEditingModel, setIsEditingModel] = useState(false);
-  const [tempModelName, setTempModelName] = useState(modelName);
-
-  const currentPreset = PRESETS.find(p => p.id === selectedPresetId);
-  const isCustomConsumption = currentPreset
-    ? Math.abs(consumption - currentPreset.consumption) > 0.05 || modelName !== currentPreset.name
-    : true;
-
-  // Sync tempModelName when store modelName changes externally
-  useEffect(() => {
-    setTempModelName(modelName);
-  }, [modelName]);
-
-  const currentTnbBill = calculateTnbBill(baselineKwh);
-
-  // Sync local RM value when switching to RM mode or when baseline changes externally
-  useEffect(() => {
-    if (homeDisplayMode === 'rm') {
-      setLocalRmValue(currentTnbBill.totalAmount.toFixed(0));
-    }
-  }, [homeDisplayMode, baselineKwh]);
-
-  const handleToggleDisplayMode = () => {
-    if (homeDisplayMode === 'kwh') {
-      setLocalRmValue(currentTnbBill.totalAmount.toFixed(0));
-      setHomeDisplayMode('rm');
-    } else {
-      setHomeDisplayMode('kwh');
-    }
-  };
-
-  const txt = evCalcTranslations[language] || evCalcTranslations.en;
-
-  return (
-    <div className="relative min-h-screen bg-background-default antialiased pb-28">
-      {/* Sticky Top Header with Safe Area Inset for Standalone Web App */}
-      <header className="sticky top-0 z-30 bg-background-default border-b border-border-subtle pt-[max(1.35rem,calc(env(safe-area-inset-top,47px)+1.15rem))] pb-3 px-4">
-        <div className="app-container space-y-2">
-          {/* AutoKira Brand Bar */}
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-1.5">
-              <span className="font-display font-bold text-body text-text-primary tracking-tight">AutoKira</span>
-              <span className="text-[10px] font-mono font-semibold px-1.5 py-0.5 rounded bg-surface-overlay border border-border-subtle text-brand-primary">MY</span>
-            </div>
-            <span className="text-caption text-text-secondary">
-              {language === 'zh' ? '大马用车精算' : 'Driving Cost Intelligence'}
-            </span>
-          </div>
-
-          {/* Global Vehicle Type Switcher (EV vs Petrol) */}
-          <div className="p-1 bg-surface-overlay rounded-xl border border-border-subtle grid grid-cols-2 gap-1 shadow-xs">
-            <button
-              type="button"
-              onClick={() => setVehicleType('ev')}
-              className={`py-2 px-3 rounded-lg font-semibold text-caption sm:text-body flex items-center justify-center space-x-2 transition-all ${
-                vehicleType === 'ev'
-                  ? 'bg-brand-primary text-text-inverse shadow-xs'
-                  : 'text-text-secondary hover:text-text-primary'
-              }`}
-            >
-              <Zap size={16} strokeWidth={2} />
-              <span>{language === 'zh' ? '纯电 EV' : 'Electric EV'}</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => setVehicleType('ice')}
-              className={`py-2 px-3 rounded-lg font-semibold text-caption sm:text-body flex items-center justify-center space-x-2 transition-all ${
-                vehicleType === 'ice'
-                  ? 'bg-brand-primary text-text-inverse shadow-xs'
-                  : 'text-text-secondary hover:text-text-primary'
-              }`}
-            >
-              <Fuel size={16} strokeWidth={2} />
-              <span>{language === 'zh' ? '燃油 Petrol' : 'Petrol Fuel'}</span>
-            </button>
-          </div>
-        </div>
-      </header>
-
-      {/* Main Content Area */}
-      <main className="app-container px-4 py-4 space-y-3.5">
-        {/* Conditional Cockpit Content */}
-        {vehicleType === 'ice' ? (
-          <IceCockpitSection />
-        ) : (
-          <div className="space-y-3.5">
-            {/* Section 1: Vehicle & Consumption */}
-            <section className="bg-surface-base border border-border-subtle rounded-2xl p-4 sm:p-5 space-y-3 shadow-xs">
-              <div className="flex justify-between items-center">
-                <span className="text-body font-semibold text-text-primary">{txt.evJourneyTitle}</span>
-                <span className="text-caption text-text-secondary">
-                  {language === 'zh' ? '参考电耗' : 'Rated Spec'}
-                </span>
-              </div>
-
-              {/* Stepper & Numeric Input */}
-              <div className="flex items-center justify-center space-x-4 py-1">
-                <button 
-                  type="button"
-                  onClick={() => setConsumption(Math.max(5, Math.round((consumption - 0.1) * 10) / 10))}
-                  className="w-11 h-11 rounded-lg border border-border-subtle bg-surface-overlay flex items-center justify-center text-text-primary hover:border-brand-primary active:scale-95 transition-all text-xl font-bold select-none shrink-0"
-                  aria-label="Decrease consumption by 0.1"
-                >
-                  -
-                </button>
-
-                <div className="flex flex-col items-center">
-                  <div className="flex items-baseline space-x-1">
-                    <input
-                      type="number"
-                      step="0.1"
-                      min="5"
-                      max="40"
-                      value={consumption}
-                      onChange={(e) => {
-                        const val = parseFloat(e.target.value);
-                        if (!isNaN(val)) {
-                          setConsumption(Math.round(val * 10) / 10);
-                        }
-                      }}
-                      className="text-2xl sm:text-3xl font-display font-bold text-text-primary w-24 text-center tabular-nums bg-transparent outline-none focus:border-b-2 focus:border-brand-primary [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                    />
-                  </div>
-                  <span className="text-caption text-text-secondary font-medium">kWh / 100km</span>
-                </div>
-
-                <button 
-                  type="button"
-                  onClick={() => setConsumption(Math.min(40, Math.round((consumption + 0.1) * 10) / 10))}
-                  className="w-11 h-11 rounded-lg border border-border-subtle bg-surface-overlay flex items-center justify-center text-text-primary hover:border-brand-primary active:scale-95 transition-all text-xl font-bold select-none shrink-0"
-                  aria-label="Increase consumption by 0.1"
-                >
-                  +
-                </button>
-              </div>
-
-              {/* Custom Model Name Banner (if editing or customized) */}
-              {isCustomConsumption && (
-                <div>
-                  {isEditingModel ? (
-                    <div className="flex items-center space-x-2 p-2 bg-surface-overlay border border-brand-primary rounded-lg text-caption animate-fade-in">
-                      <Car size={15} className="text-brand-primary shrink-0" />
-                      <input
-                        type="text"
-                        value={tempModelName}
-                        onChange={e => setTempModelName(e.target.value)}
-                        placeholder={language === 'zh' ? '输入自定义车型备注，例如: Proton e.MAS 7 试驾版' : 'e.g. Proton e.MAS 7 Test Drive'}
-                        className="flex-1 bg-transparent text-text-primary outline-none text-caption"
-                        autoFocus
-                        onKeyDown={e => {
-                          if (e.key === 'Enter') {
-                            if (tempModelName.trim()) setModelName(tempModelName.trim());
-                            setIsEditingModel(false);
-                          }
-                        }}
-                      />
-                      <button
-                        type="button"
-                        onClick={() => {
-                          if (tempModelName.trim()) setModelName(tempModelName.trim());
-                          setIsEditingModel(false);
-                        }}
-                        className="px-2.5 py-1 bg-brand-primary text-text-inverse rounded font-medium text-[11px] hover:opacity-90 active:scale-95 transition-all whitespace-nowrap"
-                      >
-                        {language === 'zh' ? '保存' : 'Save'}
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setIsEditingModel(false)}
-                        className="p-1 text-text-secondary hover:text-text-primary active:scale-95 transition-all"
-                        aria-label="Cancel"
-                      >
-                        <X size={14} />
-                      </button>
-                    </div>
-                  ) : (
-                    <div className="flex items-center justify-between p-2 bg-brand-primary/10 border border-brand-primary/30 rounded-lg text-caption text-text-primary gap-2 animate-fade-in">
-                      <div className="flex items-center space-x-2 truncate">
-                        <Car size={14} className="text-brand-primary shrink-0" />
-                        <span className="truncate text-text-secondary text-[11px]">
-                          {language === 'zh' ? (
-                            <>车型备注：<strong className="text-text-primary font-semibold">{modelName}</strong></>
-                          ) : (
-                            <>Model: <strong className="text-text-primary font-semibold">{modelName}</strong></>
-                          )}
-                        </span>
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setTempModelName(modelName);
-                          setIsEditingModel(true);
-                        }}
-                        className="px-2 py-0.5 bg-surface-overlay border border-border-subtle hover:border-brand-primary text-text-primary rounded font-medium shrink-0 hover:text-brand-primary active:scale-95 transition-all text-[11px] whitespace-nowrap flex items-center space-x-1"
-                      >
-                        <Pencil size={11} />
-                        <span>{language === 'zh' ? '修改' : 'Edit'}</span>
-                      </button>
-                    </div>
-                  )}
-                </div>
-              )}
-
-              {/* Vehicle Preset Selector Button (Opens Bottom Sheet) */}
-              <div className="pt-1">
-                <button
-                  type="button"
-                  onClick={() => setIsVehiclePickerOpen(true)}
-                  className="w-full p-3 rounded-xl bg-surface-overlay border border-border-subtle hover:border-brand-primary active:scale-[0.99] transition-all flex items-center justify-between text-left group"
-                >
-                  <div className="flex items-center space-x-3 min-w-0">
-                    <div className="w-9 h-9 rounded-lg bg-brand-primary/10 text-brand-primary flex items-center justify-center shrink-0">
-                      <Zap size={18} />
-                    </div>
-                    <div className="min-w-0">
-                      <div className="text-body font-semibold text-text-primary truncate">
-                        {modelName}
-                      </div>
-                      <div className="text-caption text-text-secondary truncate">
-                        {currentPreset
-                          ? `${currentPreset.consumption} kWh/100km, ${currentPreset.motorKw} kW, ${currentPreset.batteryKwh} kWh 电池`
-                          : (language === 'zh' ? '自定义车型参数' : 'Custom Specs')}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex items-center space-x-1 text-brand-primary text-caption font-semibold shrink-0 ml-2">
-                    <span>{language === 'zh' ? '换车' : 'Change'}</span>
-                    <ChevronRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
-                  </div>
-                </button>
-              </div>
-            </section>
-
-            {/* Section 2: Charging Setup */}
-            <section className="bg-surface-base border border-border-subtle rounded-2xl p-4 sm:p-5 space-y-2.5 shadow-xs">
-              <span className="text-body font-semibold text-text-primary block">
-                {txt.chargingSetupTitle}
-              </span>
-              <div className="grid grid-cols-2 gap-2">
-                <button
-                  type="button"
-                  onClick={() => setMode('landed')}
-                  className={`p-3 rounded-xl border text-left flex flex-col justify-between transition-all ${
-                    mode !== 'condo'
-                      ? 'bg-brand-primary/10 border-brand-primary text-text-primary shadow-xs'
-                      : 'bg-surface-overlay border-border-subtle text-text-secondary hover:text-text-primary'
-                  }`}
-                >
-                  <div className="flex items-center space-x-2">
-                    <Home size={16} className={mode !== 'condo' ? 'text-brand-primary' : 'text-text-secondary'} />
-                    <span className="font-semibold text-caption sm:text-body">{txt.setupLanded}</span>
-                  </div>
-                  <span className="text-caption text-text-secondary mt-1 truncate block">
-                    {language === 'zh' ? '排屋 (TNB 家充阶梯电价)' : 'Home AC (Domestic Tariff)'}
-                  </span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => setMode('condo')}
-                  className={`p-3 rounded-xl border text-left flex flex-col justify-between transition-all ${
-                    mode === 'condo'
-                      ? 'bg-brand-primary/10 border-brand-primary text-text-primary shadow-xs'
-                      : 'bg-surface-overlay border-border-subtle text-text-secondary hover:text-text-primary'
-                  }`}
-                >
-                  <div className="flex items-center space-x-2">
-                    <Building2 size={16} className={mode === 'condo' ? 'text-brand-primary' : 'text-text-secondary'} />
-                    <span className="font-semibold text-caption sm:text-body">{txt.setupCondo}</span>
-                  </div>
-                  <span className="text-caption text-text-secondary mt-1 truncate block">
-                    {language === 'zh' ? '公寓 (商业直流快充)' : 'Public DC (Fast Charging)'}
-                  </span>
-                </button>
-              </div>
-            </section>
-
-            {/* Section 3: Monthly Mileage */}
-            <section className="bg-surface-base border border-border-subtle rounded-2xl p-4 sm:p-5 space-y-2 shadow-xs">
-              <div className="flex justify-between items-center">
-                <span className="text-body font-semibold text-text-primary">{txt.monthlyMileageTitle}</span>
-                <div className="flex items-baseline space-x-1">
-                  <input 
-                    type="number" 
-                    value={mileage}
-                    onChange={e => setMileage(Math.max(0, Number(e.target.value)))}
-                    className="bg-transparent text-xl sm:text-2xl font-display font-bold tabular-nums text-text-primary w-20 text-right outline-none"
-                  />
-                  <span className="text-caption text-text-secondary font-medium">{txt.mileageUnit}</span>
-                </div>
-              </div>
-              <div className="flex space-x-1.5 pt-0.5">
-                {[800, 1200, 1500, 2000].map(m => (
-                  <button
-                    key={m}
-                    type="button"
-                    onClick={() => setMileage(m)}
-                    className={`flex-1 py-1.5 px-2 text-caption rounded-lg border font-medium transition-colors text-center ${
-                      mileage === m
-                        ? 'bg-brand-primary text-text-inverse border-brand-primary font-bold shadow-xs'
-                        : 'bg-surface-overlay border-border-subtle text-text-secondary hover:text-text-primary'
-                    }`}
-                  >
-                    {m} km
-                  </button>
-                ))}
-              </div>
-            </section>
-
-            {/* Section 4: Home Electricity */}
-            <section className="bg-surface-base border border-border-subtle rounded-2xl p-4 sm:p-5 space-y-2.5 shadow-xs">
-              <div className="flex justify-between items-center">
-                <div>
-                  <div className="text-body font-semibold text-text-primary">{txt.homeElectricityTitle}</div>
-                  <div className="text-[11px] text-text-secondary mt-0.5 font-mono">
-                    {homeDisplayMode === 'kwh'
-                      ? `(≈ RM ${currentTnbBill.totalAmount.toFixed(0)} / ${language === 'zh' ? '月' : 'mo'})`
-                      : `(≈ ${baselineKwh} kWh / ${language === 'zh' ? '月' : 'mo'})`}
-                  </div>
-                </div>
-
-                <div className="flex items-center space-x-2">
-                  <div className="flex items-baseline space-x-1">
-                    {homeDisplayMode === 'rm' && <span className="text-caption text-text-secondary font-semibold">RM</span>}
-                    {homeDisplayMode === 'kwh' ? (
-                      <input 
-                        type="number" 
-                        value={baselineKwh}
-                        onChange={e => setBaselineKwh(Math.max(0, Number(e.target.value)))}
-                        className="bg-transparent text-xl sm:text-2xl font-display font-bold tabular-nums text-text-primary w-20 text-right outline-none"
-                      />
-                    ) : (
-                      <input 
-                        type="number" 
-                        value={localRmValue}
-                        onChange={e => {
-                          setLocalRmValue(e.target.value);
-                          const val = parseFloat(e.target.value);
-                          if (!isNaN(val) && val >= 0) {
-                            setBaselineKwh(estimateKwhFromTnbBill(val));
-                          }
-                        }}
-                        className="bg-transparent text-xl sm:text-2xl font-display font-bold tabular-nums text-text-primary w-20 text-right outline-none"
-                      />
-                    )}
-                    {homeDisplayMode === 'kwh' && <span className="text-caption text-text-secondary font-medium">kWh</span>}
-                  </div>
-
-                  <button
-                    type="button"
-                    onClick={handleToggleDisplayMode}
-                    className="p-1.5 bg-surface-overlay border border-border-subtle rounded-md text-text-secondary hover:text-text-primary active:scale-95 transition-all"
-                    title={language === 'zh' ? '切换 kWh 与 RM 账单' : 'Toggle kWh / RM'}
-                  >
-                    <ArrowLeftRight size={13} />
-                  </button>
-                </div>
-              </div>
-
-              {/* Quick bill chips */}
-              <div className="flex space-x-1.5 pt-1">
-                {[
-                  { rm: 120, kwh: 380, label: 'RM 120' },
-                  { rm: 180, kwh: 501, label: 'RM 180' },
-                  { rm: 280, kwh: 680, label: 'RM 280' },
-                  { rm: 450, kwh: 920, label: 'RM 450' }
-                ].map(item => (
-                  <button
-                    key={item.rm}
-                    type="button"
-                    onClick={() => {
-                      setBaselineKwh(item.kwh);
-                      setLocalRmValue(item.rm.toString());
-                    }}
-                    className={`flex-1 py-1.5 px-1 text-caption rounded-lg border font-medium transition-colors text-center ${
-                      Math.abs(currentTnbBill.totalAmount - item.rm) < 30
-                        ? 'bg-brand-primary text-text-inverse border-brand-primary font-bold shadow-xs'
-                        : 'bg-surface-overlay border-border-subtle text-text-secondary hover:text-text-primary'
-                    }`}
-                  >
-                    {item.label}
-                  </button>
-                ))}
-              </div>
-            </section>
-
-            {/* Section 5: Current Petrol Spend */}
-            <section className="bg-surface-base border border-border-subtle rounded-2xl p-4 sm:p-5 space-y-2 shadow-xs">
-              <div className="flex justify-between items-center">
-                <div className="text-body font-semibold text-text-primary">{txt.monthlyPetrolTitle}</div>
-                <div className="flex items-baseline space-x-1">
-                  <span className="text-caption text-text-secondary font-semibold">RM</span>
-                  <input 
-                    type="number" 
-                    value={petrolRm}
-                    onChange={e => setPetrolRm(Math.max(0, Number(e.target.value)))}
-                    className="bg-transparent text-xl sm:text-2xl font-display font-bold tabular-nums text-text-primary w-20 text-right outline-none"
-                  />
-                </div>
-              </div>
-              <div className="flex space-x-1.5 pt-1">
-                {[150, 200, 300, 450].map(p => (
-                  <button
-                    key={p}
-                    type="button"
-                    onClick={() => setPetrolRm(p)}
-                    className={`flex-1 py-1.5 px-2 text-caption rounded-lg border font-medium transition-colors text-center ${
-                      petrolRm === p
-                        ? 'bg-brand-primary text-text-inverse border-brand-primary font-bold shadow-xs'
-                        : 'bg-surface-overlay border-border-subtle text-text-secondary hover:text-text-primary'
-                    }`}
-                  >
-                    RM {p}
-                  </button>
-                ))}
-              </div>
-            </section>
-          </div>
-        )}
-      </main>
-
-      {/* Sticky Bottom Bar (Constrained to app-container) */}
-      <div className="fixed bottom-0 left-0 right-0 z-40 bg-background-default/90 backdrop-blur-md border-t border-border-subtle px-4 py-3 pb-[calc(14px+env(safe-area-inset-bottom))]">
-        <div className="app-container flex justify-between items-center space-x-3">
-          <button
-            type="button"
-            onClick={() => setIsDrawerOpen(true)}
-            className="w-12 h-12 shrink-0 flex items-center justify-center bg-surface-overlay border border-border-subtle rounded-xl text-text-secondary hover:text-text-primary hover:border-brand-primary active:scale-95 transition-all shadow-xs"
-            aria-label={language === 'zh' ? '参数设置' : 'Settings'}
-          >
-            <Settings size={20} strokeWidth={1.75} />
-          </button>
-          <button
-            type="button"
-            onClick={onCalculate}
-            className="flex-1 h-12 bg-brand-primary text-text-inverse font-semibold rounded-xl px-5 flex justify-center items-center space-x-2 active:scale-[0.99] shadow-md hover:opacity-95 transition-all text-body"
-          >
-            <span>{txt.calculateBtn}</span>
-            <ChevronRight size={18} strokeWidth={2} />
-          </button>
+  const s = useCalculatorStore();
+  const zh = s.language === 'zh';
+  const [picker, setPicker] = useState(false);
+  const [billUnit, setBillUnit] = useState<'rm' | 'kwh'>('rm');
+  const bill = calculateTnbBill(s.baselineKwh);
+  return <div className="driving-app"><AppHeader />
+    <main id="main-content" className="decision-layout" tabIndex={-1}>
+      <div className="decision-intro">
+        <h1>{zh ? '算算每月用车开支' : 'Your monthly driving costs'}</h1>
+        <p>{zh ? '选一辆车，按你的里程与充电习惯来算。' : 'Choose a car. Use your own distance and charging routine.'}</p>
+        <div className="desktop-scenario">
+          <h2>{zh ? '当前方案' : 'Your scenario'}</h2>
+          <dl>
+            <div><dt><Car size={17} />{zh ? '车型' : 'Vehicle'}</dt><dd>{s.vehicleType === 'ev' ? s.modelName : s.iceModelName}</dd></div>
+            <div><dt><Gauge size={17} />{zh ? '每月里程' : 'Monthly distance'}</dt><dd>{s.mileage.toLocaleString()} km</dd></div>
+            <div><dt><SlidersHorizontal size={17} />{zh ? '计算方式' : 'Calculation'}</dt><dd>{s.vehicleType === 'ev' ? (zh ? '充电费与油费对比' : 'Charging vs petrol') : (zh ? '油费、路税与保养' : 'Fuel, tax and servicing')}</dd></div>
+          </dl>
+          <p>{zh ? '调整右侧输入，再查看完整费用报告。' : 'Adjust your inputs, then open the full cost report.'}</p>
         </div>
       </div>
-
-      <AdvancedDrawer isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} />
-      <VehiclePickerSheet
-        isOpen={isVehiclePickerOpen}
-        onClose={() => setIsVehiclePickerOpen(false)}
-        type="ev"
-        selectedId={selectedPresetId}
-        onSelectEv={(p) => {
-          setPreset(p.id);
-          setIsEditingModel(false);
-          setTempModelName(p.name);
-        }}
-        language={language}
-      />
-    </div>
-  );
+      <form className={`decision-form ${s.vehicleType}-form`} onSubmit={e => { e.preventDefault(); onCalculate(); }}>
+        <fieldset className="mode-switch"><legend>{zh ? '你在考虑哪种车？' : 'What kind of car are you considering?'}</legend>
+          <div className="segmented-control">{(['ev', 'ice'] as const).map(type => <button type="button" key={type} aria-pressed={s.vehicleType === type} onClick={() => s.setVehicleType(type)}>{type === 'ev' ? (zh ? '电车' : 'Electric car') : (zh ? '燃油车' : 'Petrol car')}</button>)}</div>
+        </fieldset>
+        {s.vehicleType === 'ice' ? <IceCockpitSection /> : <>
+          <section className="form-section vehicle-section"><h2>{zh ? '你在考虑哪辆车？' : 'Which car are you considering?'}</h2>
+            <VehicleSelection name={s.modelName} consumption={s.consumption} unit="kWh / 100 km" onChoose={() => setPicker(true)} />
+          </section>
+          <fieldset className="form-section charging-section"><legend>{zh ? '你通常在哪里充电？' : 'Where will you usually charge?'}</legend>
+            <div className="charging-options">{(['landed', 'condo'] as const).map(mode => <button type="button" key={mode} className="charging-option" aria-pressed={s.mode === mode} onClick={() => s.setMode(mode)}>
+              <span className="charging-title">{mode === 'landed' ? <Home size={20} /> : <Building2 size={20} />}<strong>{mode === 'landed' ? (zh ? '主要在家充' : 'Mostly at home') : (zh ? '公寓或公共充电站' : 'Condo or public chargers')}</strong>{s.mode === mode && <Check size={18} className="selected-check" />}</span>
+              <span>{mode === 'landed' ? (zh ? '使用家里的 TNB 电表。按 90% 家充、10% 公共充电计算。' : 'Use your household TNB meter. Assumes 90% at home and 10% at public chargers.') : (zh ? '没有家用充电桩。按全部使用公共充电站的收费计算。' : 'No home charger. Assumes all charging is billed at the public charger rate.')}</span>
+            </button>)}</div>
+            {s.mode === 'condo' && <NumberField label={zh ? '充电站收费' : 'Your charger rate'} unit="RM / kWh" value={s.advanced.publicDcRate} min={0.01} onChange={n => s.updateAdvanced({ publicDcRate: n })} hint={zh ? '以你常用充电站的收费为准。' : 'Use the rate shown at the charger you expect to use.'} />}
+          </fieldset>
+          <section className="form-section distance-section"><h2>{zh ? '每月大约开多远？' : 'How far do you drive each month?'}</h2>
+            <NumberField label={zh ? '每月里程' : 'Monthly distance'} unit="km" value={s.mileage} onChange={s.setMileage} />
+            <PresetChips values={[800, 1500, 2000]} value={s.mileage} onChange={s.setMileage} unit="km" />
+          </section>
+          <section className="form-section spending-section"><h2>{zh ? '目前每月花多少钱？' : 'What do you spend now?'}</h2>
+            <div className="bill-unit-row"><span>{zh ? '家庭用电，不含电车充电' : 'Household electricity, before the EV'}</span><div className="unit-switch">{(['rm', 'kwh'] as const).map(u => <button type="button" key={u} aria-pressed={billUnit === u} onClick={() => setBillUnit(u)}>{u === 'rm' ? 'RM' : 'kWh'}</button>)}</div></div>
+            <NumberField label={billUnit === 'rm' ? (zh ? '每月电费' : 'Monthly electricity bill') : (zh ? '每月用电量' : 'Monthly electricity use')} unit={billUnit === 'rm' ? 'RM' : 'kWh'} value={billUnit === 'rm' ? Number(bill.totalAmount.toFixed(2)) : s.baselineKwh} min={0.01} onChange={n => s.setBaselineKwh(billUnit === 'rm' ? estimateKwhFromTnbBill(n) : n)} hint={billUnit === 'rm' ? (zh ? `按现有电价模型估算为 ${s.baselineKwh.toFixed(0)} kWh。` : `Estimated as ${s.baselineKwh.toFixed(0)} kWh using the existing tariff model.`) : (zh ? `估算电费 RM ${bill.totalAmount.toFixed(2)}。` : `Estimated bill: RM ${bill.totalAmount.toFixed(2)}.`)} />
+            <NumberField label={zh ? '目前每月油费' : 'Current monthly petrol spending'} unit="RM" value={s.petrolRm} onChange={s.setPetrolRm} hint={zh ? '请输入与上方里程相对应的油费。' : 'Use petrol spending for the same monthly distance above.'} />
+          </section>
+          <Assumptions>
+            <label className="text-field">{zh ? '车型备注' : 'Car name'}<input value={s.modelName} onChange={e => s.setModelName(e.target.value)} /></label>
+            <NumberField label={zh ? '车辆电耗' : 'Vehicle consumption'} unit="kWh / 100 km" value={s.consumption} min={5} max={40} onChange={s.setConsumption} />
+            {s.mode === 'landed' && <NumberField label={zh ? '公共充电收费' : 'Public charger rate'} unit="RM / kWh" min={0.01} value={s.advanced.publicDcRate} onChange={n => s.updateAdvanced({ publicDcRate: n })} />}
+            <NumberField label={zh ? '燃油单价' : 'Petrol price assumption'} unit="RM / L" min={0.5} value={s.advanced.petrolPrice} onChange={n => s.updateAdvanced({ petrolPrice: n })} />
+            <NumberField label={zh ? '目前燃油车效率' : 'Current petrol car efficiency'} unit="km / L" min={1} value={s.advanced.fuelEconomy} onChange={n => s.updateAdvanced({ fuelEconomy: n })} />
+            <NumberField label={zh ? '燃油车排量' : 'Petrol engine size'} unit="cc" min={500} value={s.petrolEngineCc} onChange={s.setPetrolEngineCc} />
+            <label className="checkbox-field"><input type="checkbox" checked={s.advanced.touEnabled} onChange={e => s.updateAdvanced({ touEnabled: e.target.checked })} /><span>{zh ? '使用分时电价的非高峰充电' : 'Use off-peak charging (ToU)'}</span></label>
+            <p className="field-hint">{zh ? '仅在家庭已采用分时电价且你会在非高峰充电时启用。' : 'Enable only if your household is on ToU and you will charge off-peak.'}</p>
+            <p className="field-hint">{zh ? '现有模型固定增加 10% 充电损耗，并使用其内置电价与 AFA 假设。这不是实时电价报价。' : 'The existing model adds a fixed 10% charging overhead and uses its built-in tariff and AFA assumptions. This is not a live tariff quote.'}</p>
+          </Assumptions>
+        </>}
+        <div className="calculate-action"><button type="submit" className="primary-button">{zh ? '查看每月开支' : 'Show my monthly costs'}<ArrowRight size={20} /></button><p>{s.vehicleType === 'ev' ? (zh ? '比较能源开支，路税单独列出。车贷、保险与保养另计。' : 'Compares energy spending; road tax is separate. Loans, insurance and servicing are excluded.') : (zh ? '包含油费、路税与保养预算。车贷与保险另计。' : 'Includes fuel, road tax and your servicing budget. Loans and insurance are separate.')}</p></div>
+      </form>
+    </main>
+    <VehiclePickerSheet isOpen={picker} onClose={() => setPicker(false)} type="ev" selectedId={s.selectedPresetId} onSelectEv={p => s.setPreset(p.id)} language={s.language} />
+  </div>;
 }

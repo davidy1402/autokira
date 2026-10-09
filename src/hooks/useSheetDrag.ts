@@ -28,7 +28,7 @@ export function useSheetDrag({
   }, [isOpen]);
 
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
-    if (e.touches.length !== 1) return;
+    if (e.touches.length !== 1 || window.matchMedia('(min-width: 1100px)').matches) return;
     touchStartY.current = e.touches[0].clientY;
     touchStartTime.current = Date.now();
     currentDeltaY.current = 0;

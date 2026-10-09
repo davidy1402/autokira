@@ -1,40 +1,17 @@
-import { useState, useMemo, useEffect } from 'react';
-import { Copy, Check, Sparkles, Gauge, Receipt, GitCompare, Users, ChevronRight } from 'lucide-react';
+import { useState, useMemo } from 'react';
+import { Copy, Check, Gauge, Receipt, GitCompare, Users } from 'lucide-react';
+import { useDesktopDisclosure } from '../hooks/useDesktopDisclosure';
 import { useCalculatorStore } from '../stores/calculator.store';
 import { ICE_PRESETS } from '../data/icePresets';
 import { calculateIceMetrics } from '../utils/iceCostCalculator';
 import { RoadTripSplitterCard } from './RoadTripSplitterCard';
 import { ResultSheetModal } from './ResultSheetModal';
 
-function CountUp({ to, duration = 0.8 }: { to: number; duration?: number }) {
-  const [value, setValue] = useState(0);
-
-  useEffect(() => {
-    let start = 0;
-    const end = to;
-    if (start === end) return;
-    
-    let startTime: number;
-    
-    const step = (timestamp: number) => {
-      if (!startTime) startTime = timestamp;
-      const progress = Math.min((timestamp - startTime) / (duration * 1000), 1);
-      const easeProgress = 1 - Math.pow(1 - progress, 3);
-      setValue(start + easeProgress * (end - start));
-      if (progress < 1) {
-        window.requestAnimationFrame(step);
-      }
-    };
-    
-    window.requestAnimationFrame(step);
-  }, [to, duration]);
-
-  return <>{Math.round(value).toLocaleString()}</>;
-}
-
 export function IceResultsSection() {
   const store = useCalculatorStore();
+  const disclosureRef = useDesktopDisclosure();
   const [copied, setCopied] = useState(false);
+  const [copyError, setCopyError] = useState(false);
   const [activeSheet, setActiveSheet] = useState<'breakdown' | 'compare' | 'tank' | 'trip' | null>(null);
 
   // Active fuel price
@@ -140,219 +117,36 @@ export function IceResultsSection() {
       `Calculated via AutoKira`;
   };
 
-  const handleCopySummary = () => {
+  const handleCopySummary = async () => {
     try {
-      navigator.clipboard.writeText(generateReportText());
+      await navigator.clipboard.writeText(generateReportText());
+      setCopyError(false);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
-    } catch {}
+    } catch { setCopyError(true); }
   };
 
   return (
-    <div className="space-y-4">
-      {/* 1. Verdict Hero Card (Immediate Clarity) */}
-      <section className="bg-surface-base border border-border-subtle rounded-xl p-5 flex flex-col items-center shadow-xs">
-        <div className="text-caption text-text-secondary font-medium tracking-wide uppercase">
-          {store.language === 'zh' ? '每月实付养车纯开支' : 'Total Monthly Running Cost'}
-        </div>
-
-        <div className="my-1.5 text-display font-display font-bold tracking-tight leading-none text-text-primary whitespace-nowrap">
-          RM <CountUp to={monthlyRunningTotalA} />
-          <span className="text-body font-normal text-text-secondary ml-1">
-            {store.language === 'zh' ? '/ 月' : '/ mo'}
-          </span>
-        </div>
-
-        <div className="text-caption text-text-secondary font-mono mt-0.5 text-center">
-          {store.iceModelName} ({fuelGradeLabel.split(' ')[0]})
-        </div>
-
-        {/* 3 Key Metrics Row */}
-        <div className="grid grid-cols-3 w-full mt-4 pt-3.5 border-t border-border-subtle text-center gap-1 sm:gap-2">
-          <div>
-            <div className="text-caption text-text-secondary whitespace-nowrap">
-              {store.language === 'zh' ? '每公里油费' : 'Cost / km'}
-            </div>
-            <div className="text-body-lg font-display text-text-primary whitespace-nowrap font-semibold mt-0.5">
-              {resultA.fuelCostSenPerKm.toFixed(1)} sen
-            </div>
-            <div className="text-[11px] text-text-secondary mt-0.5 truncate">
-              {resultA.consumptionLPer100Km.toFixed(1)} L/100km
-            </div>
-          </div>
-
-          <div>
-            <div className="text-caption text-text-secondary whitespace-nowrap">
-              {store.language === 'zh' ? '每月行驶油费' : 'Monthly Fuel'}
-            </div>
-            <div className="text-body-lg font-display text-text-primary whitespace-nowrap font-semibold mt-0.5">
-              RM {resultA.monthlyFuelCostRm.toFixed(0)}
-            </div>
-            <div className="text-[11px] text-text-secondary mt-0.5 truncate">
-              {store.mileage} km
-            </div>
-          </div>
-
-          <div>
-            <div className="text-caption text-text-secondary font-medium whitespace-nowrap">
-              {store.language === 'zh' ? '5 年总花费' : '5-Yr Total'}
-            </div>
-            <div className="text-body-lg font-display font-bold text-brand-accent whitespace-nowrap mt-0.5">
-              RM {(resultA.fiveYearTotalCostRm / 1000).toFixed(1)}k
-            </div>
-            <div className="text-[11px] text-text-secondary mt-0.5 truncate">
-              {store.language === 'zh' ? '车价+油+税+保' : 'Price+Fuel+Tax+Svc'}
-            </div>
-          </div>
-        </div>
+    <div className="ice-results-grid">
+      <section className="monthly-conclusion"><p className="intro-context">{store.iceModelName} · {store.mileage.toLocaleString()} km</p>
+        <h1>{store.language === 'zh' ? `每月用车开支约 RM ${monthlyRunningTotalA.toFixed(2)}。` : `Allow about RM ${monthlyRunningTotalA.toFixed(2)} a month to run this car.`}</h1>
+        <p>{store.language === 'zh' ? '包括油费、路税与保养预算。不包含车贷、保险或停车费。' : 'Includes fuel, road tax and your servicing budget. Loans, insurance and parking are separate.'}</p>
       </section>
+      <section className="monthly-comparison"><h2>{store.language === 'zh' ? '每月开支组成' : 'Where the monthly cost goes'}</h2><dl className="cost-breakdown">
+        <div><dt>{store.language === 'zh' ? '油费' : 'Fuel'}</dt><dd>RM {resultA.monthlyFuelCostRm.toFixed(2)}</dd></div>
+        <div><dt>{store.language === 'zh' ? '路税（按月摊分）' : 'Road tax, spread monthly'}</dt><dd>RM {monthlyRoadTaxA.toFixed(2)}</dd></div>
+        <div><dt>{store.language === 'zh' ? '保养预算（按月摊分）' : 'Servicing, spread monthly'}</dt><dd>RM {monthlyMaintenanceA.toFixed(2)}</dd></div>
+      </dl><p className="field-hint">{store.language === 'zh' ? '路税与保养通常不是每月支付；这里按年预算摊分。' : 'Road tax and servicing are usually paid less often; these amounts spread the annual budget across 12 months.'}</p></section>
+      <section className="decision-factors"><h2>{store.language === 'zh' ? '哪些因素影响结果？' : 'What matters for your result?'}</h2><div><h3>{store.language === 'zh' ? '里程与油耗' : 'Distance and consumption'}</h3><p>{store.mileage.toLocaleString()} km × {resultA.consumptionLPer100Km.toFixed(1)} L / 100 km · RM {fuelPrice.toFixed(2)} / L</p></div><div><h3>{store.language === 'zh' ? '保养预算' : 'Your servicing budget'}</h3><p>{store.language === 'zh' ? `现按每年 RM ${resultA.annualMaintenanceRm.toFixed(2)} 计算，可在输入页修改。` : `Currently RM ${resultA.annualMaintenanceRm.toFixed(2)} per year. Adjust this on the input screen to match your car.`}</p></div></section>
+      <details ref={disclosureRef} className="result-details"><summary>{store.language === 'zh' ? '查看明细与其他工具' : 'Details and other tools'}</summary><div className="detail-links">
+        <button type="button" onClick={() => setActiveSheet('breakdown')}>{store.language === 'zh' ? '开支与车贷估算' : 'Cost breakdown and loan estimate'}<span>→</span></button>
+        <button type="button" onClick={() => setActiveSheet('compare')}>{store.language === 'zh' ? '与其他车型比较' : 'Compare another car'}<span>→</span></button>
+        <button type="button" onClick={() => setActiveSheet('tank')}>{store.language === 'zh' ? '油箱与续航' : 'Fuel tank and range'}<span>→</span></button>
+        <button type="button" onClick={() => setActiveSheet('trip')}>{store.language === 'zh' ? '分摊长途油费' : 'Split road trip costs'}<span>→</span></button>
+      </div></details>
+      <button type="button" className="secondary-button" onClick={handleCopySummary}>{copied ? <Check size={18} /> : <Copy size={18} />}{copied ? (store.language === 'zh' ? '已复制报告' : 'Report copied') : (store.language === 'zh' ? '复制报告' : 'Copy report')}</button>
 
-      {/* 2. Side-by-Side Quick Summary Bar */}
-      <section className="bg-surface-base border border-border-subtle rounded-xl p-4 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-xs">
-        <div className="flex items-center space-x-2.5 w-full sm:w-auto">
-          <div className="w-8 h-8 rounded-lg bg-brand-primary/10 flex items-center justify-center shrink-0">
-            <Sparkles size={16} className="text-brand-primary" strokeWidth={2} />
-          </div>
-          <div className="truncate">
-            <div className="text-caption font-semibold text-text-primary truncate">
-              {isIdentical
-                ? (store.language === 'zh' ? '与对比车型 5 年开销持平' : 'Equal 5-Year Total Cost')
-                : store.language === 'zh'
-                ? `${isAOverallCheaper ? store.iceModelName : carBPreset.name} 5 年更省`
-                : `${isAOverallCheaper ? store.iceModelName : carBPreset.name} Saves More`}
-            </div>
-            <div className="text-[11px] text-text-secondary truncate mt-0.5">
-              {isIdentical
-                ? (store.language === 'zh' ? `对比 ${carBPreset.name}` : `Compared with ${carBPreset.name}`)
-                : store.language === 'zh'
-                ? `比 ${isAOverallCheaper ? carBPreset.name : store.iceModelName} 5 年少付 RM ${Math.abs(fiveYearDiff).toLocaleString()}`
-                : `Saves RM ${Math.abs(fiveYearDiff).toLocaleString()} vs ${isAOverallCheaper ? carBPreset.name : store.iceModelName}`}
-            </div>
-          </div>
-        </div>
-
-        <button
-          type="button"
-          onClick={() => setActiveSheet('compare')}
-          className="w-full sm:w-auto px-3.5 py-1.5 bg-surface-overlay border border-border-subtle hover:border-brand-primary rounded-lg text-caption font-semibold text-text-primary active:scale-95 transition-all whitespace-nowrap shadow-xs"
-        >
-          {store.language === 'zh' ? '切换对比车型' : 'Change Car B'}
-        </button>
-      </section>
-
-      {/* 3. Deep Dive Hub: Bento Action Cards */}
-      <section className="space-y-2">
-        <div className="text-caption font-semibold text-text-secondary uppercase tracking-wider px-1">
-          {store.language === 'zh' ? '精算深度专题' : 'Detailed Analysis Hub'}
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-          {/* Tile 1: Monthly Running Breakdown */}
-          <div
-            onClick={() => setActiveSheet('breakdown')}
-            className="p-3.5 bg-surface-base border border-border-subtle hover:border-brand-primary rounded-xl cursor-pointer active:scale-[0.99] transition-all flex items-center justify-between shadow-xs group"
-          >
-            <div className="flex items-center space-x-3 truncate pr-2">
-              <div className="w-9 h-9 rounded-lg bg-surface-overlay border border-border-subtle flex items-center justify-center shrink-0 group-hover:border-brand-primary/60 transition-colors">
-                <Receipt size={17} className="text-brand-primary" strokeWidth={1.75} />
-              </div>
-              <div className="truncate">
-                <div className="text-body font-semibold text-text-primary truncate">
-                  {store.language === 'zh' ? '每月养车开支明细与车贷' : 'Monthly Cost Breakdown'}
-                </div>
-                <div className="text-[11px] text-text-secondary truncate mt-0.5">
-                  {store.language === 'zh'
-                    ? `油费 RM ${resultA.monthlyFuelCostRm.toFixed(0)} + 税保 RM ${(monthlyRoadTaxA + monthlyMaintenanceA).toFixed(0)}`
-                    : `Fuel RM ${resultA.monthlyFuelCostRm.toFixed(0)} + Tax/Svc RM ${(monthlyRoadTaxA + monthlyMaintenanceA).toFixed(0)}`}
-                </div>
-              </div>
-            </div>
-            <ChevronRight size={17} className="text-text-secondary group-hover:text-text-primary group-hover:translate-x-0.5 transition-all shrink-0" />
-          </div>
-
-          {/* Tile 2: Side-by-Side Comparison */}
-          <div
-            onClick={() => setActiveSheet('compare')}
-            className="p-3.5 bg-surface-base border border-border-subtle hover:border-brand-primary rounded-xl cursor-pointer active:scale-[0.99] transition-all flex items-center justify-between shadow-xs group"
-          >
-            <div className="flex items-center space-x-3 truncate pr-2">
-              <div className="w-9 h-9 rounded-lg bg-surface-overlay border border-border-subtle flex items-center justify-center shrink-0 group-hover:border-brand-primary/60 transition-colors">
-                <GitCompare size={17} className="text-brand-accent" strokeWidth={1.75} />
-              </div>
-              <div className="truncate">
-                <div className="text-body font-semibold text-text-primary truncate">
-                  {store.language === 'zh' ? '双车 5 年综合总支出对照' : '5-Year TCO Comparison'}
-                </div>
-                <div className="text-[11px] text-text-secondary truncate mt-0.5">
-                  {store.iceModelName} vs {carBPreset.name}
-                </div>
-              </div>
-            </div>
-            <ChevronRight size={17} className="text-text-secondary group-hover:text-text-primary group-hover:translate-x-0.5 transition-all shrink-0" />
-          </div>
-
-          {/* Tile 3: Tank Capacity & Range */}
-          <div
-            onClick={() => setActiveSheet('tank')}
-            className="p-3.5 bg-surface-base border border-border-subtle hover:border-brand-primary rounded-xl cursor-pointer active:scale-[0.99] transition-all flex items-center justify-between shadow-xs group"
-          >
-            <div className="flex items-center space-x-3 truncate pr-2">
-              <div className="w-9 h-9 rounded-lg bg-surface-overlay border border-border-subtle flex items-center justify-center shrink-0 group-hover:border-brand-primary/60 transition-colors">
-                <Gauge size={17} className="text-status-positive" strokeWidth={1.75} />
-              </div>
-              <div className="truncate">
-                <div className="text-body font-semibold text-text-primary truncate">
-                  {store.language === 'zh' ? '油箱容积与高速/市区续航' : 'Tank Capacity & Cruising'}
-                </div>
-                <div className="text-[11px] text-text-secondary truncate mt-0.5">
-                  {store.language === 'zh'
-                    ? `加满 RM ${resultA.fullTankCostRm.toFixed(0)}, 续航 ~${resultA.fullTankEstimatedRangeKm.toFixed(0)} km`
-                    : `Full tank RM ${resultA.fullTankCostRm.toFixed(0)}, ~${resultA.fullTankEstimatedRangeKm.toFixed(0)} km range`}
-                </div>
-              </div>
-            </div>
-            <ChevronRight size={17} className="text-text-secondary group-hover:text-text-primary group-hover:translate-x-0.5 transition-all shrink-0" />
-          </div>
-
-          {/* Tile 4: Road Trip AA Cost Splitter */}
-          <div
-            onClick={() => setActiveSheet('trip')}
-            className="p-3.5 bg-surface-base border border-border-subtle hover:border-brand-primary rounded-xl cursor-pointer active:scale-[0.99] transition-all flex items-center justify-between shadow-xs group"
-          >
-            <div className="flex items-center space-x-3 truncate pr-2">
-              <div className="w-9 h-9 rounded-lg bg-surface-overlay border border-border-subtle flex items-center justify-center shrink-0 group-hover:border-brand-primary/60 transition-colors">
-                <Users size={17} className="text-brand-primary" strokeWidth={1.75} />
-              </div>
-              <div className="truncate">
-                <div className="text-body font-semibold text-text-primary truncate">
-                  {store.language === 'zh' ? '长途出游油费 AA 分摊计算' : 'Road Trip AA Cost Splitter'}
-                </div>
-                <div className="text-[11px] text-text-secondary truncate mt-0.5">
-                  {store.language === 'zh' ? '5 条自驾路线，一键算人均' : '5 corridor presets + toll'}
-                </div>
-              </div>
-            </div>
-            <ChevronRight size={17} className="text-text-secondary group-hover:text-text-primary group-hover:translate-x-0.5 transition-all shrink-0" />
-          </div>
-        </div>
-      </section>
-
-      {/* 4. Bottom Action: Clean Copy Button (Zero WhatsApp spam) */}
-      <section className="pt-2">
-        <button
-          type="button"
-          onClick={handleCopySummary}
-          className="w-full py-3 px-4 bg-surface-base border border-border-subtle hover:border-brand-primary text-text-primary rounded-xl text-caption font-semibold active:scale-[0.99] transition-all flex items-center justify-center space-x-2 shadow-xs"
-        >
-          {copied ? <Check size={16} className="text-status-positive" /> : <Copy size={16} />}
-          <span>
-            {copied
-              ? (store.language === 'zh' ? '已复制燃油测算摘要' : 'Copied Report!')
-              : (store.language === 'zh' ? '复制完整燃油测算摘要' : 'Copy Petrol Summary Report')}
-          </span>
-        </button>
-      </section>
-
+      <p role="status" className="field-hint">{copyError ? (store.language === 'zh' ? '无法复制。请允许剪贴板访问后重试。' : 'Could not copy. Allow clipboard access and try again.') : ''}</p>
       {/* MODAL 1: Monthly Running Cost Breakdown */}
       <ResultSheetModal
         isOpen={activeSheet === 'breakdown'}
@@ -439,6 +233,7 @@ export function IceResultsSection() {
               {store.language === 'zh' ? '选择对比车型 B:' : 'Select Car B:'}
             </span>
             <select
+              aria-label={store.language === 'zh' ? '对比燃油车' : 'Comparison petrol car'}
               value={carBPreset.id}
               onChange={e => store.setIceCompareId(e.target.value)}
               className="bg-surface-base border border-border-subtle rounded-lg px-2.5 py-1 text-caption font-semibold text-text-primary outline-none cursor-pointer truncate max-w-[200px]"

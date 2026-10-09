@@ -1,0 +1,1106 @@
+{
+  "typography": [
+    {
+      "label": "zh EV input",
+      "lang": "zh-CN",
+      "scrollWidth": 320,
+      "textAdjust": "",
+      "theme": "light",
+      "type": [
+        {
+          "line": "32.5px",
+          "size": "26px",
+          "text": "算算每月用车开支"
+        },
+        {
+          "line": "25.2px",
+          "size": "18px",
+          "text": "你在考虑哪辆车？"
+        },
+        {
+          "line": "25.2px",
+          "size": "18px",
+          "text": "每月大约开多远？"
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "每月里程"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": "_r_1e_"
+        },
+        {
+          "line": "25.2px",
+          "size": "18px",
+          "text": "目前每月花多少钱？"
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "每月电费"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": "_r_1f_"
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "目前每月油费"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": "_r_1g_"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": ""
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "车辆电耗"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": "_r_1h_"
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "公共充电收费"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": "_r_1i_"
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "燃油单价"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": "_r_1j_"
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "目前燃油车效率"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": "_r_1k_"
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "燃油车排量"
+        }
+      ],
+      "width": 320
+    },
+    {
+      "label": "zh EV input",
+      "lang": "zh-CN",
+      "scrollWidth": 390,
+      "textAdjust": "",
+      "theme": "light",
+      "type": [
+        {
+          "line": "32.5px",
+          "size": "26px",
+          "text": "算算每月用车开支"
+        },
+        {
+          "line": "25.2px",
+          "size": "18px",
+          "text": "你在考虑哪辆车？"
+        },
+        {
+          "line": "25.2px",
+          "size": "18px",
+          "text": "每月大约开多远？"
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "每月里程"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": "_r_1e_"
+        },
+        {
+          "line": "25.2px",
+          "size": "18px",
+          "text": "目前每月花多少钱？"
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "每月电费"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": "_r_1f_"
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "目前每月油费"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": "_r_1g_"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": ""
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "车辆电耗"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": "_r_1h_"
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "公共充电收费"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": "_r_1i_"
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "燃油单价"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": "_r_1j_"
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "目前燃油车效率"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": "_r_1k_"
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "燃油车排量"
+        }
+      ],
+      "width": 390
+    },
+    {
+      "label": "zh EV input",
+      "lang": "zh-CN",
+      "scrollWidth": 393,
+      "textAdjust": "",
+      "theme": "light",
+      "type": [
+        {
+          "line": "32.5px",
+          "size": "26px",
+          "text": "算算每月用车开支"
+        },
+        {
+          "line": "25.2px",
+          "size": "18px",
+          "text": "你在考虑哪辆车？"
+        },
+        {
+          "line": "25.2px",
+          "size": "18px",
+          "text": "每月大约开多远？"
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "每月里程"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": "_r_1e_"
+        },
+        {
+          "line": "25.2px",
+          "size": "18px",
+          "text": "目前每月花多少钱？"
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "每月电费"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": "_r_1f_"
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "目前每月油费"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": "_r_1g_"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": ""
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "车辆电耗"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": "_r_1h_"
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "公共充电收费"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": "_r_1i_"
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "燃油单价"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": "_r_1j_"
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "目前燃油车效率"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": "_r_1k_"
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "燃油车排量"
+        }
+      ],
+      "width": 393
+    },
+    {
+      "label": "zh EV input",
+      "lang": "zh-CN",
+      "scrollWidth": 412,
+      "textAdjust": "",
+      "theme": "light",
+      "type": [
+        {
+          "line": "32.5px",
+          "size": "26px",
+          "text": "算算每月用车开支"
+        },
+        {
+          "line": "25.2px",
+          "size": "18px",
+          "text": "你在考虑哪辆车？"
+        },
+        {
+          "line": "25.2px",
+          "size": "18px",
+          "text": "每月大约开多远？"
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "每月里程"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": "_r_1e_"
+        },
+        {
+          "line": "25.2px",
+          "size": "18px",
+          "text": "目前每月花多少钱？"
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "每月电费"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": "_r_1f_"
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "目前每月油费"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": "_r_1g_"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": ""
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "车辆电耗"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": "_r_1h_"
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "公共充电收费"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": "_r_1i_"
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "燃油单价"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": "_r_1j_"
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "目前燃油车效率"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": "_r_1k_"
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "燃油车排量"
+        }
+      ],
+      "width": 412
+    },
+    {
+      "label": "zh EV input",
+      "lang": "zh-CN",
+      "scrollWidth": 430,
+      "textAdjust": "",
+      "theme": "light",
+      "type": [
+        {
+          "line": "32.5px",
+          "size": "26px",
+          "text": "算算每月用车开支"
+        },
+        {
+          "line": "25.2px",
+          "size": "18px",
+          "text": "你在考虑哪辆车？"
+        },
+        {
+          "line": "25.2px",
+          "size": "18px",
+          "text": "每月大约开多远？"
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "每月里程"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": "_r_1e_"
+        },
+        {
+          "line": "25.2px",
+          "size": "18px",
+          "text": "目前每月花多少钱？"
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "每月电费"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": "_r_1f_"
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "目前每月油费"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": "_r_1g_"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": ""
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "车辆电耗"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": "_r_1h_"
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "公共充电收费"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": "_r_1i_"
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "燃油单价"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": "_r_1j_"
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "目前燃油车效率"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": "_r_1k_"
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "燃油车排量"
+        }
+      ],
+      "width": 430
+    },
+    {
+      "label": "zh EV input",
+      "lang": "zh-CN",
+      "scrollWidth": 768,
+      "textAdjust": "",
+      "theme": "light",
+      "type": [
+        {
+          "line": "32.5px",
+          "size": "26px",
+          "text": "算算每月用车开支"
+        },
+        {
+          "line": "25.2px",
+          "size": "18px",
+          "text": "你在考虑哪辆车？"
+        },
+        {
+          "line": "25.2px",
+          "size": "18px",
+          "text": "每月大约开多远？"
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "每月里程"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": "_r_1e_"
+        },
+        {
+          "line": "25.2px",
+          "size": "18px",
+          "text": "目前每月花多少钱？"
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "每月电费"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": "_r_1f_"
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "目前每月油费"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": "_r_1g_"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": ""
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "车辆电耗"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": "_r_1h_"
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "公共充电收费"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": "_r_1i_"
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "燃油单价"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": "_r_1j_"
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "目前燃油车效率"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": "_r_1k_"
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "燃油车排量"
+        }
+      ],
+      "width": 768
+    },
+    {
+      "label": "zh EV input",
+      "lang": "zh-CN",
+      "scrollWidth": 1440,
+      "textAdjust": "",
+      "theme": "light",
+      "type": [
+        {
+          "line": "40px",
+          "size": "32px",
+          "text": "算算每月用车开支"
+        },
+        {
+          "line": "25.2px",
+          "size": "18px",
+          "text": "你在考虑哪辆车？"
+        },
+        {
+          "line": "25.2px",
+          "size": "18px",
+          "text": "每月大约开多远？"
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "每月里程"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": "_r_1e_"
+        },
+        {
+          "line": "25.2px",
+          "size": "18px",
+          "text": "目前每月花多少钱？"
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "每月电费"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": "_r_1f_"
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "目前每月油费"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": "_r_1g_"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": ""
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "车辆电耗"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": "_r_1h_"
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "公共充电收费"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": "_r_1i_"
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "燃油单价"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": "_r_1j_"
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "目前燃油车效率"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": "_r_1k_"
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "燃油车排量"
+        }
+      ],
+      "width": 1440
+    },
+    {
+      "label": "en picker 393",
+      "lang": "en",
+      "scrollWidth": 393,
+      "textAdjust": "",
+      "theme": "light",
+      "type": [
+        {
+          "line": "32.5px",
+          "size": "26px",
+          "text": "Your monthly driving costs"
+        },
+        {
+          "line": "25.2px",
+          "size": "18px",
+          "text": "Which car are you considering?"
+        },
+        {
+          "line": "25.2px",
+          "size": "18px",
+          "text": "How far do you drive each month?"
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "Monthly distance"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": "_r_1e_"
+        },
+        {
+          "line": "25.2px",
+          "size": "18px",
+          "text": "What do you spend now?"
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "Monthly electricity bill"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": "_r_1f_"
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "Current monthly petrol spending"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": "_r_1g_"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": ""
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "Vehicle consumption"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": "_r_1h_"
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "Public charger rate"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": "_r_1i_"
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "Petrol price assumption"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": "_r_1j_"
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "Current petrol car efficiency"
+        },
+        {
+          "line": "24px",
+          "size": "16px",
+          "text": "_r_1k_"
+        },
+        {
+          "line": "21px",
+          "size": "14px",
+          "text": "Petrol engine size"
+        }
+      ],
+      "width": 393
+    },
+    {
+      "label": "en EV result",
+      "titleSize": "28px",
+      "width": 393
+    },
+    {
+      "label": "en EV result",
+      "titleSize": "28px",
+      "width": 412
+    },
+    {
+      "label": "en EV result",
+      "titleSize": "28px",
+      "width": 768
+    },
+    {
+      "label": "en EV result",
+      "titleSize": "30px",
+      "width": 1440
+    }
+  ],
+  "layout": [
+    {
+      "label": "en EV result",
+      "lang": "en",
+      "scroll": 412,
+      "smallInputs": [],
+      "smallTargets": [],
+      "theme": "light",
+      "unlabelledInputs": [],
+      "width": 412
+    },
+    {
+      "label": "en EV result",
+      "lang": "en",
+      "scroll": 768,
+      "smallInputs": [],
+      "smallTargets": [],
+      "theme": "light",
+      "unlabelledInputs": [],
+      "width": 768
+    },
+    {
+      "label": "en EV result",
+      "lang": "en",
+      "scroll": 1440,
+      "smallInputs": [],
+      "smallTargets": [],
+      "theme": "light",
+      "unlabelledInputs": [],
+      "width": 1440
+    },
+    {
+      "label": "zh dark EV result",
+      "lang": "zh-CN",
+      "scroll": 393,
+      "smallInputs": [],
+      "smallTargets": [],
+      "theme": "dark",
+      "unlabelledInputs": [],
+      "width": 393
+    },
+    {
+      "label": "家庭电费与 TNB 明细 →",
+      "lang": "zh-CN",
+      "scroll": 393,
+      "smallInputs": [],
+      "smallTargets": [],
+      "theme": "dark",
+      "unlabelledInputs": [],
+      "width": 393
+    },
+    {
+      "label": "路税对比 →",
+      "lang": "zh-CN",
+      "scroll": 393,
+      "smallInputs": [],
+      "smallTargets": [],
+      "theme": "dark",
+      "unlabelledInputs": [],
+      "width": 393
+    },
+    {
+      "label": "与其他车型比较 →",
+      "lang": "zh-CN",
+      "scroll": 393,
+      "smallInputs": [],
+      "smallTargets": [],
+      "theme": "dark",
+      "unlabelledInputs": [],
+      "width": 393
+    },
+    {
+      "label": "分摊长途充电费 →",
+      "lang": "zh-CN",
+      "scroll": 393,
+      "smallInputs": [],
+      "smallTargets": [],
+      "theme": "dark",
+      "unlabelledInputs": [],
+      "width": 393
+    },
+    {
+      "label": "zh dark petrol input",
+      "lang": "zh-CN",
+      "scroll": 393,
+      "smallInputs": [],
+      "smallTargets": [],
+      "theme": "dark",
+      "unlabelledInputs": [],
+      "width": 393
+    },
+    {
+      "label": "zh dark petrol input",
+      "lang": "zh-CN",
+      "scroll": 412,
+      "smallInputs": [],
+      "smallTargets": [],
+      "theme": "dark",
+      "unlabelledInputs": [],
+      "width": 412
+    },
+    {
+      "label": "zh dark petrol input",
+      "lang": "zh-CN",
+      "scroll": 768,
+      "smallInputs": [],
+      "smallTargets": [],
+      "theme": "dark",
+      "unlabelledInputs": [],
+      "width": 768
+    },
+    {
+      "label": "zh dark petrol input",
+      "lang": "zh-CN",
+      "scroll": 1440,
+      "smallInputs": [],
+      "smallTargets": [],
+      "theme": "dark",
+      "unlabelledInputs": [],
+      "width": 1440
+    },
+    {
+      "label": "Cost breakdown and loan estimate →",
+      "lang": "en",
+      "scroll": 412,
+      "smallInputs": [],
+      "smallTargets": [],
+      "theme": "light",
+      "unlabelledInputs": [],
+      "width": 412
+    },
+    {
+      "label": "Compare another car →",
+      "lang": "en",
+      "scroll": 412,
+      "smallInputs": [],
+      "smallTargets": [],
+      "theme": "light",
+      "unlabelledInputs": [],
+      "width": 412
+    },
+    {
+      "label": "Fuel tank and range →",
+      "lang": "en",
+      "scroll": 412,
+      "smallInputs": [],
+      "smallTargets": [],
+      "theme": "light",
+      "unlabelledInputs": [],
+      "width": 412
+    },
+    {
+      "label": "Split road trip costs →",
+      "lang": "en",
+      "scroll": 412,
+      "smallInputs": [],
+      "smallTargets": [],
+      "theme": "light",
+      "unlabelledInputs": [],
+      "width": 412
+    },
+    {
+      "label": "en petrol result",
+      "lang": "en",
+      "scroll": 393,
+      "smallInputs": [],
+      "smallTargets": [],
+      "theme": "light",
+      "unlabelledInputs": [],
+      "width": 393
+    },
+    {
+      "label": "en petrol result",
+      "lang": "en",
+      "scroll": 412,
+      "smallInputs": [],
+      "smallTargets": [],
+      "theme": "light",
+      "unlabelledInputs": [],
+      "width": 412
+    },
+    {
+      "label": "en petrol result",
+      "lang": "en",
+      "scroll": 768,
+      "smallInputs": [],
+      "smallTargets": [],
+      "theme": "light",
+      "unlabelledInputs": [],
+      "width": 768
+    },
+    {
+      "label": "en petrol result",
+      "lang": "en",
+      "scroll": 1440,
+      "smallInputs": [],
+      "smallTargets": [],
+      "theme": "light",
+      "unlabelledInputs": [],
+      "width": 1440
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-CN" class="dark">
+<html lang="en" class="light">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png" />
@@ -9,12 +9,10 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="AutoKira" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-    <meta name="theme-color" content="#121417" />
-    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8fafc" />
-    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#121417" />
-    <title>AutoKira — Malaysia Driving & Trip Cost Intelligence</title>
-    <meta name="description" content="AutoKira: Smart EV, Petrol & Road Trip Cost Intelligence for Malaysia" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#f5f8f8" />
+    <title>AutoKira — Malaysia driving costs</title>
+    <meta name="description" content="AutoKira: Compare electric and petrol driving costs for your life in Malaysia" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="AutoKira" />
     <meta property="og:title" content="AutoKira — Malaysia EV & petrol cost calculator" />
@@ -25,16 +23,10 @@
     <meta name="twitter:title" content="AutoKira — Malaysia EV & petrol cost calculator" />
     <meta name="twitter:description" content="Compare EV and petrol driving costs using your own Malaysian driving and charging assumptions." />
     <meta name="twitter:image" content="https://davidy1402.github.io/autokira/pwa-512x512.png" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
     <script>
       try {
         var t = localStorage.getItem('theme');
-        if (t === 'light') {
+        if (t !== 'dark') {
           document.documentElement.classList.remove('dark');
           document.documentElement.classList.add('light');
         } else {

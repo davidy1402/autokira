@@ -1,0 +1,82 @@
+[
+  {
+    "label": "refinement 390 Chinese dark input",
+    "lang": "zh-CN",
+    "scroll": 390,
+    "smallInputs": [],
+    "smallTargets": [],
+    "theme": "dark",
+    "unlabelledInputs": [],
+    "width": 390
+  },
+  {
+    "label": "refinement 390 English dark input",
+    "lang": "en",
+    "scroll": 390,
+    "smallInputs": [],
+    "smallTargets": [],
+    "theme": "dark",
+    "unlabelledInputs": [],
+    "width": 390
+  },
+  {
+    "label": "refinement 390 English light input",
+    "lang": "en",
+    "scroll": 390,
+    "smallInputs": [],
+    "smallTargets": [],
+    "theme": "light",
+    "unlabelledInputs": [],
+    "width": 390
+  },
+  {
+    "label": "refinement 390 Chinese light input",
+    "lang": "zh-CN",
+    "scroll": 390,
+    "smallInputs": [],
+    "smallTargets": [],
+    "theme": "light",
+    "unlabelledInputs": [],
+    "width": 390
+  },
+  {
+    "label": "refinement 1440 Chinese light input",
+    "lang": "zh-CN",
+    "scroll": 1440,
+    "smallInputs": [],
+    "smallTargets": [],
+    "theme": "light",
+    "unlabelledInputs": [],
+    "width": 1440
+  },
+  {
+    "label": "refinement 1440 English light input",
+    "lang": "en",
+    "scroll": 1440,
+    "smallInputs": [],
+    "smallTargets": [],
+    "theme": "light",
+    "unlabelledInputs": [],
+    "width": 1440
+  },
+  {
+    "label": "refinement 1440 English dark input",
+    "lang": "en",
+    "scroll": 1440,
+    "smallInputs": [],
+    "smallTargets": [],
+    "theme": "dark",
+    "unlabelledInputs": [],
+    "width": 1440
+  },
+  {
+    "label": "refinement 1440 English dark result",
+    "lang": "en",
+    "scroll": 1440,
+    "smallInputs": [],
+    "smallTargets": [],
+    "theme": "dark",
+    "unlabelledInputs": [],
+    "width": 1440
+  }
+]

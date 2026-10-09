@@ -1,8 +1,9 @@
-import { useState } from 'react';
-import { X, Search, Check, Car, Zap } from 'lucide-react';
+import { useState, useId } from 'react';
+import { Search, Check, Car, Zap } from 'lucide-react';
 import { PRESETS } from '../data/presets';
 import { ICE_PRESETS, IceVehiclePreset } from '../data/icePresets';
 
+import { useModalFocus } from '../hooks/useModalFocus';
 import { useSheetDrag } from '../hooks/useSheetDrag';
 
 interface VehiclePickerSheetProps {
@@ -27,6 +28,8 @@ export function VehiclePickerSheet({
   const [searchQuery, setSearchQuery] = useState('');
   const { sheetRef, dragHandleProps } = useSheetDrag({ isOpen, onClose });
 
+  const titleId = useId();
+  useModalFocus(isOpen, sheetRef, onClose);
   if (!isOpen) return null;
 
   const isEv = type === 'ev';
@@ -45,19 +48,20 @@ export function VehiclePickerSheet({
     <>
       {/* Backdrop */}
       <div
-        className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm transition-opacity animate-fade-in"
+        className="fixed inset-0 z-50 bg-black/60 transition-opacity animate-fade-in"
         onClick={onClose}
       />
 
       {/* Sheet Content */}
       <div
         ref={sheetRef}
-        className="fixed bottom-0 left-0 right-0 z-50 bg-surface-raised border-t border-border-subtle rounded-t-2xl shadow-floating pb-[calc(16px+env(safe-area-inset-bottom))] max-h-[85vh] flex flex-col will-change-transform"
+        role="dialog" aria-modal="true" aria-labelledby={titleId} tabIndex={-1}
+        className="vehicle-dialog fixed bottom-0 left-0 right-0 z-50 bg-surface-raised border-t border-border-subtle rounded-t-2xl shadow-floating pb-[calc(16px+env(safe-area-inset-bottom))] max-h-[85vh] flex flex-col will-change-transform"
       >
         {/* Grab Handle (Swipe down to dismiss) */}
         <div
           {...dragHandleProps}
-          className="flex justify-center pt-3 pb-2 cursor-grab active:cursor-grabbing select-none"
+          className="sheet-grip flex justify-center pt-3 pb-2 cursor-grab active:cursor-grabbing select-none"
         >
           <div className="w-12 h-1.5 bg-border-strong rounded-full pointer-events-none" />
         </div>
@@ -73,7 +77,7 @@ export function VehiclePickerSheet({
             ) : (
               <Car size={18} className="text-brand-primary" />
             )}
-            <h3 className="text-body font-bold text-text-primary">
+            <h3 id={titleId} className="text-body font-bold text-text-primary">
               {language === 'zh'
                 ? (isEv ? '选择纯电车型预设' : '选择常用燃油车型')
                 : (isEv ? 'Select EV Model' : 'Select Petrol Model')}
@@ -82,10 +86,9 @@ export function VehiclePickerSheet({
           <button
             type="button"
             onClick={onClose}
-            className="w-8 h-8 flex items-center justify-center rounded-lg text-text-secondary hover:text-text-primary hover:bg-surface-overlay active:scale-95 transition-all pointer-events-auto"
-            aria-label="Close"
+            className="sheet-done pointer-events-auto"
           >
-            <X size={18} />
+            {language === 'zh' ? '完成' : 'Done'}
           </button>
         </div>
 
@@ -95,6 +98,7 @@ export function VehiclePickerSheet({
             <Search size={16} className="absolute left-3 text-text-secondary pointer-events-none" />
             <input
               type="text"
+              aria-label={language === 'zh' ? '搜索车型' : 'Search cars'}
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
               placeholder={language === 'zh' ? '搜索车型、品牌 (如 Myvi, BYD, City)' : 'Search model (e.g. Myvi, BYD, City)'}
@@ -139,7 +143,7 @@ export function VehiclePickerSheet({
                         )}
                       </div>
                       <div className="text-caption text-text-secondary font-mono mt-0.5">
-                        {preset.consumption} kWh/100km, {preset.motorKw} kW, {preset.batteryKwh} kWh 电池
+                        {preset.consumption} kWh/100km, {preset.motorKw} kW, {preset.batteryKwh} kWh {language === 'zh' ? '电池' : 'battery'}
                       </div>
                     </div>
                     {isSelected && (
@@ -178,7 +182,7 @@ export function VehiclePickerSheet({
                         <span className="text-body font-semibold text-text-primary truncate">
                           {preset.name}
                         </span>
-                        {preset.tag && (
+                        {language === 'zh' && preset.tag && (
                           <span className="px-1.5 py-0.5 rounded bg-brand-primary/10 text-brand-primary text-[10px] font-medium whitespace-nowrap">
                             {preset.tag}
                           </span>

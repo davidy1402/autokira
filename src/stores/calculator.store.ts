@@ -75,7 +75,7 @@ const getInitialTheme = (): 'dark' | 'light' => {
       if (saved === 'light' || saved === 'dark') return saved;
     } catch {}
   }
-  return 'dark';
+  return 'light';
 };
 
 const getInitialVehicleType = (): 'ev' | 'ice' => {
