@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { ArrowRight, Home, Building2, Check, Car, Gauge, SlidersHorizontal } from 'lucide-react';
 import { useCalculatorStore } from '../stores/calculator.store';
-import { calculateTnbBill, estimateKwhFromTnbBill } from '../utils/tnbTariff';
+import { calculateTnbBill } from '../utils/tnbTariff';
 import { VehiclePickerSheet } from '../components/VehiclePickerSheet';
 import { IceCockpitSection } from '../components/IceCockpitSection';
 import { AppHeader, Assumptions, NumberField, PresetChips, VehicleSelection } from '../components/DrivingForm';
@@ -12,6 +12,7 @@ export default function CockpitPage({ onCalculate = () => {} }: { onCalculate?: 
   const [picker, setPicker] = useState(false);
   const [billUnit, setBillUnit] = useState<'rm' | 'kwh'>('rm');
   const bill = calculateTnbBill(s.baselineKwh);
+  const billEstimateMismatch = s.baselineBillRm !== null && Math.abs(s.baselineBillRm - bill.totalAmount) > 0.1;
   return <div className="driving-app"><AppHeader />
     <main id="main-content" className="decision-layout" tabIndex={-1}>
       <div className="decision-intro">
@@ -48,7 +49,8 @@ export default function CockpitPage({ onCalculate = () => {} }: { onCalculate?: 
           </section>
           <section className="form-section spending-section"><h2>{zh ? '目前每月花多少钱？' : 'What do you spend now?'}</h2>
             <div className="bill-unit-row"><span>{zh ? '家庭用电，不含电车充电' : 'Household electricity, before the EV'}</span><div className="unit-switch">{(['rm', 'kwh'] as const).map(u => <button type="button" key={u} aria-pressed={billUnit === u} onClick={() => setBillUnit(u)}>{u === 'rm' ? 'RM' : 'kWh'}</button>)}</div></div>
-            <NumberField label={billUnit === 'rm' ? (zh ? '每月电费' : 'Monthly electricity bill') : (zh ? '每月用电量' : 'Monthly electricity use')} unit={billUnit === 'rm' ? 'RM' : 'kWh'} value={billUnit === 'rm' ? Number(bill.totalAmount.toFixed(2)) : s.baselineKwh} min={0.01} onChange={n => s.setBaselineKwh(billUnit === 'rm' ? estimateKwhFromTnbBill(n) : n)} hint={billUnit === 'rm' ? (zh ? `按现有电价模型估算为 ${s.baselineKwh.toFixed(0)} kWh。` : `Estimated as ${s.baselineKwh.toFixed(0)} kWh using the existing tariff model.`) : (zh ? `估算电费 RM ${bill.totalAmount.toFixed(2)}。` : `Estimated bill: RM ${bill.totalAmount.toFixed(2)}.`)} />
+            <NumberField label={billUnit === 'rm' ? (zh ? '每月电费' : 'Monthly electricity bill') : (zh ? '每月用电量' : 'Monthly electricity use')} unit={billUnit === 'rm' ? 'RM' : 'kWh'} value={billUnit === 'rm' ? (s.baselineBillRm ?? bill.totalAmount) : s.baselineKwh} min={0.01} onChange={billUnit === 'rm' ? s.setBaselineBillRm : s.setBaselineKwh} hint={billUnit === 'rm' ? (zh ? `按现有电价模型估算为 ${s.baselineKwh.toFixed(1)} kWh。` : `Estimated as ${s.baselineKwh.toFixed(1)} kWh using the existing tariff model.`) : (zh ? `估算电费 RM ${bill.totalAmount.toFixed(2)}。` : `Estimated bill: RM ${bill.totalAmount.toFixed(2)}.`)} />
+            {billEstimateMismatch && <p className="field-hint" role="status">{zh ? `电价门槛或账单调整可能造成估算偏差：模型对应的电费为 RM ${bill.totalAmount.toFixed(2)}。你的输入金额已保留；请改用账单上的 kWh，以提高计算准确度。` : `Tariff thresholds or bill adjustments can cause an estimate mismatch: the model bill is RM ${bill.totalAmount.toFixed(2)}. Your entered amount is kept; use the kWh on your bill for a more accurate calculation.`}</p>}
             <NumberField label={zh ? '目前每月油费' : 'Current monthly petrol spending'} unit="RM" value={s.petrolRm} onChange={s.setPetrolRm} hint={zh ? '请输入与上方里程相对应的油费。' : 'Use petrol spending for the same monthly distance above.'} />
           </section>
           <Assumptions>
@@ -58,8 +60,7 @@ export default function CockpitPage({ onCalculate = () => {} }: { onCalculate?: 
             <NumberField label={zh ? '燃油单价' : 'Petrol price assumption'} unit="RM / L" min={0.5} value={s.advanced.petrolPrice} onChange={n => s.updateAdvanced({ petrolPrice: n })} />
             <NumberField label={zh ? '目前燃油车效率' : 'Current petrol car efficiency'} unit="km / L" min={1} value={s.advanced.fuelEconomy} onChange={n => s.updateAdvanced({ fuelEconomy: n })} />
             <NumberField label={zh ? '燃油车排量' : 'Petrol engine size'} unit="cc" min={500} value={s.petrolEngineCc} onChange={s.setPetrolEngineCc} />
-            <label className="checkbox-field"><input type="checkbox" checked={s.advanced.touEnabled} onChange={e => s.updateAdvanced({ touEnabled: e.target.checked })} /><span>{zh ? '使用分时电价的非高峰充电' : 'Use off-peak charging (ToU)'}</span></label>
-            <p className="field-hint">{zh ? '仅在家庭已采用分时电价且你会在非高峰充电时启用。' : 'Enable only if your household is on ToU and you will charge off-peak.'}</p>
+            <p className="field-hint">{zh ? '家庭电费按普通住宅电价估算，暂不支持 ToU 分时电价。' : 'Household bills use the general domestic tariff. ToU is not supported yet.'}</p>
             <p className="field-hint">{zh ? '现有模型固定增加 10% 充电损耗，并使用其内置电价与 AFA 假设。这不是实时电价报价。' : 'The existing model adds a fixed 10% charging overhead and uses its built-in tariff and AFA assumptions. This is not a live tariff quote.'}</p>
           </Assumptions>
         </>}

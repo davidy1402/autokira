@@ -35,7 +35,7 @@ export default function ResultsPage({ onBack = () => {} }: { onBack?: () => void
     homeChargingRatio: store.mode === 'condo' ? 0.0 : 0.9,
     publicDcPricePerKwh: store.advanced.publicDcRate,
     afaRateSen: 3.80,
-    isTouEnabled: store.advanced.touEnabled,
+    isTouEnabled: false,
     touOffPeakRateSen: 28.0
   }), [store]);
 
@@ -70,6 +70,7 @@ export default function ResultsPage({ onBack = () => {} }: { onBack?: () => void
       <AppHeader onBack={onBack} />
       <main id="main-content" tabIndex={-1} className="results-content ev-results">
         <MonthlyDecision result={resultA} />
+        {store.baselineBillRm !== null && Math.abs(store.baselineBillRm - resultA.baselineBill.totalAmount) > 0.1 && <p className="field-hint" role="status">{zh ? `本结果采用估算用电量 ${store.baselineKwh.toFixed(1)} kWh。输入电费为 RM ${store.baselineBillRm.toFixed(2)}，模型电费为 RM ${resultA.baselineBill.totalAmount.toFixed(2)}；请使用账单上的 kWh，以提高准确度。` : `This result uses an estimated ${store.baselineKwh.toFixed(1)} kWh. Your entered bill is RM ${store.baselineBillRm.toFixed(2)}; the model bill is RM ${resultA.baselineBill.totalAmount.toFixed(2)}. Use the kWh on your bill for a more accurate result.`}</p>}
         <details ref={disclosureRef} className="result-details"><summary>{zh ? '查看明细与其他工具' : 'Details and other tools'}</summary>
           <h3>{zh ? '保持相同用车习惯' : 'If your routine stays the same'}</h3>
           <dl className="cost-breakdown projection-breakdown">

@@ -5,6 +5,7 @@ import { ICE_PRESETS, IceVehiclePreset } from '../data/icePresets';
 
 import { useModalFocus } from '../hooks/useModalFocus';
 import { useSheetDrag } from '../hooks/useSheetDrag';
+import { ModalLayer } from './ModalLayer';
 
 interface VehiclePickerSheetProps {
   isOpen: boolean;
@@ -45,10 +46,10 @@ export function VehiclePickerSheet({
   );
 
   return (
-    <>
+    <ModalLayer>
       {/* Backdrop */}
       <div
-        className="fixed inset-0 z-50 bg-black/60 transition-opacity animate-fade-in"
+        className="absolute inset-0 bg-black/60 transition-opacity animate-fade-in"
         onClick={onClose}
       />
 
@@ -56,12 +57,12 @@ export function VehiclePickerSheet({
       <div
         ref={sheetRef}
         role="dialog" aria-modal="true" aria-labelledby={titleId} tabIndex={-1}
-        className="vehicle-dialog fixed bottom-0 left-0 right-0 z-50 bg-surface-raised border-t border-border-subtle rounded-t-2xl shadow-floating pb-[calc(16px+env(safe-area-inset-bottom))] max-h-[85vh] flex flex-col will-change-transform"
+        className="vehicle-dialog desktop-dialog relative w-full mx-auto z-10 bg-surface-raised border-t border-border-subtle rounded-t-2xl shadow-floating pb-[calc(16px+env(safe-area-inset-bottom))] flex flex-col"
       >
         {/* Grab Handle (Swipe down to dismiss) */}
         <div
           {...dragHandleProps}
-          className="sheet-grip flex justify-center pt-3 pb-2 cursor-grab active:cursor-grabbing select-none"
+          className="sheet-grip shrink-0 flex justify-center pt-3 pb-2 cursor-grab active:cursor-grabbing select-none"
         >
           <div className="w-12 h-1.5 bg-border-strong rounded-full pointer-events-none" />
         </div>
@@ -69,7 +70,7 @@ export function VehiclePickerSheet({
         {/* Header (Also draggable) */}
         <div
           {...dragHandleProps}
-          className="px-5 py-3 border-b border-border-subtle flex items-center justify-between select-none cursor-grab active:cursor-grabbing"
+          className="shrink-0 px-5 py-3 border-b border-border-subtle flex items-center justify-between select-none cursor-grab active:cursor-grabbing"
         >
           <div className="flex items-center space-x-2 pointer-events-none">
             {isEv ? (
@@ -93,7 +94,7 @@ export function VehiclePickerSheet({
         </div>
 
         {/* Search Bar */}
-        <div className="px-5 pt-3 pb-2">
+        <div className="shrink-0 px-5 pt-3 pb-2">
           <div className="relative flex items-center">
             <Search size={16} className="absolute left-3 text-text-secondary pointer-events-none" />
             <input
@@ -108,7 +109,7 @@ export function VehiclePickerSheet({
         </div>
 
         {/* List of Vehicles */}
-        <div className="flex-1 overflow-y-auto px-5 py-2 space-y-2 min-h-0">
+        <div className="flex-1 overflow-y-auto overscroll-contain px-5 py-2 space-y-2 min-h-0">
           {isEv ? (
             evFiltered.length === 0 ? (
               <div className="py-8 text-center text-caption text-text-secondary">
@@ -204,6 +205,6 @@ export function VehiclePickerSheet({
           )}
         </div>
       </div>
-    </>
+    </ModalLayer>
   );
 }

@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { PRESETS } from '../data/presets';
 import { ICE_PRESETS } from '../data/icePresets';
+import { estimateKwhFromTnbBill } from '../utils/tnbTariff';
 
 export interface CalculatorState {
   // Mode Switch
@@ -15,6 +16,7 @@ export interface CalculatorState {
   batteryKwh: number;
   mileage: number;
   baselineKwh: number;
+  baselineBillRm: number | null;
   petrolRm: number;
   petrolEngineCc: number;
   mode: 'landed' | 'condo';
@@ -48,6 +50,7 @@ export interface CalculatorState {
   setConsumption: (c: number) => void;
   setMileage: (m: number) => void;
   setBaselineKwh: (k: number) => void;
+  setBaselineBillRm: (rm: number) => void;
   setPetrolRm: (p: number) => void;
   setPetrolEngineCc: (cc: number) => void;
   setMode: (m: 'landed' | 'condo') => void;
@@ -116,6 +119,7 @@ export const useCalculatorStore = create<CalculatorState>((set) => ({
   batteryKwh: 49.52,
   mileage: 1477,
   baselineKwh: 501,
+  baselineBillRm: null,
   petrolRm: 210,
   petrolEngineCc: 1500,
   mode: 'landed',
@@ -159,7 +163,8 @@ export const useCalculatorStore = create<CalculatorState>((set) => ({
   setModelName: (name) => set({ modelName: name }),
   setConsumption: (c) => set({ consumption: c }),
   setMileage: (m) => set({ mileage: m }),
-  setBaselineKwh: (k) => set({ baselineKwh: k }),
+  setBaselineKwh: (k) => set({ baselineKwh: k, baselineBillRm: null }),
+  setBaselineBillRm: (rm) => set({ baselineBillRm: rm, baselineKwh: estimateKwhFromTnbBill(rm) }),
   setPetrolRm: (p) => set({ petrolRm: p }),
   setPetrolEngineCc: (cc) => set({ petrolEngineCc: cc }),
   setMode: (m) => set({ mode: m }),
@@ -203,4 +208,3 @@ export const useCalculatorStore = create<CalculatorState>((set) => ({
   updateAdvanced: (updates) =>
     set((state) => ({ advanced: { ...state.advanced, ...updates } })),
 }));
-
