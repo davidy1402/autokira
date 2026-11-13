@@ -184,7 +184,7 @@ export const useCalculatorStore = create<CalculatorState>((set) => ({
   setIcePreset: (presetId: string) => {
     const preset = ICE_PRESETS.find((p) => p.id === presetId);
     if (preset) {
-      set({
+      set((state) => ({
         selectedIcePresetId: preset.id,
         iceModelName: preset.name,
         iceEstimateBasis: '',
@@ -192,8 +192,9 @@ export const useCalculatorStore = create<CalculatorState>((set) => ({
         iceEngineCc: preset.engineCc,
         icePriceRm: preset.priceRm,
         iceTankLiters: preset.fuelTankLiters,
-        iceAnnualMaintenanceRm: preset.annualMaintenanceEstRm
-      });
+        iceAnnualMaintenanceRm: preset.annualMaintenanceEstRm,
+        iceFuelType: preset.fuelType === 'diesel' ? 'diesel' : (state.iceFuelType === 'diesel' ? 'budi_madani' : state.iceFuelType)
+      }));
     }
   },
   setIceModelName: (name) => set({ iceModelName: name }),

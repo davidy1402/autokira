@@ -51,31 +51,73 @@ export function AppHeader({ onBack }: { onBack?: () => void }) {
   const { language, setLanguage, theme, setTheme } = useCalculatorStore();
   const zh = language === 'zh';
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [closing, setClosing] = useState(false);
   const settingsRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const panelId = useId();
+
+  const closeSettings = () => {
+    setClosing(true);
+  };
+
   useEffect(() => {
     if (!settingsOpen) return;
     const onPointerDown = (event: PointerEvent) => {
-      if (event.target instanceof Node && !settingsRef.current?.contains(event.target)) setSettingsOpen(false);
+      if (event.target instanceof Node && !settingsRef.current?.contains(event.target)) closeSettings();
     };
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') { setSettingsOpen(false); triggerRef.current?.focus(); }
+      if (event.key === 'Escape') { closeSettings(); triggerRef.current?.focus(); }
     };
     document.addEventListener('pointerdown', onPointerDown);
     document.addEventListener('keydown', onKeyDown);
     return () => { document.removeEventListener('pointerdown', onPointerDown); document.removeEventListener('keydown', onKeyDown); };
   }, [settingsOpen]);
+
+  const handleToggle = () => {
+    if (settingsOpen) {
+      closeSettings();
+    } else {
+      setClosing(false);
+      setSettingsOpen(true);
+    }
+  };
+
+  const handlePanelAnimationEnd = () => {
+    if (closing) {
+      setSettingsOpen(false);
+      setClosing(false);
+    }
+  };
+
   return <header className="product-header"><div className="header-inner">
     <a className="skip-link" href="#main-content">{zh ? '跳至主要内容' : 'Skip to content'}</a>
     <div className="brand"><img className="brand-symbol" src="./brand/autokira-refined/mark.svg" alt="" aria-hidden="true" /><span className="brand-text"><span className="wordmark" role="img" aria-label="AutoKira">Auto<span className="brand-kira">Kira</span></span><span className="brand-location">{zh ? '马来西亚用车成本' : 'Car costs in Malaysia'}</span></span></div>
     <span className="desktop-header-label">{zh ? '用车成本计算器' : 'Driving cost calculator'}</span>
-    <div className="header-actions settings-wrap" ref={settingsRef} onBlur={event => { if (!(event.relatedTarget instanceof Node) || !event.currentTarget.contains(event.relatedTarget)) setSettingsOpen(false); }}>
-      <button ref={triggerRef} className="settings-trigger" type="button" aria-label={zh ? '设置' : 'Settings'} aria-expanded={settingsOpen} aria-controls={panelId} onClick={() => setSettingsOpen(open => !open)}><Settings size={19} aria-hidden="true" /></button>
-      {settingsOpen && <div id={panelId} className="settings-panel" role="group" aria-label={zh ? '设置' : 'Settings'}>
-        <button type="button" onClick={() => setLanguage(zh ? 'en' : 'zh')} aria-label={zh ? '切换语言至英语' : 'Switch language to Chinese'}><Languages size={19} aria-hidden="true" /><span>{zh ? '语言' : 'Language'}</span><strong>{zh ? 'English' : '中文'}</strong></button>
-        <button type="button" onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')} aria-label={zh ? (theme === 'light' ? '切换深色模式' : '切换浅色模式') : (theme === 'light' ? 'Use dark mode' : 'Use light mode')}>{theme === 'light' ? <Moon size={19} aria-hidden="true" /> : <Sun size={19} aria-hidden="true" />}<span>{zh ? '外观' : 'Appearance'}</span><strong>{theme === 'light' ? (zh ? '切换深色' : 'Use dark') : (zh ? '切换浅色' : 'Use light')}</strong></button>
-      </div>}
+    <div className="header-actions settings-wrap" ref={settingsRef} onBlur={event => { if (!(event.relatedTarget instanceof Node) || !event.currentTarget.contains(event.relatedTarget)) closeSettings(); }}>
+      <button
+        ref={triggerRef}
+        className="settings-trigger"
+        type="button"
+        aria-label={zh ? '设置' : 'Settings'}
+        aria-expanded={settingsOpen && !closing}
+        aria-controls={panelId}
+        onClick={handleToggle}
+        data-open={settingsOpen && !closing ? '' : undefined}
+      >
+        <Settings size={19} className="settings-icon" aria-hidden="true" />
+      </button>
+      {settingsOpen && (
+        <div
+          id={panelId}
+          className={`settings-panel${closing ? ' settings-panel--closing' : ''}`}
+          role="group"
+          aria-label={zh ? '设置' : 'Settings'}
+          onAnimationEnd={handlePanelAnimationEnd}
+        >
+          <button type="button" onClick={() => setLanguage(zh ? 'en' : 'zh')} aria-label={zh ? '切换语言至英语' : 'Switch language to Chinese'}><Languages size={19} aria-hidden="true" /><span>{zh ? '语言' : 'Language'}</span><strong>{zh ? 'English' : '中文'}</strong></button>
+          <button type="button" onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')} aria-label={zh ? (theme === 'light' ? '切换深色模式' : '切换浅色模式') : (theme === 'light' ? 'Use dark mode' : 'Use light mode')}>{theme === 'light' ? <Moon size={19} aria-hidden="true" /> : <Sun size={19} aria-hidden="true" />}<span>{zh ? '外观' : 'Appearance'}</span><strong>{theme === 'light' ? (zh ? '切换深色' : 'Use dark') : (zh ? '切换浅色' : 'Use light')}</strong></button>
+        </div>
+      )}
     </div>
   </div>{onBack && <div className="header-inner"><button className="back-link" type="button" onClick={onBack}><ArrowLeft size={18} aria-hidden="true" />{zh ? '修改输入' : 'Edit inputs'}</button></div>}</header>;
 }

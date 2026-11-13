@@ -39,11 +39,15 @@ export function VehiclePickerSheet({
 
   const isEv = type === 'ev';
 
-  const evFiltered = PRESETS.filter(p => matchesVehicle(searchQuery, p.name));
+  const evFiltered = PRESETS.filter(p => matchesVehicle(searchQuery, p.name, p.brand, p.tag));
   const iceFiltered = ICE_PRESETS.filter(p => matchesVehicle(searchQuery, p.name, p.brand, p.tag));
   const catalogMatches = !estimateFor && searchQuery.trim().length >= 2
     ? jpjCatalog.vehicles.filter(car => (isEv ? car.kind === 'ev' : car.kind === 'ice' || car.kind === 'diesel') && matchesVehicle(searchQuery, car.maker, car.model)).slice(0, 30)
     : [];
+
+  const catalogYearsLabel = ('years' in jpjCatalog && Array.isArray((jpjCatalog as { years?: number[] }).years))
+    ? `${(jpjCatalog as { years: number[] }).years[0]}–${(jpjCatalog as { years: number[] }).years[(jpjCatalog as { years: number[] }).years.length - 1]}`
+    : String(jpjCatalog.year);
 
   return (
     <ModalLayer>
@@ -102,7 +106,7 @@ export function VehiclePickerSheet({
               aria-label={language === 'zh' ? '搜索车型' : 'Search cars'}
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
-              placeholder={language === 'zh' ? '搜索车型或品牌，例如 Myvi、迈威' : 'Search model or brand, e.g. Myvi'}
+              placeholder={language === 'zh' ? '搜索车型或品牌，例如 Myvi、迈威、Hilux' : 'Search model or brand, e.g. Myvi, Hilux'}
               className="w-full pl-9 pr-4 py-2 bg-surface-overlay border border-border-subtle rounded-xl text-caption text-text-primary placeholder:text-text-secondary outline-none focus:border-brand-primary transition-all"
             />
           </div>
@@ -142,9 +146,14 @@ export function VehiclePickerSheet({
                         <span className="text-body font-semibold text-text-primary break-words">
                           {preset.name}
                         </span>
+                        {language === 'zh' && preset.tag && (
+                          <span className="px-1.5 py-0.5 rounded bg-brand-primary/10 text-brand-primary text-[10px] font-medium whitespace-nowrap">
+                            {preset.tag}
+                          </span>
+                        )}
                       </div>
                       <div className="text-caption text-text-secondary font-mono mt-0.5">
-                        {preset.consumption} kWh/100km, {preset.motorKw} kW, {preset.batteryKwh} kWh {language === 'zh' ? '电池' : 'battery'}
+                        {preset.consumption} kWh/100km, {preset.motorKw} kW, {preset.batteryKwh} kWh {language === 'zh' ? '电池' : 'battery'} · {preset.range} km WLTP
                       </div>
                     </div>
                     {isSelected && (
@@ -184,6 +193,16 @@ export function VehiclePickerSheet({
                         <span className="text-body font-semibold text-text-primary break-words">
                           {preset.name}
                         </span>
+                        {preset.fuelType === 'diesel' && (
+                          <span className="px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-600 dark:text-amber-400 text-[10px] font-medium whitespace-nowrap">
+                            {language === 'zh' ? '柴油' : 'Diesel'}
+                          </span>
+                        )}
+                        {preset.fuelType === 'hybrid' && (
+                          <span className="px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-[10px] font-medium whitespace-nowrap">
+                            {language === 'zh' ? '油电混动' : 'Hybrid'}
+                          </span>
+                        )}
                         {language === 'zh' && preset.tag && (
                           <span className="px-1.5 py-0.5 rounded bg-brand-primary/10 text-brand-primary text-[10px] font-medium whitespace-nowrap">
                             {preset.tag}
@@ -191,7 +210,7 @@ export function VehiclePickerSheet({
                         )}
                       </div>
                       <div className="text-caption text-text-secondary font-mono mt-0.5">
-                        {preset.consumptionLPer100Km} L/100km, {preset.engineCc}cc
+                        {preset.consumptionLPer100Km} L/100km, {preset.engineCc}cc{preset.fuelType === 'diesel' ? (language === 'zh' ? ' (Euro 5 柴油)' : ' (Euro 5 Diesel)') : ''}
                       </div>
                     </div>
                     {isSelected && (
@@ -207,10 +226,28 @@ export function VehiclePickerSheet({
           {catalogMatches.length > 0 && <div className="pt-4">
             <p className="text-caption text-text-secondary">{language === 'zh' ? 'JPJ 登记车型：没有油耗或电耗规格' : 'JPJ registered models: consumption data unavailable'}</p>
             {catalogMatches.map(car => <div key={`${car.maker}-${car.model}-${car.kind}`} className="mt-2 p-3 rounded-xl border border-border-subtle bg-surface-overlay">
-              <div className="text-body font-semibold text-text-primary">{car.maker} {car.model}{car.kind === 'diesel' ? ' (Diesel)' : ''}</div>
-              {car.kind === 'diesel' ? <p className="text-caption text-text-secondary">{language === 'zh' ? '尚无可用的柴油参考车型。' : 'A diesel reference car is not available yet.'}</p> : <button type="button" className="text-caption text-brand-primary mt-1" onClick={() => { setEstimateFor(`${car.maker} ${car.model}`); setSearchQuery(''); }}>{language === 'zh' ? '选择相似车型估算' : 'Choose a similar car for an estimate'}</button>}
+              <div className="flex items-center space-x-2">
+                <span className="text-body font-semibold text-text-primary">{car.maker} {car.model}</span>
+                {car.kind === 'diesel' && (
+                  <span className="px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-600 dark:text-amber-400 text-[10px] font-medium whitespace-nowrap">
+                    {language === 'zh' ? '柴油' : 'Diesel'}
+                  </span>
+                )}
+              </div>
+              <button
+                type="button"
+                className="text-caption text-brand-primary mt-1 block"
+                onClick={() => {
+                  setEstimateFor(`${car.maker} ${car.model}${car.kind === 'diesel' ? ' (Diesel)' : ''}`);
+                  setSearchQuery(car.kind === 'diesel' ? 'diesel' : '');
+                }}
+              >
+                {car.kind === 'diesel'
+                  ? (language === 'zh' ? '选择柴油参考车型估算' : 'Choose a diesel reference car for an estimate')
+                  : (language === 'zh' ? '选择相似车型估算' : 'Choose a similar car for an estimate')}
+              </button>
             </div>)}
-            <p className="text-caption text-text-secondary mt-3"><a href="https://data.gov.my/data-catalogue/registration_transactions_car" target="_blank" rel="noreferrer">JPJ / data.gov.my</a> · <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noreferrer">CC BY 4.0</a> · {language === 'zh' ? '按车型及燃料汇总' : 'aggregated by model and fuel'} · {jpjCatalog.year} · {language === 'zh' ? '登记至' : 'registered through'} {jpjCatalog.dataThrough}</p>
+            <p className="text-caption text-text-secondary mt-3"><a href="https://data.gov.my/data-catalogue/registration_transactions_car" target="_blank" rel="noreferrer">JPJ / data.gov.my</a> · <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noreferrer">CC BY 4.0</a> · {language === 'zh' ? '按车型及燃料汇总' : 'aggregated by model and fuel'} · {catalogYearsLabel} · {language === 'zh' ? '登记至' : 'registered through'} {jpjCatalog.dataThrough}</p>
           </div>}
         </div>
       </div>
