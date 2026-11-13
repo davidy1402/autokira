@@ -36,6 +36,7 @@ export default function CockpitPage({ onCalculate = () => {} }: { onCalculate?: 
         {s.vehicleType === 'ice' ? <IceCockpitSection /> : <>
           <section className="form-section vehicle-section"><h2>{zh ? '你在考虑哪辆车？' : 'Which car are you considering?'}</h2>
             <VehicleSelection name={s.modelName} consumption={s.consumption} unit="kWh / 100 km" onChoose={() => setPicker(true)} />
+            <p className="field-hint">{s.evEstimateBasis ? (zh ? '此车型的规格尚未确认，计算使用所选参考车型的数值，可能有很大偏差。' : 'Specifications for this car are unverified. The calculation uses the selected reference car and may differ substantially.') : (zh ? '电耗为起始参考值，实际驾驶和配置可能不同，可在假设中调整。' : 'Consumption is a starting reference; actual driving and variants differ. You can adjust it in assumptions.')}</p>
           </section>
           <fieldset className="form-section charging-section"><legend>{zh ? '你通常在哪里充电？' : 'Where will you usually charge?'}</legend>
             <div className="charging-options">{(['landed', 'condo'] as const).map(mode => <button type="button" key={mode} className="charging-option" aria-pressed={s.mode === mode} onClick={() => s.setMode(mode)}>
@@ -68,6 +69,6 @@ export default function CockpitPage({ onCalculate = () => {} }: { onCalculate?: 
         <div className="calculate-action"><button type="submit" className="primary-button">{zh ? '查看每月开支' : 'Show my monthly costs'}<ArrowRight size={20} /></button><p>{s.vehicleType === 'ev' ? (zh ? '比较能源开支，路税单独列出。车贷、保险与保养另计。' : 'Compares energy spending; road tax is separate. Loans, insurance and servicing are excluded.') : (zh ? '包含油费、路税与保养预算。车贷与保险另计。' : 'Includes fuel, road tax and your servicing budget. Loans and insurance are separate.')}</p></div>
       </form>
     </main>
-    <VehiclePickerSheet isOpen={picker} onClose={() => setPicker(false)} type="ev" selectedId={s.selectedPresetId} onSelectEv={p => s.setPreset(p.id)} language={s.language} />
+    <VehiclePickerSheet isOpen={picker} onClose={() => setPicker(false)} type="ev" selectedId={s.selectedPresetId} onSelectEv={(p, estimateFor) => { s.setPreset(p.id); if (estimateFor) { s.setModelName(`${estimateFor.slice(0, 55)} (estimate: ${p.name.slice(0, 40)})`); s.setEvEstimateBasis(p.name); } }} language={s.language} />
   </div>;
 }

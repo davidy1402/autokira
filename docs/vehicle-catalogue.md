@@ -1,0 +1,9 @@
+# Vehicle catalogue
+
+The search catalogue is derived from Malaysian Road Transport Department (JPJ) car registration transactions, published by data.gov.my under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Source: https://data.gov.my/data-catalogue/registration_transactions_car. The import aggregates registrations by maker, model and fuel group; it omits individual registration rows and does not infer model year, trim, consumption, price or technical specifications.
+
+Run `python3 scripts/updateVehicleCatalog.py` to download the current year's CSV and regenerate `src/data/jpjVehicles.json`; on a 404 for the new year, it tries the previous year. A build fails if the source is unavailable or fails validation, so a failed refresh does not replace the deployed site. `--input PATH --year YYYY` uses a local source for offline reproduction. The included snapshot was built from the 2026 CSV. The catalogue only covers registrations in the selected calendar year, not all cars in Malaysia.
+
+The Pages workflow refreshes the source at build time and schedules a monthly build. The refreshed catalogue is included in the deployment artifact, not committed back to the branch. Automatic production updates start only after these changes are pushed and the Pages workflow is enabled. No user data is transmitted to JPJ when searching.
+
+The catalogue cannot supply specifications. Name-only search results offer the user a choice of an existing reference vehicle, explicitly marked on the input and result pages. An existing preset is an approximation, not a claim about the named vehicle. Diesel results cannot use this flow because no diesel reference vehicle is currently supplied. OpenEV Data and manufacturer pages are not automatically imported; these remain a separate data-quality task.

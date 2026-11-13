@@ -11,6 +11,7 @@ export interface CalculatorState {
   // EV State
   selectedPresetId: string;
   modelName: string;
+  evEstimateBasis: string;
   consumption: number;
   motorKw: number;
   batteryKwh: number;
@@ -24,6 +25,7 @@ export interface CalculatorState {
   // ICE State
   selectedIcePresetId: string;
   iceModelName: string;
+  iceEstimateBasis: string;
   iceConsumptionL: number;
   iceEngineCc: number;
   icePriceRm: number;
@@ -47,6 +49,7 @@ export interface CalculatorState {
   // Actions
   setPreset: (presetId: string) => void;
   setModelName: (name: string) => void;
+  setEvEstimateBasis: (name: string) => void;
   setConsumption: (c: number) => void;
   setMileage: (m: number) => void;
   setBaselineKwh: (k: number) => void;
@@ -58,6 +61,7 @@ export interface CalculatorState {
   // ICE Actions
   setIcePreset: (presetId: string) => void;
   setIceModelName: (name: string) => void;
+  setIceEstimateBasis: (name: string) => void;
   setIceConsumptionL: (c: number) => void;
   setIceEngineCc: (cc: number) => void;
   setIcePriceRm: (price: number) => void;
@@ -101,6 +105,9 @@ const getInitialLanguage = (): 'en' | 'zh' => {
   return 'en';
 };
 
+const initialEv = PRESETS[0];
+const initialIce = ICE_PRESETS.find(p => p.id === 'myvi15') ?? ICE_PRESETS[0];
+
 export const useCalculatorStore = create<CalculatorState>((set) => ({
   // Mode Switch
   vehicleType: getInitialVehicleType(),
@@ -112,11 +119,12 @@ export const useCalculatorStore = create<CalculatorState>((set) => ({
   },
 
   // EV State
-  selectedPresetId: 'emas7',
-  modelName: 'Proton e.MAS 7',
-  consumption: 14.5,
-  motorKw: 160,
-  batteryKwh: 49.52,
+  selectedPresetId: initialEv.id,
+  modelName: initialEv.name,
+  evEstimateBasis: '',
+  consumption: initialEv.consumption,
+  motorKw: initialEv.motorKw,
+  batteryKwh: initialEv.batteryKwh,
   mileage: 1477,
   baselineKwh: 501,
   baselineBillRm: null,
@@ -125,13 +133,14 @@ export const useCalculatorStore = create<CalculatorState>((set) => ({
   mode: 'landed',
 
   // ICE State
-  selectedIcePresetId: 'myvi15',
-  iceModelName: 'Perodua Myvi 1.5 H/AV',
-  iceConsumptionL: 5.5,
-  iceEngineCc: 1496,
-  icePriceRm: 54000,
-  iceTankLiters: 36,
-  iceAnnualMaintenanceRm: 1200,
+  selectedIcePresetId: initialIce.id,
+  iceModelName: initialIce.name,
+  iceEstimateBasis: '',
+  iceConsumptionL: initialIce.consumptionLPer100Km,
+  iceEngineCc: initialIce.engineCc,
+  icePriceRm: initialIce.priceRm,
+  iceTankLiters: initialIce.fuelTankLiters,
+  iceAnnualMaintenanceRm: initialIce.annualMaintenanceEstRm,
   iceFuelType: 'budi_madani',
   iceCustomFuelPrice: 1.99,
   selectedIceCompareId: 'bezza13',
@@ -154,6 +163,7 @@ export const useCalculatorStore = create<CalculatorState>((set) => ({
       set({
         selectedPresetId: preset.id,
         modelName: preset.name,
+        evEstimateBasis: '',
         consumption: preset.consumption,
         motorKw: preset.motorKw,
         batteryKwh: preset.batteryKwh
@@ -161,6 +171,7 @@ export const useCalculatorStore = create<CalculatorState>((set) => ({
     }
   },
   setModelName: (name) => set({ modelName: name }),
+  setEvEstimateBasis: (name) => set({ evEstimateBasis: name }),
   setConsumption: (c) => set({ consumption: c }),
   setMileage: (m) => set({ mileage: m }),
   setBaselineKwh: (k) => set({ baselineKwh: k, baselineBillRm: null }),
@@ -176,6 +187,7 @@ export const useCalculatorStore = create<CalculatorState>((set) => ({
       set({
         selectedIcePresetId: preset.id,
         iceModelName: preset.name,
+        iceEstimateBasis: '',
         iceConsumptionL: preset.consumptionLPer100Km,
         iceEngineCc: preset.engineCc,
         icePriceRm: preset.priceRm,
@@ -185,6 +197,7 @@ export const useCalculatorStore = create<CalculatorState>((set) => ({
     }
   },
   setIceModelName: (name) => set({ iceModelName: name }),
+  setIceEstimateBasis: (name) => set({ iceEstimateBasis: name }),
   setIceConsumptionL: (c) => set({ iceConsumptionL: c }),
   setIceEngineCc: (cc) => set({ iceEngineCc: cc }),
   setIcePriceRm: (price) => set({ icePriceRm: price }),
@@ -208,3 +221,34 @@ export const useCalculatorStore = create<CalculatorState>((set) => ({
   updateAdvanced: (updates) =>
     set((state) => ({ advanced: { ...state.advanced, ...updates } })),
 }));
+
+// Remember vehicle details on this device, including values the driver adjusted.
+try {
+  const raw = localStorage.getItem('autokira.vehicleDetails.v1');
+  const saved: unknown = raw ? JSON.parse(raw) : null;
+  if (saved && typeof saved === 'object' && 'ev' in saved && 'ice' in saved) {
+    const validName = (v: unknown): v is string => typeof v === 'string' && v.length > 0 && v.length <= 120;
+    const validNumber = (v: unknown): v is number => typeof v === 'number' && Number.isFinite(v) && v >= 0 && v < 100000000;
+    const ev = saved.ev;
+    if (ev && typeof ev === 'object' && 'id' in ev && 'name' in ev && 'consumption' in ev && 'motorKw' in ev && 'batteryKwh' in ev &&
+      typeof ev.id === 'string' && PRESETS.some(p => p.id === ev.id) && validName(ev.name) && validNumber(ev.consumption) && ev.consumption > 0 && validNumber(ev.motorKw) && validNumber(ev.batteryKwh)) {
+      useCalculatorStore.setState({ selectedPresetId: ev.id, modelName: ev.name, evEstimateBasis: 'estimateBasis' in ev && validName(ev.estimateBasis) ? ev.estimateBasis : '', consumption: ev.consumption, motorKw: ev.motorKw, batteryKwh: ev.batteryKwh });
+    }
+    const ice = saved.ice;
+    if (ice && typeof ice === 'object' && 'id' in ice && 'name' in ice && 'consumption' in ice && 'engineCc' in ice && 'price' in ice && 'tank' in ice && 'maintenance' in ice &&
+      typeof ice.id === 'string' && ICE_PRESETS.some(p => p.id === ice.id) && validName(ice.name) && validNumber(ice.consumption) && ice.consumption > 0 && validNumber(ice.engineCc) && validNumber(ice.price) && validNumber(ice.tank) && validNumber(ice.maintenance)) {
+      useCalculatorStore.setState({ selectedIcePresetId: ice.id, iceModelName: ice.name, iceEstimateBasis: 'estimateBasis' in ice && validName(ice.estimateBasis) ? ice.estimateBasis : '', iceConsumptionL: ice.consumption, iceEngineCc: ice.engineCc, icePriceRm: ice.price, iceTankLiters: ice.tank, iceAnnualMaintenanceRm: ice.maintenance });
+    }
+  }
+} catch { /* Storage may be unavailable or contain an older invalid record. */ }
+
+useCalculatorStore.subscribe((state, previous) => {
+  if (state.evEstimateBasis === previous.evEstimateBasis && state.iceEstimateBasis === previous.iceEstimateBasis && state.selectedPresetId === previous.selectedPresetId && state.modelName === previous.modelName && state.consumption === previous.consumption && state.motorKw === previous.motorKw && state.batteryKwh === previous.batteryKwh &&
+      state.selectedIcePresetId === previous.selectedIcePresetId && state.iceModelName === previous.iceModelName && state.iceConsumptionL === previous.iceConsumptionL && state.iceEngineCc === previous.iceEngineCc && state.icePriceRm === previous.icePriceRm && state.iceTankLiters === previous.iceTankLiters && state.iceAnnualMaintenanceRm === previous.iceAnnualMaintenanceRm) return;
+  try {
+    localStorage.setItem('autokira.vehicleDetails.v1', JSON.stringify({
+      ev: { id: state.selectedPresetId, name: state.modelName, estimateBasis: state.evEstimateBasis, consumption: state.consumption, motorKw: state.motorKw, batteryKwh: state.batteryKwh },
+      ice: { id: state.selectedIcePresetId, name: state.iceModelName, estimateBasis: state.iceEstimateBasis, consumption: state.iceConsumptionL, engineCc: state.iceEngineCc, price: state.icePriceRm, tank: state.iceTankLiters, maintenance: state.iceAnnualMaintenanceRm },
+    }));
+  } catch { /* The calculator remains usable if storage is blocked or full. */ }
+});

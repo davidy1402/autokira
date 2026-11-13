@@ -4,6 +4,8 @@ on:
   push:
     branches: [master, main]
   workflow_dispatch:
+  schedule:
+    - cron: '37 20 12 * *'
 
 permissions:
   contents: read
@@ -32,6 +34,9 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Refresh JPJ model catalogue
+        run: python3 scripts/updateVehicleCatalog.py
 
       - name: Build
         run: npm run build

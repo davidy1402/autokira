@@ -130,6 +130,7 @@ export function IceResultsSection() {
   return (
     <div className="ice-results-grid">
       <section className="monthly-conclusion"><p className="intro-context"><span>{store.iceModelName}</span><span>{store.mileage.toLocaleString()} km {store.language === 'zh' ? '/ 月' : '/ month'}</span></p>
+        {store.iceEstimateBasis && <p className="field-hint">{store.language === 'zh' ? `规格未确认；此估算使用 ${store.iceEstimateBasis} 的数据，结果可能有很大偏差。` : `Unverified specifications; this estimate uses ${store.iceEstimateBasis} and may differ substantially.`}</p>}
         <h1>{store.language === 'zh' ? `每月用车开支约 RM ${monthlyRunningTotalA.toFixed(2)}。` : `Allow about RM ${monthlyRunningTotalA.toFixed(2)} a month to run this car.`}</h1>
         <p>{store.language === 'zh' ? '包括油费、路税与保养预算。不包含车贷、保险或停车费。' : 'Includes fuel, road tax and your servicing budget. Loans, insurance and parking are separate.'}</p>
       </section>

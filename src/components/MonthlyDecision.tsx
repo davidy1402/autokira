@@ -12,7 +12,7 @@ export function MonthlyDecision({ result }: { result: EvCalculationResult }) {
     : (zh ? `每月可能多花约 RM ${amount}。` : `You may spend about RM ${amount} more each month.`);
   const maxCost = Math.max(s.petrolRm, result.totalEvChargingCost, 1);
   return <>
-    <section className="monthly-conclusion"><p className="intro-context"><span>{s.modelName}</span><span>{s.mileage.toLocaleString()} {zh ? 'km / 月' : 'km / month'}</span></p><h1>{conclusion}</h1>
+    <section className="monthly-conclusion"><p className="intro-context"><span>{s.modelName}</span><span>{s.mileage.toLocaleString()} {zh ? 'km / 月' : 'km / month'}</span></p>{s.evEstimateBasis && <p className="field-hint">{zh ? `规格未确认；此估算使用 ${s.evEstimateBasis} 的数据，结果可能有很大偏差。` : `Unverified specifications; this estimate uses ${s.evEstimateBasis} and may differ substantially.`}</p>}<h1>{conclusion}</h1>
       <p className="scope-note">{zh ? '这里只比较能源开支。路税单独列出；不含车价、车贷、保险或保养。' : 'This compares energy spending. Road tax is shown separately; purchase price, loans, insurance and servicing are excluded.'}</p>
     </section>
     <section className="monthly-comparison"><h2>{zh ? '每月能源费用对比' : 'Monthly energy comparison'} </h2>

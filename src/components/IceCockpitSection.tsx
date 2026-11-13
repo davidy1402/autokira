@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { ICE_PRESETS } from '../data/icePresets';
 import { useCalculatorStore, type CalculatorState } from '../stores/calculator.store';
 import { VehiclePickerSheet } from './VehiclePickerSheet';
 import { Assumptions, NumberField, PresetChips, VehicleSelection } from './DrivingForm';
@@ -6,6 +7,7 @@ import { Assumptions, NumberField, PresetChips, VehicleSelection } from './Drivi
 export function IceCockpitSection() {
   const s = useCalculatorStore();
   const zh = s.language === 'zh';
+  const selectedCar = ICE_PRESETS.find(p => p.id === s.selectedIcePresetId);
   const [picker, setPicker] = useState(false);
   const [unit, setUnit] = useState<'l100km' | 'kml'>('l100km');
   const options: { id: CalculatorState['iceFuelType']; label: string; rate: number }[] = [
@@ -18,6 +20,7 @@ export function IceCockpitSection() {
   return <>
     <section className="form-section vehicle-section"><h2>{zh ? '你在考虑哪辆车？' : 'Which car are you considering?'}</h2>
       <VehicleSelection name={s.iceModelName} consumption={s.iceConsumptionL} unit="L / 100 km" onChoose={() => setPicker(true)} />
+      <p className="field-hint">{s.iceEstimateBasis ? (zh ? '此车型的规格尚未确认，以下计算使用所选参考车型的数值，可能有很大偏差。' : 'Specifications for this car are unverified. The calculation uses the selected reference car and may differ substantially.') : (zh ? '油耗为起始参考值，实际驾驶可能不同。车价和保养费为可调整的估算，并非报价。' : 'Consumption is a starting reference; actual driving varies. Price and servicing are editable estimates, not quotes.')} {selectedCar?.sourceUrl && <a href={selectedCar.sourceUrl} target="_blank" rel="noreferrer">{s.iceEstimateBasis ? (zh ? '参考车型的厂家数据' : 'Reference car manufacturer data') : (zh ? '查看厂家数据' : 'Manufacturer data')} ({selectedCar.sourceLabel})</a>}</p>
     </section>
     <section className="form-section distance-section"><h2>{zh ? '每月大约开多远？' : 'How far do you drive each month?'}</h2>
       <NumberField label={zh ? '每月里程' : 'Monthly distance'} unit="km" value={s.mileage} onChange={s.setMileage} />
@@ -37,6 +40,6 @@ export function IceCockpitSection() {
       <NumberField label={zh ? '每年保养预算' : 'Annual servicing budget'} unit="RM" value={s.iceAnnualMaintenanceRm} onChange={s.setIceAnnualMaintenanceRm} />
       <NumberField label={zh ? '油箱容量' : 'Fuel tank capacity'} unit="L" min={1} value={s.iceTankLiters} onChange={s.setIceTankLiters} />
     </Assumptions>
-    <VehiclePickerSheet isOpen={picker} onClose={() => setPicker(false)} type="ice" selectedId={s.selectedIcePresetId} onSelectIce={p => s.setIcePreset(p.id)} language={s.language} />
+    <VehiclePickerSheet isOpen={picker} onClose={() => setPicker(false)} type="ice" selectedId={s.selectedIcePresetId} onSelectIce={(p, estimateFor) => { s.setIcePreset(p.id); if (estimateFor) { s.setIceModelName(`${estimateFor.slice(0, 55)} (estimate: ${p.name.slice(0, 40)})`); s.setIceEstimateBasis(p.name); } }} language={s.language} />
   </>;
 }
