@@ -1,5 +1,5 @@
 import React from 'react';
-import { Zap, RotateCcw, Share2, SlidersHorizontal, Sun, Moon, Languages } from 'lucide-react';
+import { RotateCcw, Share2, SlidersHorizontal, Sun, Moon, Languages } from 'lucide-react';
 import { useLanguage } from '../i18n/LanguageContext';
 
 interface NavbarProps {
@@ -29,7 +29,7 @@ export const Navbar: React.FC<NavbarProps> = ({
         {/* Brand Crest */}
         <div className="flex items-center gap-2.5">
           <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-brand text-onbrand shadow-sm">
-            <Zap size={16} strokeWidth={2.25} />
+            <img src="./brand/autokira-refined/mark.svg" alt="" aria-hidden="true" className="h-7 w-7 rounded-md bg-[#faf8f5] p-0.5" />
           </div>
           <div>
             <span className="text-xs sm:text-sm font-bold tracking-tight text-ink block leading-none">

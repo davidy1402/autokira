@@ -46,7 +46,7 @@ export function AppHeader({ onBack }: { onBack?: () => void }) {
   const zh = language === 'zh';
   return <header className="product-header"><div className="header-inner">
     <a className="skip-link" href="#main-content">{zh ? '跳至主要内容' : 'Skip to content'}</a>
-    <div className="brand"><span className="wordmark">Auto<span className="brand-kira">Kira</span></span><span className="brand-location">{zh ? '马来西亚' : 'Malaysia'}</span></div>
+    <div className="brand"><img className="brand-symbol" src="./brand/autokira-refined/mark.svg" alt="" aria-hidden="true" /><span className="brand-text"><span className="wordmark">Auto<span className="brand-kira">Kira</span></span><span className="brand-location">{zh ? '马来西亚' : 'Malaysia'}</span></span></div>
     <span className="desktop-header-label">{zh ? '用车成本计算器' : 'Driving cost calculator'}</span>
     <div className="header-actions">
       <button type="button" onClick={() => setLanguage(zh ? 'en' : 'zh')} aria-label={zh ? 'Switch to English' : '切换至中文'}>{zh ? 'EN' : '中文'}</button>
