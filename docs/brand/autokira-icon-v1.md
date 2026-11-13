@@ -1,0 +1,7 @@
+# AutoKira icon concept v1
+
+Generated with the built-in image generation tool. The concept uses a white A monogram with road-inspired negative space on teal. Original bitmap preserved; website icon references are not changed.
+
+## Generation prompt
+
+Use case: logo-brand. Asset type: one production-quality square app icon for AutoKira, a Malaysian electric and petrol driving-cost calculator. Create ONE minimal, clean, beautiful icon, not a presentation board or mockup. Design a distinctive off-white geometric A monogram subtly inspired by a road: two substantial smooth converging strokes with gently rounded ends, joined by a simple crossbar, with a restrained negative-space road channel. The silhouette should read as a coherent custom A first, and imply driving second. Center the single symbol with generous balanced negative space, occupying approximately 60% of the square. Solid deep teal #006b63 full-bleed square background; off-white #F5F8F8 symbol. Crisp flat vector-like geometry, optically balanced, quiet modern desktop application identity, highly legible at 16px. No text, no letters apart from the A-shaped symbol, no wordmark, no numbers, no separate car drawing, no lightning bolt, no currency signs, no calculator keypad, no gradients, no shadows, no 3D, no texture, no borders, no external framing, no multiple variants, no corner-rounding on the background. Square canvas, straight-on clean graphic export.

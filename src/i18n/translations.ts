@@ -193,7 +193,7 @@ export const translations = {
   },
   en: {
     navbar: {
-      title: 'AutoKira — Driving Cost Intelligence',
+      title: 'AutoKira driving costs',
       langBtn: '中文',
       themeLight: 'Light Mode',
       themeDark: 'Dark Mode',

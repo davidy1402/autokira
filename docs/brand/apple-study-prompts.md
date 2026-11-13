@@ -1,0 +1,22 @@
+# AutoKira icon study — Apple design references
+
+Generated as static PNG concepts with the built-in image generation tool. These are original AutoKira concepts inspired by documented compositional principles; they are not native Icon Composer layered files.
+
+## Primary references
+
+- https://developer.apple.com/design/human-interface-guidelines/app-icons/
+- https://developer.apple.com/videos/play/wwdc2025/220/
+- https://developer.apple.com/icon-composer/
+
+Reviewed the official WWDC25 transcript and the official Icon Composer gallery. Applied frontal geometry, fewer layers, softer translucency, bold rounded shapes, subtle layer shadows and tonal backgrounds. Moved away from realistic stone/metal surfaces and thick bevels.
+
+## Generation prompts
+
+### apple-road-ledger
+
+Use case: logo-brand. Create ONE original app-icon concept for AutoKira, a driving cost comparison tool. Apply the design principles in Apple's WWDC25 Say hello to the new look of app icons: clear frontal artwork, simple bold rounded geometry, just two foreground layers above one colored background, soft translucency and carefully defined edges, gentle light-to-dark background, generous optical breathing room. It must look like a modern, credible application icon, not a rendered metallic plaque or 3D object. Unique core symbol: a broad straight roadway viewed perfectly from the front, two softly rounded white parallel lane rails and just two short center dashes; beneath and slightly offset right is one rounded translucent cyan tally card with three short horizontal cost lines, partially visible, road and tally form one compact composed emblem for driving plus calculating. ONE focal subject, road dominates; tally is the quiet supporting layer. Very shallow depth, luminous frosted-white glass foreground, delicate cool colored shadow between layers only. Vibrant petrol teal background fading gently from lighter at top to deeper at bottom, entirely smooth. Rounded-square enclosure with uniform modern continuous corners, 4% transparent outside margin. Original AutoKira identity: no Apple logos or copied Apple app shapes. Occupy 58-64% of enclosure, no perspective tilt or distortion. Restrained smooth optical reflections, do not add texture, grain, stone, brushed metal, thick bevel, heavy shadows, embossed leather, chrome, dramatic 3D, rim glow, glare or sparkling edges. No words, digits, letters, currency signs, actual UI screenshot, full car drawing, speedometer, pin, checkmark or dots. A premium layered graphic, simple enough to identify at 32px. Output only a single app icon.
+
+### apple-two-choices
+
+Use case: logo-brand. Create ONE original app-icon concept for a tool comparing EV and petrol driving costs. Apple WWDC25-inspired compositional principles, without copying any existing Apple logo: optically balanced frontal design, bold smooth rounded geometry, background plus two translucent foreground shapes, very shallow glass-like layering, gently tinted shadows between layers and no realistic 3D rendering. Main subject: two side-by-side rounded vertical price bars, left medium height and right taller, with softly round tops, linked along the bottom by one smooth horizontal baseline. Negative space between the bars subtly forms a two-lane road with two broad short white center dashes. All geometry is visually ONE coherent cost-comparison mark, not a complex chart or literal dashboard. The left bar is translucent clear icy white, the taller right bar is luminous turquoise-green, overlaps one narrow part of the white at baseline; the overlap has a softly darkened transparent intersection. Tile backdrop is a rich deep blue with a gentle top-to-bottom tonal gradient. Broad comfortable whitespace, emblem centered at 60% tile width, crisp silhouette legible at 32px. A clean contemporary Apple-quality composition that communicates comparison and driving, with sophistication from translucent layers and subtly rounded edge highlights. Modern rounded-square enclosure, 4% genuinely transparent outer margin. No letters, app names, numbers, Apple logo, currency symbols, axis labels, UI screenshot, small ticks, tiny strokes, specks, arrows, car silhouette, speedometer, grain, marble, stone, leather, brushed metal, chrome, thick bevels, engraved materials, heavy drop shadows, dramatic glow, inflated plastic, perspective rotation or extrusion. Straight-on, smooth, luminous, original. Single finished icon only.
+

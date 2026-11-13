@@ -16,8 +16,9 @@ export default function CockpitPage({ onCalculate = () => {} }: { onCalculate?: 
   return <div className="driving-app"><AppHeader />
     <main id="main-content" className="decision-layout" tabIndex={-1}>
       <div className="decision-intro">
-        <h1>{zh ? '算算每月用车开支' : 'Your monthly driving costs'}</h1>
-        <p>{zh ? '选一辆车，按你的里程与充电习惯来算。' : 'Choose a car. Use your own distance and charging routine.'}</p>
+        <p className="intro-label">{zh ? '为你的日常驾驶而算' : 'A clearer view of car costs'}</p>
+        <h1>{zh ? '算算每月用车开支' : 'Know what your drive costs.'}</h1>
+        <p>{s.vehicleType === 'ev' ? (zh ? '选一辆车，按你的里程与充电习惯来算。' : 'Compare charging with your current petrol costs using your own driving habits.') : (zh ? '选一辆车，按你的里程与加油习惯来算。' : 'Estimate fuel, road tax and servicing using your own driving habits.')}</p>
         <div className="desktop-scenario">
           <h2>{zh ? '当前方案' : 'Your scenario'}</h2>
           <dl>
@@ -29,7 +30,7 @@ export default function CockpitPage({ onCalculate = () => {} }: { onCalculate?: 
         </div>
       </div>
       <form className={`decision-form ${s.vehicleType}-form`} onSubmit={e => { e.preventDefault(); onCalculate(); }}>
-        <fieldset className="mode-switch"><legend>{zh ? '你在考虑哪种车？' : 'What kind of car are you considering?'}</legend>
+        <fieldset className="mode-switch"><legend>{zh ? '从哪种车开始？' : 'Start with your car'}</legend>
           <div className="segmented-control">{(['ev', 'ice'] as const).map(type => <button type="button" key={type} aria-pressed={s.vehicleType === type} onClick={() => s.setVehicleType(type)}>{type === 'ev' ? (zh ? '电车' : 'Electric car') : (zh ? '燃油车' : 'Petrol car')}</button>)}</div>
         </fieldset>
         {s.vehicleType === 'ice' ? <IceCockpitSection /> : <>

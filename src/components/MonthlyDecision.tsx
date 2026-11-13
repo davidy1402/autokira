@@ -12,14 +12,14 @@ export function MonthlyDecision({ result }: { result: EvCalculationResult }) {
     : (zh ? `每月可能多花约 RM ${amount}。` : `You may spend about RM ${amount} more each month.`);
   const maxCost = Math.max(s.petrolRm, result.totalEvChargingCost, 1);
   return <>
-    <section className="monthly-conclusion"><p className="intro-context">{s.modelName} · {s.mileage.toLocaleString()} {zh ? 'km / 月' : 'km / month'}</p><h1>{conclusion}</h1>
-      <p>{s.mode === 'condo'
-        ? (zh ? `全部使用公共充电，按 RM ${s.advanced.publicDcRate.toFixed(2)} / kWh 计算。` : `All charging is at public chargers, using RM ${s.advanced.publicDcRate.toFixed(2)} per kWh.`)
-        : (zh ? '以 90% 家充和 10% 公共充电计算。家充费用按家庭电费的实际增量估算。' : 'Based on 90% home charging and 10% public charging. Home charging uses the increase in your household bill.')}</p>
+    <section className="monthly-conclusion"><p className="intro-context"><span>{s.modelName}</span><span>{s.mileage.toLocaleString()} {zh ? 'km / 月' : 'km / month'}</span></p><h1>{conclusion}</h1>
       <p className="scope-note">{zh ? '这里只比较能源开支。路税单独列出；不含车价、车贷、保险或保养。' : 'This compares energy spending. Road tax is shown separately; purchase price, loans, insurance and servicing are excluded.'}</p>
     </section>
-    <section className="monthly-comparison"><h2>{zh ? '每月油费与充电费' : 'Petrol now, charging after'} </h2>
+    <section className="monthly-comparison"><h2>{zh ? '每月能源费用对比' : 'Monthly energy comparison'} </h2>
       {[{ label: zh ? '目前油费' : 'Current petrol spending', value: s.petrolRm, ev: false }, { label: zh ? '换车后充电费' : 'New charging spending', value: result.totalEvChargingCost, ev: true }].map(row => <div className="cost-row" key={row.label}><div><span>{row.label}</span><strong>RM {row.value.toFixed(2)}</strong></div><div className="cost-track"><div className={row.ev ? 'ev-bar' : 'petrol-bar'} style={{ width: `${row.value / maxCost * 100}%` }} /></div></div>)}
+      <p className="charging-assumption">{s.mode === 'condo'
+        ? (zh ? `全部使用公共充电，按 RM ${s.advanced.publicDcRate.toFixed(2)} / kWh 计算。` : `All charging is at public chargers, using RM ${s.advanced.publicDcRate.toFixed(2)} per kWh.`)
+        : (zh ? '以 90% 家充和 10% 公共充电计算。家充费用按家庭电费的实际增量估算。' : 'Based on 90% home charging and 10% public charging. Home charging uses the increase in your household bill.')}</p>
       <dl className="cost-breakdown"><div><dt>{zh ? '家充增加的电费' : 'Added home electricity'}</dt><dd>RM {result.marginalHomeElectricityCost.toFixed(2)}</dd></div><div><dt>{zh ? '公共充电费' : 'Public charging'}</dt><dd>RM {result.publicChargingCost.toFixed(2)}</dd></div></dl>
       <p className="field-hint">{zh ? '原本的家庭电费不是充电费，不会重复计算。' : 'Your existing household electricity bill is separate and is not counted as charging.'}</p>
     </section>

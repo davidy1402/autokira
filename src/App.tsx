@@ -16,7 +16,7 @@ export function App() {
     } else {
       document.documentElement.classList.add('light');
       document.documentElement.classList.remove('dark');
-      if (metaThemeColor) metaThemeColor.setAttribute('content', '#f5f8f8');
+      if (metaThemeColor) metaThemeColor.setAttribute('content', '#F6F4EF');
     }
   }, [theme]);
 

@@ -388,9 +388,148 @@ input::placeholder, textarea::placeholder { color: var(--text-secondary); opacit
   .desktop-dialog > div.cursor-grab, .vehicle-dialog > div.cursor-grab { cursor: default; }
 }
 
-/* AutoKira brand mark */
-.brand { flex-direction: row; align-items: center; gap: 10px; }
-.brand-symbol { width: 38px; height: 38px; flex: none; background: #faf8f5; border-radius: 6px; padding: 2px; }
-.brand-text { display: flex; flex-direction: column; line-height: 1.2; }
-.brand-text .wordmark { font-size: 1.25rem; font-weight: 750; letter-spacing: -.025em; }
-@media (max-width: 739px) { .brand-symbol { width: 34px; height: 34px; } }
+/* AutoKira: flat, warm surfaces and the brand mark. */
+html.light { --background-default:#F6F4EF; --surface-base:#fff; --surface-raised:#eef1ed; --surface-overlay:#dce4dd; --brand-primary:#205B61; --brand-accent:#205B61; --text-primary:#263536; --text-secondary:#4c5e5c; --border-subtle:#c9d2cc; --border-strong:#7e918a; --focus-ring-default:#205B61; --status-positive:#205B61; }
+.product-header { background:var(--background-default); }
+.brand { flex-direction:row; align-items:center; gap:10px; }
+.brand-symbol { width:38px; height:38px; flex:none; }
+html.dark .brand-symbol { filter:invert(1); }
+.brand-text { display:flex; flex-direction:column; line-height:1.2; }
+.brand-text .wordmark { font-size:1.25rem; font-weight:750; letter-spacing:-.025em; }
+.brand-location { margin-top:3px; }
+.decision-form, .result-details { border-radius:4px; }
+.segmented-control, .charging-option, .vehicle-selection, .primary-button, .secondary-button { border-radius:4px; }
+.monthly-comparison { border-radius:4px; }
+.ownership-section { margin-top:28px; border-top:1px solid var(--border-subtle); border-bottom:1px solid var(--border-subtle); padding:0 0 20px; }
+.ownership-section summary { cursor:pointer; font-size:var(--type-section); font-weight:700; padding:20px 0; }
+.ownership-section > p { color:var(--text-secondary); max-width:70ch; }
+.ownership-columns { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:24px; margin:24px 0; }
+.ownership-columns fieldset { min-width:0; border:1px solid var(--border-subtle); padding:18px; }
+.ownership-columns legend { font-weight:700; padding:0 6px; }
+.ownership-columns label { display:block; font-size:var(--type-label); font-weight:600; margin:0 0 14px; }
+.ownership-input { display:flex; align-items:center; gap:8px; border:1px solid var(--border-strong); background:var(--surface-base); margin-top:6px; padding:0 10px; font-weight:400; }
+.ownership-input input { min-width:0; width:100%; border:0; background:transparent; }
+.ownership-result { background:var(--surface-raised); padding:20px; }
+.ownership-result h3 { font-weight:700; margin:0 0 12px; }
+.ownership-result dl div { display:flex; justify-content:space-between; gap:12px; padding:6px 0; }
+.ownership-result dd { font-weight:700; text-align:right; }
+.ownership-result p { font-weight:650; margin:14px 0 0; }
+@media (max-width:600px) { .ownership-columns { grid-template-columns:1fr; } }
+@media (min-width:1100px) { .brand { align-items:center; } .ev-results { grid-template-areas:'conclusion conclusion' 'comparison details' 'factors details' 'ownership ownership' 'actions actions'; } .ownership-section { grid-area:ownership; } }
+/* Flat surfaces throughout retained detail tools. */
+.driving-app *, .driving-app *::before, .driving-app *::after { box-shadow:none !important; }
+.charging-option[aria-pressed="true"] { outline:2px solid var(--brand-primary); outline-offset:-2px; }
+
+/* Touch-first workspace: a calm introduction, then a clear task surface. */
+.product-header { border-bottom-color: var(--border-subtle); }
+.decision-intro .intro-label { color:var(--brand-primary); font-size:.8125rem; font-weight:700; margin:0 0 10px; }
+.decision-intro h1 { max-width:18ch; letter-spacing:-.035em; }
+.decision-intro > p:not(.intro-label) { max-width:48ch; }
+.decision-form { border-top:1px solid var(--border-subtle); }
+.mode-switch legend { font-size:1rem; font-weight:700; }
+.segmented-control { background:var(--background-default); border-color:var(--border-subtle); }
+.segmented-control button { min-height:48px; }
+.form-section h2, .form-section legend { letter-spacing:-.015em; }
+.vehicle-selection { padding:18px; }
+.vehicle-selection strong { font-size:1.125rem; }
+.charging-option { padding:18px; }
+.number-control, .number-control input, .text-field input, .product-select, .unit-switch, .preset-chips button { border-radius:4px; }
+.number-control:has(input[aria-invalid="true"]) { border-color:var(--status-error); }
+.field-error { color:var(--status-error); font-size:var(--type-label); line-height:1.5; margin:8px 0 0; }
+.assumptions summary { min-height:60px; }
+.calculate-action .primary-button { min-height:56px; }
+.monthly-conclusion { padding:24px 0; }
+.monthly-conclusion h1 { max-width:26ch; letter-spacing:-.035em; }
+.monthly-comparison { border-radius:4px; }
+.ownership-section summary, .result-details summary { min-height:60px; }
+@media (max-width:739px) {
+  .product-header { padding-inline:20px; }
+  .decision-layout { padding-top:28px; }
+  .decision-intro h1 { font-size:1.875rem; line-height:1.15; }
+  .decision-form { margin-top:28px; padding-top:24px; padding-bottom:32px; }
+  .form-section { padding:28px 0; }
+  .results-content { padding-top:12px; }
+}
+/* Tablets get a real two-column workspace without squeezing the introduction. */
+@media (min-width:740px) and (max-width:1099px) {
+  .decision-layout { display:block; max-width:980px; padding:36px 28px 56px; }
+  .decision-intro { padding:0; }
+  .decision-intro h1 { font-size:2rem; }
+  .decision-form { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:0 28px; margin:28px 0 0; padding:24px 28px 30px; border:1px solid var(--border-subtle); border-radius:4px; }
+  .ev-form { grid-template-areas:'mode mode' 'vehicle distance' 'charging spending' 'assumptions assumptions' 'action action'; }
+  .ice-form { grid-template-areas:'mode mode' 'vehicle distance' 'fuel fuel' 'assumptions assumptions' 'action action'; }
+  .mode-switch { grid-area:mode; }
+  .mode-switch .segmented-control { max-width:420px; }
+  .vehicle-section { grid-area:vehicle; } .distance-section { grid-area:distance; }
+  .charging-section { grid-area:charging; } .spending-section { grid-area:spending; }
+  .fuel-section { grid-area:fuel; } .assumptions { grid-area:assumptions; } .calculate-action { grid-area:action; }
+  .calculate-action { display:flex; align-items:center; gap:24px; }
+  .calculate-action .primary-button { width:auto; min-width:250px; }
+  .calculate-action > p { text-align:left; max-width:42ch; margin:0; }
+  .results-content { max-width:980px; padding:24px 28px 56px; }
+  .monthly-comparison { padding:24px; }
+}
+
+/* Type roles and navigation controls stay consistent across the main flows. */
+:root { --type-small:.875rem; --type-label:.875rem; --type-body:1rem; --type-section:1.125rem; }
+.product-header .brand-text .wordmark { font-weight:700; }
+.brand-location { font-size:.8125rem; }
+.header-actions .language-button { min-width:64px; padding:0 12px; border:0; border-radius:4px; font-size:.875rem; font-weight:600; }
+.header-actions button:not(.language-button) { border:0; border-radius:4px; }
+.back-link { display:inline-flex; align-items:center; gap:7px; min-height:44px; padding:0 8px 0 0; font-size:.9375rem; font-weight:600; }
+.product-header .header-inner + .header-inner { margin-top:8px; }
+.decision-intro .intro-label { font-size:.875rem; font-weight:600; }
+.decision-intro h1, .monthly-conclusion h1 { font-weight:700; }
+.form-section h2, .form-section legend, .mode-switch legend, .monthly-comparison h2, .decision-factors h2 { font-weight:650; }
+.number-field > label, .text-field { font-weight:600; }
+.number-control input { font-weight:500; }
+.vehicle-selection strong { font-weight:650; }
+.vehicle-selection small span { display:block; }
+.vehicle-selection small span + span { margin-top:3px; }
+.charging-title strong { font-weight:600; }
+.intro-context { display:flex; flex-wrap:wrap; gap:2px 16px; font-weight:600; }
+.detail-links button svg { flex:none; color:var(--brand-primary); }
+.field-hint, .calculate-action > p, .scope-note, .decision-factors p, .charging-option > span:last-child:not(.charging-title) { font-size:.875rem !important; line-height:1.55; }
+html[lang="zh-CN"] .decision-intro h1, html[lang="zh-CN"] .monthly-conclusion h1, html[lang="zh-CN"] .form-section h2 { letter-spacing:normal; }
+@media (max-width:739px) { .header-actions { gap:6px; } .brand-symbol { width:34px; height:34px; } .product-header { padding-inline:16px; } }
+
+/* Keep secondary actions quiet and reserve outlines for meaningful choices. */
+.header-actions { gap:8px; }
+.header-actions button { background:transparent; }
+.header-actions button:active { background:var(--surface-overlay); }
+.product-header { border-bottom:0; }
+.decision-form { border:0; }
+.segmented-control { border:0; }
+.vehicle-selection { border:0; background:var(--surface-raised); }
+.charging-option { border:0; background:var(--surface-raised); }
+.charging-option[aria-pressed="true"] { outline:2px solid var(--brand-primary); outline-offset:-2px; }
+.preset-chips button { border:0; background:var(--surface-raised); color:var(--text-primary); }
+.preset-chips button[aria-pressed="true"] { background:var(--brand-primary); color:var(--text-inverse); }
+.monthly-comparison { border:0; }
+.ownership-columns fieldset { border:0; padding:0; }
+@media (min-width:740px) and (max-width:1099px) { .decision-form { border:0; } }
+@media (min-width:1100px) { .decision-form, .result-details { border:0; } }
+
+/* A quiet settings disclosure keeps secondary controls together. */
+.settings-wrap { position:relative; }
+.header-actions .settings-trigger { gap:8px; padding:0 8px; font-size:.875rem; font-weight:600; }
+.settings-panel { position:absolute; z-index:40; top:calc(100% + 8px); right:0; width:min(290px, calc(100vw - 32px)); padding:8px; background:var(--surface-overlay); border-radius:6px; }
+.header-actions .settings-panel button { display:flex; width:100%; min-height:52px; justify-content:flex-start; gap:12px; padding:8px 12px; text-align:left; font-size:.9375rem; }
+.settings-panel button svg { flex:none; color:var(--text-secondary); }
+.settings-panel button span { flex:1; }
+.settings-panel button strong { font-size:.875rem; font-weight:600; color:var(--brand-primary); }
+
+
+/* EV results pilot: keep the estimate and the figures behind it together. */
+.ev-results .monthly-conclusion { padding: 12px 0 4px; }
+.ev-results .monthly-conclusion h1 { max-width: 32ch; margin: 8px 0 10px; }
+.ev-results .monthly-conclusion .scope-note { max-width: 70ch; margin-bottom: 0; }
+.ev-results .monthly-comparison { margin-top: 16px; padding: 22px 20px; border-top: 3px solid var(--brand-primary); }
+.ev-results .monthly-comparison h2 { margin-bottom: 16px; }
+.ev-results .cost-row > div:first-child { align-items: center; }
+.ev-results .cost-row strong { font-size: 1.125rem; }
+.ev-results .charging-assumption { color: var(--text-secondary); font-size: .875rem; line-height: 1.55; margin: 22px 0 0; }
+@media (min-width: 1100px) {
+  .ev-results .monthly-conclusion { padding: 8px 0 16px; }
+  .ev-results .monthly-comparison { margin-top: 0; padding: 26px 28px; }
+}

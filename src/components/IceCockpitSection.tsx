@@ -25,7 +25,7 @@ export function IceCockpitSection() {
     </section>
     <section className="form-section fuel-section"><h2>{zh ? '你通常加哪种油？' : 'Which fuel do you usually use?'}</h2>
       <label className="text-field" htmlFor="fuel-grade">{zh ? '燃油类型' : 'Fuel type'}</label>
-      <select id="fuel-grade" className="product-select" value={s.iceFuelType} onChange={e => s.setIceFuelType(e.target.value as CalculatorState['iceFuelType'])}>{options.map(o => <option key={o.id} value={o.id}>{o.label} · RM {o.rate.toFixed(2)} / L</option>)}</select>
+      <select id="fuel-grade" className="product-select" value={s.iceFuelType} onChange={e => s.setIceFuelType(e.target.value as CalculatorState['iceFuelType'])}>{options.map(o => <option key={o.id} value={o.id}>{o.label}, RM {o.rate.toFixed(2)} / L</option>)}</select>
       <p className="field-hint">{zh ? '以上为现有模型的油价假设，不是实时油价。' : 'These are the existing model’s price assumptions, not live fuel prices.'}</p>
       <div className="bill-unit-row"><span>{zh ? '车辆油耗' : 'Vehicle consumption'}</span><div className="unit-switch"><button type="button" aria-pressed={unit === 'l100km'} onClick={() => setUnit('l100km')}>L / 100 km</button><button type="button" aria-pressed={unit === 'kml'} onClick={() => setUnit('kml')}>km / L</button></div></div>
       <NumberField label={zh ? '平均油耗' : 'Average fuel consumption'} unit={unit === 'l100km' ? 'L / 100 km' : 'km / L'} min={0.1} value={unit === 'l100km' ? s.iceConsumptionL : Math.round(1000 / Math.max(0.1, s.iceConsumptionL)) / 10} onChange={n => s.setIceConsumptionL(unit === 'l100km' ? n : Math.round(1000 / n) / 10)} />

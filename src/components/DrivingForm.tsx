@@ -1,5 +1,5 @@
 import { useEffect, useId, useRef, useState } from 'react';
-import { ChevronDown, ChevronRight, Moon, Sun } from 'lucide-react';
+import { ArrowLeft, ChevronDown, ChevronRight, Languages, Moon, Settings, Sun } from 'lucide-react';
 import { useDesktopDisclosure } from '../hooks/useDesktopDisclosure';
 import { useCalculatorStore } from '../stores/calculator.store';
 
@@ -11,28 +11,34 @@ export function NumberField({ label, unit, value, onChange, min = 0, max, step =
   const id = useId();
   const [draft, setDraft] = useState(String(value));
   const [editing, setEditing] = useState(false);
-  const dirty = useRef(false);
-  useEffect(() => { if (!editing) setDraft(String(value)); }, [value, editing]);
+  const [error, setError] = useState(false);
+  const language = useCalculatorStore(s => s.language);
+  const previousValue = useRef(value);
+  useEffect(() => {
+    if (!editing && (previousValue.current !== value || !error)) { setDraft(String(value)); setError(false); }
+    previousValue.current = value;
+  }, [value, editing, error]);
+  const validDraft = (text: string) => text.trim() !== '' && Number.isFinite(Number(text)) && Number(text) >= min && (max === undefined || Number(text) <= max);
+  const message = language === 'zh'
+    ? (max === undefined ? `请输入不小于 ${min} 的数值。` : `请输入 ${min} 至 ${max} 之间的数值。`)
+    : (max === undefined ? `Enter a number of at least ${min}.` : `Enter a number between ${min} and ${max}.`);
   return <div className="number-field">
     <label htmlFor={id}>{label}</label>
     <div className="number-control">
-      <input id={id} type="number" inputMode="decimal" min={min} max={max} step={step} value={draft}
-        aria-describedby={hint ? `${id}-hint` : undefined}
-        onFocus={() => { dirty.current = false; setEditing(true); }}
+      <input id={id} type="number" inputMode="decimal" min={min} max={max} step={step} required value={draft}
+        aria-invalid={error || undefined} aria-describedby={[hint ? `${id}-hint` : '', error ? `${id}-error` : ''].filter(Boolean).join(' ') || undefined}
+        onInvalid={e => { setError(true); e.currentTarget.closest('details')?.setAttribute('open', ''); }}
+        onFocus={() => setEditing(true)}
         onChange={e => {
-          dirty.current = true;
-          setDraft(e.target.value);
-          const n = Number(e.target.value);
-          if (e.target.value !== '' && Number.isFinite(n) && n >= min && (max === undefined || n <= max)) onChange(n);
+          const text = e.target.value;
+          setDraft(text);
+          if (validDraft(text)) { onChange(Number(text)); setError(false); }
+          else setError(true);
         }}
-        onBlur={() => {
-          const n = draft === '' ? value : Number(draft);
-          const safe = Number.isFinite(n) ? Math.min(max ?? Infinity, Math.max(min, n)) : value;
-          if (dirty.current) onChange(safe);
-          setDraft(String(safe)); setEditing(false);
-        }} />
+        onBlur={() => { setError(!validDraft(draft)); setEditing(false); }} />
       <span>{unit}</span>
     </div>
+    {error && <p id={`${id}-error`} className="field-error" role="alert">{message}</p>}
     {hint && <p id={`${id}-hint`} className="field-hint">{hint}</p>}
   </div>;
 }
@@ -44,21 +50,40 @@ export function PresetChips({ values, value, onChange, unit = '' }: { values: nu
 export function AppHeader({ onBack }: { onBack?: () => void }) {
   const { language, setLanguage, theme, setTheme } = useCalculatorStore();
   const zh = language === 'zh';
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const settingsRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const panelId = useId();
+  useEffect(() => {
+    if (!settingsOpen) return;
+    const onPointerDown = (event: PointerEvent) => {
+      if (event.target instanceof Node && !settingsRef.current?.contains(event.target)) setSettingsOpen(false);
+    };
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') { setSettingsOpen(false); triggerRef.current?.focus(); }
+    };
+    document.addEventListener('pointerdown', onPointerDown);
+    document.addEventListener('keydown', onKeyDown);
+    return () => { document.removeEventListener('pointerdown', onPointerDown); document.removeEventListener('keydown', onKeyDown); };
+  }, [settingsOpen]);
   return <header className="product-header"><div className="header-inner">
     <a className="skip-link" href="#main-content">{zh ? '跳至主要内容' : 'Skip to content'}</a>
-    <div className="brand"><img className="brand-symbol" src="./brand/autokira-refined/mark.svg" alt="" aria-hidden="true" /><span className="brand-text"><span className="wordmark">Auto<span className="brand-kira">Kira</span></span><span className="brand-location">{zh ? '马来西亚' : 'Malaysia'}</span></span></div>
+    <div className="brand"><img className="brand-symbol" src="./brand/autokira-refined/mark.svg" alt="" aria-hidden="true" /><span className="brand-text"><span className="wordmark" role="img" aria-label="AutoKira">Auto<span className="brand-kira">Kira</span></span><span className="brand-location">{zh ? '马来西亚用车成本' : 'Car costs in Malaysia'}</span></span></div>
     <span className="desktop-header-label">{zh ? '用车成本计算器' : 'Driving cost calculator'}</span>
-    <div className="header-actions">
-      <button type="button" onClick={() => setLanguage(zh ? 'en' : 'zh')} aria-label={zh ? 'Switch to English' : '切换至中文'}>{zh ? 'EN' : '中文'}</button>
-      <button type="button" onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')} aria-label={zh ? (theme === 'light' ? '切换深色模式' : '切换浅色模式') : (theme === 'light' ? 'Use dark theme' : 'Use light theme')}>{theme === 'light' ? <Moon size={19} /> : <Sun size={19} />}</button>
+    <div className="header-actions settings-wrap" ref={settingsRef} onBlur={event => { if (!(event.relatedTarget instanceof Node) || !event.currentTarget.contains(event.relatedTarget)) setSettingsOpen(false); }}>
+      <button ref={triggerRef} className="settings-trigger" type="button" aria-label={zh ? '设置' : 'Settings'} aria-expanded={settingsOpen} aria-controls={panelId} onClick={() => setSettingsOpen(open => !open)}><Settings size={19} aria-hidden="true" /></button>
+      {settingsOpen && <div id={panelId} className="settings-panel" role="group" aria-label={zh ? '设置' : 'Settings'}>
+        <button type="button" onClick={() => setLanguage(zh ? 'en' : 'zh')} aria-label={zh ? '切换语言至英语' : 'Switch language to Chinese'}><Languages size={19} aria-hidden="true" /><span>{zh ? '语言' : 'Language'}</span><strong>{zh ? 'English' : '中文'}</strong></button>
+        <button type="button" onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')} aria-label={zh ? (theme === 'light' ? '切换深色模式' : '切换浅色模式') : (theme === 'light' ? 'Use dark mode' : 'Use light mode')}>{theme === 'light' ? <Moon size={19} aria-hidden="true" /> : <Sun size={19} aria-hidden="true" />}<span>{zh ? '外观' : 'Appearance'}</span><strong>{theme === 'light' ? (zh ? '切换深色' : 'Use dark') : (zh ? '切换浅色' : 'Use light')}</strong></button>
+      </div>}
     </div>
-  </div>{onBack && <div className="header-inner"><button className="back-link" type="button" onClick={onBack}>{zh ? '← 修改输入' : '← Edit my inputs'}</button></div>}</header>;
+  </div>{onBack && <div className="header-inner"><button className="back-link" type="button" onClick={onBack}><ArrowLeft size={18} aria-hidden="true" />{zh ? '修改输入' : 'Edit inputs'}</button></div>}</header>;
 }
 
 export function VehicleSelection({ name, consumption, unit, onChoose }: { name: string; consumption: number; unit: string; onChoose: () => void }) {
   const zh = useCalculatorStore(s => s.language) === 'zh';
   return <button className="vehicle-selection" type="button" onClick={onChoose}>
-    <span><strong>{name}</strong><small>{consumption} {unit} · {zh ? '电耗或油耗可修改' : 'Consumption can be adjusted'}</small></span>
+    <span><strong>{name}</strong><small><span>{consumption} {unit}</span><span>{zh ? '可在假设中调整' : 'Adjustable in assumptions'}</span></small></span>
     <span className="change-link">{zh ? '换车' : 'Change'}<ChevronRight size={18} /></span>
   </button>;
 }

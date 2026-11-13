@@ -1,3 +1,4 @@
+import { ChevronRight } from 'lucide-react';
 import { useState, useMemo } from 'react';
 import { Copy, Check, Gauge, Receipt, GitCompare, Users } from 'lucide-react';
 import { useDesktopDisclosure } from '../hooks/useDesktopDisclosure';
@@ -128,7 +129,7 @@ export function IceResultsSection() {
 
   return (
     <div className="ice-results-grid">
-      <section className="monthly-conclusion"><p className="intro-context">{store.iceModelName} · {store.mileage.toLocaleString()} km</p>
+      <section className="monthly-conclusion"><p className="intro-context"><span>{store.iceModelName}</span><span>{store.mileage.toLocaleString()} km {store.language === 'zh' ? '/ 月' : '/ month'}</span></p>
         <h1>{store.language === 'zh' ? `每月用车开支约 RM ${monthlyRunningTotalA.toFixed(2)}。` : `Allow about RM ${monthlyRunningTotalA.toFixed(2)} a month to run this car.`}</h1>
         <p>{store.language === 'zh' ? '包括油费、路税与保养预算。不包含车贷、保险或停车费。' : 'Includes fuel, road tax and your servicing budget. Loans, insurance and parking are separate.'}</p>
       </section>
@@ -137,12 +138,12 @@ export function IceResultsSection() {
         <div><dt>{store.language === 'zh' ? '路税（按月摊分）' : 'Road tax, spread monthly'}</dt><dd>RM {monthlyRoadTaxA.toFixed(2)}</dd></div>
         <div><dt>{store.language === 'zh' ? '保养预算（按月摊分）' : 'Servicing, spread monthly'}</dt><dd>RM {monthlyMaintenanceA.toFixed(2)}</dd></div>
       </dl><p className="field-hint">{store.language === 'zh' ? '路税与保养通常不是每月支付；这里按年预算摊分。' : 'Road tax and servicing are usually paid less often; these amounts spread the annual budget across 12 months.'}</p></section>
-      <section className="decision-factors"><h2>{store.language === 'zh' ? '哪些因素影响结果？' : 'What matters for your result?'}</h2><div><h3>{store.language === 'zh' ? '里程与油耗' : 'Distance and consumption'}</h3><p>{store.mileage.toLocaleString()} km × {resultA.consumptionLPer100Km.toFixed(1)} L / 100 km · RM {fuelPrice.toFixed(2)} / L</p></div><div><h3>{store.language === 'zh' ? '保养预算' : 'Your servicing budget'}</h3><p>{store.language === 'zh' ? `现按每年 RM ${resultA.annualMaintenanceRm.toFixed(2)} 计算，可在输入页修改。` : `Currently RM ${resultA.annualMaintenanceRm.toFixed(2)} per year. Adjust this on the input screen to match your car.`}</p></div></section>
+      <section className="decision-factors"><h2>{store.language === 'zh' ? '哪些因素影响结果？' : 'What matters for your result?'}</h2><div><h3>{store.language === 'zh' ? '里程与油耗' : 'Distance and consumption'}</h3><p>{store.mileage.toLocaleString()} km × {resultA.consumptionLPer100Km.toFixed(1)} L / 100 km{store.language === 'zh' ? '。油价：' : '. Fuel price: '}RM {fuelPrice.toFixed(2)} / L</p></div><div><h3>{store.language === 'zh' ? '保养预算' : 'Your servicing budget'}</h3><p>{store.language === 'zh' ? `现按每年 RM ${resultA.annualMaintenanceRm.toFixed(2)} 计算，可在输入页修改。` : `Currently RM ${resultA.annualMaintenanceRm.toFixed(2)} per year. Adjust this on the input screen to match your car.`}</p></div></section>
       <details ref={disclosureRef} className="result-details"><summary>{store.language === 'zh' ? '查看明细与其他工具' : 'Details and other tools'}</summary><div className="detail-links">
-        <button type="button" onClick={() => setActiveSheet('breakdown')}>{store.language === 'zh' ? '开支与车贷估算' : 'Cost breakdown and loan estimate'}<span>→</span></button>
-        <button type="button" onClick={() => setActiveSheet('compare')}>{store.language === 'zh' ? '与其他车型比较' : 'Compare another car'}<span>→</span></button>
-        <button type="button" onClick={() => setActiveSheet('tank')}>{store.language === 'zh' ? '油箱与续航' : 'Fuel tank and range'}<span>→</span></button>
-        <button type="button" onClick={() => setActiveSheet('trip')}>{store.language === 'zh' ? '分摊长途油费' : 'Split road trip costs'}<span>→</span></button>
+        <button type="button" onClick={() => setActiveSheet('breakdown')}>{store.language === 'zh' ? '开支与车贷估算' : 'Cost breakdown and loan estimate'}<ChevronRight size={18} aria-hidden="true" /></button>
+        <button type="button" onClick={() => setActiveSheet('compare')}>{store.language === 'zh' ? '与其他车型比较' : 'Compare another car'}<ChevronRight size={18} aria-hidden="true" /></button>
+        <button type="button" onClick={() => setActiveSheet('tank')}>{store.language === 'zh' ? '油箱与续航' : 'Fuel tank and range'}<ChevronRight size={18} aria-hidden="true" /></button>
+        <button type="button" onClick={() => setActiveSheet('trip')}>{store.language === 'zh' ? '分摊长途油费' : 'Split road trip costs'}<ChevronRight size={18} aria-hidden="true" /></button>
       </div></details>
       <button type="button" className="secondary-button" onClick={handleCopySummary}>{copied ? <Check size={18} /> : <Copy size={18} />}{copied ? (store.language === 'zh' ? '已复制报告' : 'Report copied') : (store.language === 'zh' ? '复制报告' : 'Copy report')}</button>
 
